@@ -4,7 +4,7 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R package workshop</title>
+  <title>1 Introduction | R package workshop</title>
   <meta name="description" content="<p>These are the materials for the R package development workshop created by
 COMBINE, an association for Australian students in bioinformatics,
 computational biology and related fields.</p>
@@ -12,7 +12,7 @@ This workshop explains the basics of R package development and takes you
 through the steps to create a minimal R package." />
   <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R package workshop" />
+  <meta property="og:title" content="1 Introduction | R package workshop" />
   <meta property="og:type" content="book" />
   
   
@@ -24,7 +24,7 @@ through the steps to create a minimal R package." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R package workshop" />
+  <meta name="twitter:title" content="1 Introduction | R package workshop" />
   
   <meta name="twitter:description" content="<p>These are the materials for the R package development workshop created by
 COMBINE, an association for Australian students in bioinformatics,
@@ -43,8 +43,8 @@ through the steps to create a minimal R package." />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="index.html">
 
-<link rel="next" href="introduction.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -174,83 +174,101 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R package workshop</h1>
-<p class="author"><em>COMBINE Australia</em></p>
-<p class="date"><em>2019-08-03</em></p>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<div id="what-is-a-package" class="section level2">
+<h2><span class="header-section-number">1.1</span> What is a package?</h2>
+<p>An R package is a collection of functions that are bundled together in a way
+that lets them be easily shared. Usually these functions are designed to work
+together to complete a specific task such as analysing a particular kind of
+data. You are probably familiar with many packages already, for example
+<strong>ggplot2</strong> or <strong>data.table</strong>.</p>
+<p>Packages can take various forms during their life cycle. For example the
+structure you use when writing package code is not exactly the same as what will
+be installed by somebody else. While you don’t need to know about these forms in
+detail to create a package it is useful to be aware of them. For more details
+have a look at the “What is a package?” section of Hadley Wickham’s “R packages”
+book (<a href="http://r-pkgs.had.co.nz/package.html#package" class="uri">http://r-pkgs.had.co.nz/package.html#package</a>).</p>
 </div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<div id="about-this-workshop" class="section level2 unnumbered">
-<h2>About this workshop</h2>
-<p>This workshop was created by COMBINE, an association for Australian students in
-bioinformatics, computational biology and related fields. You can find out
-more about COMBINE at <a href="http://combine.org.au" class="uri">http://combine.org.au</a>.</p>
-<p>The goal of this workshop is to explain the basics of R package development. By
-the end of the workshop you should have your own minimal R package that you can
-use to store your personal functions.</p>
-<p>The materials were written using the <strong>bookdown</strong> package <span class="citation">(Xie <a href="#ref-R-bookdown">2019</a>)</span>, which
-is built on top of R Markdown and <strong>knitr</strong> <span class="citation">(Xie <a href="#ref-xie2015">2015</a>)</span>.</p>
-</div>
-<div id="requirements" class="section level2 unnumbered">
-<h2>Requirements</h2>
-<p>The workshop assumes that you are familar with basic R and the RStudio IDE. This
-includes topics such as installing packages, assigning variables and writing
-functions. If you are not comfortable with these you may need to complete an
-introductory R workshop first.</p>
-<div id="r-and-rstudio" class="section level3 unnumbered">
-<h3>R and RStudio</h3>
-<p>You will need a recent version of R and RStudio. These materials were written
-using R version 3.6.0 (2019-04-26) and RStudio version
-1.2.1335. You can download R from
-<a href="https://cloud.r-project.org/" class="uri">https://cloud.r-project.org/</a> and RStudio from
-<a href="https://www.rstudio.com/products/rstudio/download/" class="uri">https://www.rstudio.com/products/rstudio/download/</a>.</p>
-</div>
-<div id="packages" class="section level3 unnumbered">
-<h3>Packages</h3>
-<p>The packages used in the workshop are below with the versions used in these
-materials:</p>
+<div id="why-write-a-package" class="section level2">
+<h2><span class="header-section-number">1.2</span> Why write a package?</h2>
+<p>Packages are the best way to distribute code and documentation, and as we are
+about to find out they are very simple to make. Even if you never intend to
+share your package it is useful to have a place to store your commonly used
+functions. You may have heard the advice that if you find yourself reusing code
+then you should turn it into a function so that you don’t have to keep rewriting
+it (along with other benefits). The same applies to functions. If you have some
+functions you reuse in different projects then it probably makes sense to put
+those in a package. It’s a bit more effort now but it will save you a lot of
+time in the long run.</p>
+<p>Of course often you will want to share your package, either to let other people
+use your functions or just so people can see what you have done (for example
+when you have code and data for a publication). If you are thinking about
+making a software package for public use there are a few things you should
+consider first:</p>
 <ul>
-<li><strong>devtools</strong> (v2.0.2)</li>
-<li><strong>usethis</strong> (v1.5.1)</li>
-<li><strong>roxygen2</strong> (v6.1.1)</li>
-<li><strong>testthat</strong> (v2.1.1)</li>
-<li><strong>knitr</strong> (v1.23)</li>
+<li>Is your idea new or is there already a package out there that does something
+similar?</li>
+<li>If there is does your package improve on it in some way? For example is it
+easier to use or does it have better performance?</li>
+<li>If a similar package exists could you help improve it rather than making a
+new one? Most package developers are open to collaboration and you may be
+able to achieve more by working together.</li>
 </ul>
-<p>Please make sure these packages are installed before starting the workshop. You
-can install them by running the following code.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">pkgs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;devtools&quot;</span>, <span class="st">&quot;usethis&quot;</span>, <span class="st">&quot;roxygen2&quot;</span>, <span class="st">&quot;testhat&quot;</span>, <span class="st">&quot;knitr&quot;</span>)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">install.packages</span>(pkgs)</a></code></pre></div>
-</div>
-<div id="github" class="section level3 unnumbered">
-<h3>GitHub</h3>
-<p>Version control using git is very useful and should be part of your package
-development process but it is outside the scope of this workshop. However,
-uploading your package to code sharing websites such as GitHub is the easiest
-way to distribute it. Towards the end of the workshop is a section showing you
-to upload your package to GitHub using R commands (no knowledge of git
-necessary). If you would like to try this and don’t already have a GitHub
-account please create one at <a href="https://github.com/join" class="uri">https://github.com/join</a>.</p>
+<div id="packages-for-writing-packages" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> Packages for writing packages</h3>
+<p>This workshop teaches a modern package development workflow that makes use of
+packages designed to help with writing packages. The two main packages are
+<strong>devtools</strong> and <strong>usethis</strong>. As you might gather from the name <strong>devtools</strong>
+contains functions that will help with development tasks such as checking,
+building and installing packages. The <strong>usethis</strong> package contains a range of
+templates and handy functions for making life easier, many of which were
+originally in <strong>devtools</strong><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. All of the core parts
+of package development can be performed in other ways such as typing commands
+on the command line or clicking buttons in RStudio but we choose to use these
+packages because they provide a consistent workflow with sensible defaults.
+Other packages we will use that will be introduced in the appropriate sections
+are:</p>
+<ul>
+<li><strong>roxygen2</strong> for function documentation</li>
+<li><strong>testthat</strong> for writing unit tests</li>
+<li><strong>knitr</strong> for building vignettes</li>
+</ul>
 
-</div>
-</div>
-</div>
-<h3>References</h3>
 <div id="refs" class="references">
-<div id="ref-xie2015">
+<div>
 <p>Xie, Yihui. 2015. <em>Dynamic Documents with R and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.</p>
 </div>
-<div id="ref-R-bookdown">
-<p>Xie, Yihui. 2019. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.</p>
+<div>
+<p>———. 2019. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.</p>
 </div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>This is important to remember when looking at older
+tutorials or answers to questions on the internet. If <code>devtools::func()</code> doesn’t
+seem to exist any more try <code>usethis::func()</code> instead<a href="introduction.html#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
+<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="introduction.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

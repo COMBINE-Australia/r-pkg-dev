@@ -1,21 +1,63 @@
-# Introduction {#intro}
+# Introduction
 
-You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods).
+## What is a package?
 
-Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
+An R package is a collection of functions that are bundled together in a way
+that lets them be easily shared. Usually these functions are designed to work
+together to complete a specific task such as analysing a particular kind of
+data. You are probably familiar with many packages already, for example
+**ggplot2** or **data.table**.
 
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
-```
+Packages can take various forms during their life cycle. For example the
+structure you use when writing package code is not exactly the same as what will
+be installed by somebody else. While you don't need to know about these forms in
+detail to create a package it is useful to be aware of them. For more details
+have a look at the "What is a package?" section of Hadley Wickham's "R packages"
+book (http://r-pkgs.had.co.nz/package.html#package).
 
-Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
+## Why write a package?
 
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(iris, 20), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
-```
+Packages are the best way to distribute code and documentation, and as we are
+about to find out they are very simple to make. Even if you never intend to
+share your package it is useful to have a place to store your commonly used
+functions. You may have heard the advice that if you find yourself reusing code
+then you should turn it into a function so that you don't have to keep rewriting
+it (along with other benefits). The same applies to functions. If you have some
+functions you reuse in different projects then it probably makes sense to put
+those in a package. It's a bit more effort now but it will save you a lot of
+time in the long run.
 
-You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].
+Of course often you will want to share your package, either to let other people
+use your functions or just so people can see what you have done (for example
+when you have code and data for a publication). If you are thinking about
+making a software package for public use there are a few things you should
+consider first:
+
+* Is your idea new or is there already a package out there that does something
+  similar?
+* If there is does your package improve on it in some way? For example is it
+  easier to use or does it have better performance?
+* If a similar package exists could you help improve it rather than making a
+  new one? Most package developers are open to collaboration and you may be
+  able to achieve more by working together.
+
+### Packages for writing packages
+
+This workshop teaches a modern package development workflow that makes use of
+packages designed to help with writing packages. The two main packages are
+**devtools** and **usethis**. As you might gather from the name **devtools**
+contains functions that will help with development tasks such as checking,
+building and installing packages. The **usethis** package contains a range of
+templates and handy functions for making life easier, many of which were
+originally in **devtools**^[This is important to remember when looking at older
+tutorials or answers to questions on the internet. If `devtools::func()` doesn't
+seem to exist any more try `usethis::func()` instead]. All of the core parts
+of package development can be performed in other ways such as typing commands
+on the command line or clicking buttons in RStudio but we choose to use these
+packages because they provide a consistent workflow with sensible defaults.
+Other packages we will use that will be introduced in the appropriate sections
+are:
+
+* **roxygen2** for function documentation
+* **testthat** for writing unit tests
+* **knitr** for building vignettes
