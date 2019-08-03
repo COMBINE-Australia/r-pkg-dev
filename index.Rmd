@@ -22,6 +22,65 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Preface {-}
+
+## About this workshop {-}
+
+This workshop was created by COMBINE, an association for Australian students in
+bioinformatics, computational biology and related fields. You can find out
+more about COMBINE at http://combine.org.au.
+
+The goal of this workshop is to explain the basics of R package development. By
+the end of the workshop you should have your own minimal R package that you can
+use to store your personal functions.
+
+The materials were written using the **bookdown** package [@R-bookdown], which
+is built on top of R Markdown and **knitr** [@xie2015].
+
+## Requirements {-}
+
+The workshop assumes that you are familar with basic R and the RStudio IDE. This
+includes topics such as installing packages, assigning variables and writing
+functions. If you are not comfortable with these you may need to complete an
+introductory R workshop first.
+
+### R and RStudio {-}
+
+You will need a recent version of R and RStudio. These materials were written
+using `r R.version.string` and RStudio version
+`r rstudioapi::versionInfo()$version`. You can download R from 
+https://cloud.r-project.org/ and RStudio from 
+https://www.rstudio.com/products/rstudio/download/.
+
+### Packages {-}
+
+The packages used in the workshop are below with the versions used in these
+materials:
+
+* **devtools** (v`r packageVersion("devtools")`)
+* **usethis** (v`r packageVersion("usethis")`)
+* **roxygen2** (v`r packageVersion("roxygen2")`)
+* **testthat** (v`r packageVersion("testthat")`)
+* **knitr** (v`r packageVersion("knitr")`)
+
+Please make sure these packages are installed before starting the workshop. You
+can install them by running the following code.
+
+```{r}
+pkgs <- c("devtools", "usethis", "roxygen2", "testhat", "knitr")
+install.packages(pkgs)
+```
+
+### GitHub {-}
+
+Version control using git is very useful and should be part of your package
+development process but it is outside the scope of this workshop. However,
+uploading your package to code sharing websites such as GitHub is the easiest
+way to distribute it. Towards the end of the workshop is a section showing you
+to upload your package to GitHub using R commands (no knowledge of git
+necessary). If you would like to try this and don't already have a GitHub
+account please create one at https://github.com/join.
+
 ```{r packages, eval = TRUE, include = FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
