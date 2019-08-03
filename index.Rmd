@@ -1,0 +1,30 @@
+--- 
+title: "R package workshop"
+author: "COMBINE Australia"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: |
+    These are the materials for the R package development workshop created by
+    COMBINE, an association for Australian students in bioinformatics,
+    computational biology and related fields.
+    
+    This workshop explains the basics of R package development and takes you
+    through the steps to create a minimal R package.
+---
+
+```{r knitr, include = FALSE}
+knitr::opts_chunk$set(
+    eval = FALSE
+)
+```
+
+```{r packages, eval = TRUE, include = FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), "bookdown", "knitr", "rmarkdown"
+), "packages.bib")
+```
