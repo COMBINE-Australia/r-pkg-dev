@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Setting up | R package workshop</title>
+  <meta name="description" content="<p>These are the materials for the R package development workshop created by
+COMBINE, an association for Australian students in bioinformatics,
+computational biology and related fields.</p>
+This workshop explains the basics of R package development and takes you
+through the steps to create a minimal R package." />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Setting up | R package workshop" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="<p>These are the materials for the R package development workshop created by
+COMBINE, an association for Australian students in bioinformatics,
+computational biology and related fields.</p>
+This workshop explains the basics of R package development and takes you
+through the steps to create a minimal R package." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Setting up | R package workshop" />
+  
+  <meta name="twitter:description" content="<p>These are the materials for the R package development workshop created by
+COMBINE, an association for Australian students in bioinformatics,
+computational biology and related fields.</p>
+This workshop explains the basics of R package development and takes you
+through the steps to create a minimal R package." />
+  
+
+<meta name="author" content="COMBINE Australia" />
+
+
+<meta name="date" content="2019-08-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction.html">
+<link rel="next" href="references.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R package development workshop</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-workshop"><i class="fa fa-check"></i>About this workshop</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#requirements"><i class="fa fa-check"></i>Requirements</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-and-rstudio"><i class="fa fa-check"></i>R and RStudio</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#github"><i class="fa fa-check"></i>GitHub</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-a-package"><i class="fa fa-check"></i><b>1.1</b> What is a package?</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#why-write-a-package"><i class="fa fa-check"></i><b>1.2</b> Why write a package?</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#packages-for-writing-packages"><i class="fa fa-check"></i><b>1.2.1</b> Packages for writing packages</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="setting-up.html"><a href="setting-up.html"><i class="fa fa-check"></i><b>2</b> Setting up</a><ul>
+<li class="chapter" data-level="2.1" data-path="setting-up.html"><a href="setting-up.html#open-rstudio"><i class="fa fa-check"></i><b>2.1</b> Open RStudio</a></li>
+<li class="chapter" data-level="2.2" data-path="setting-up.html"><a href="setting-up.html#naming-your-package"><i class="fa fa-check"></i><b>2.2</b> Naming your package</a></li>
+<li class="chapter" data-level="2.3" data-path="setting-up.html"><a href="setting-up.html#creating-your-package"><i class="fa fa-check"></i><b>2.3</b> Creating your package</a></li>
+<li class="chapter" data-level="2.4" data-path="setting-up.html"><a href="setting-up.html#filling-in-the-description"><i class="fa fa-check"></i><b>2.4</b> Filling in the DESCRIPTION</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="setting-up.html"><a href="setting-up.html#title-and-description"><i class="fa fa-check"></i><b>2.4.1</b> Title and description</a></li>
+<li class="chapter" data-level="2.4.2" data-path="setting-up.html"><a href="setting-up.html#authors"><i class="fa fa-check"></i><b>2.4.2</b> Authors</a></li>
+<li class="chapter" data-level="2.4.3" data-path="setting-up.html"><a href="setting-up.html#license"><i class="fa fa-check"></i><b>2.4.3</b> License</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R package workshop</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="setting-up" class="section level1">
+<h1><span class="header-section-number">2</span> Setting up</h1>
+<div id="open-rstudio" class="section level2">
+<h2><span class="header-section-number">2.1</span> Open RStudio</h2>
+<p>The first thing we need to do is open RStudio. Do this now. If you currently
+have a project open close it by clicking <em>File &gt; Close project</em>.</p>
+</div>
+<div id="naming-your-package" class="section level2">
+<h2><span class="header-section-number">2.2</span> Naming your package</h2>
+<p>Before we create our package we need to give it a name. Package names can only
+consist of letters, numbers and dots (.) and must start with a letter. While all
+of these are allowed it is generally best to stick to just lowercase letters.
+Having a mix of lower and upper case letters can be hard for users to remember
+(is it <strong>RColorBrewer</strong> or <strong>Rcolorbrewer</strong> or <strong>rcolorbrewer</strong>?). Believe it
+or not choosing a name can be one of the hardest parts of making a package!
+There is a balance between choosing a name that is unique enough that it is easy
+to find (and doesn’t already exist) and choosing something that makes it obvious
+what the package does. Acronyms or abbreviations are one option that often works
+well. It can be tricky to change the name of a package later so it is worth
+spending some time thinking about it before you start.</p>
+<blockquote>
+<p><strong>Checking availability</strong></p>
+<p>If there is even a small chance that your package might be used by other
+people it is worth checking that a package with your name doesn’t already
+exist. A handy tool for doing this is the <strong>available</strong> package. This package
+will check common package repositories for your name as well as things like
+Urban Dictionary to make sure your name doesn’t have some meanings you weren’t
+aware of!</p>
+</blockquote>
+<p>At the end of this workshop we want you to have a personal package that you can
+continue to add to and use so we suggest choosing a name that is specific to
+you. Something like your initials, a nickname or a username would be good
+options. For the example code we are going to use <code>mypkg</code> and you could use that
+for the workshop if you want to.</p>
+</div>
+<div id="creating-your-package" class="section level2">
+<h2><span class="header-section-number">2.3</span> Creating your package</h2>
+<p>To create a template for our package we will use the <code>usethis::create_package()</code>
+function. All it needs is a path to the directory where we want to create the
+package. For the example we put it on the desktop but you should put it
+somewhere more sensible.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">usethis<span class="op">::</span><span class="kw">create_package</span>(<span class="st">&quot;~/Desktop/mypkg&quot;</span>)</a></code></pre></div>
+<p>You will see some information printed to the console, something like (where USER
+is your username):</p>
+<pre><code>✔ Creating &#39;C:/Users/USER/Desktop/mypkg/&#39;
+✔ Setting active project to &#39;C:/Users/USER/Desktop/mypkg&#39;
+✔ Creating &#39;R/&#39;
+✔ Writing &#39;DESCRIPTION&#39;
+Package: mypkg
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R (parsed):
+    * First Last &lt;first.last@example.com&gt; [aut, cre] (&lt;https://orcid.org/YOUR-ORCID-ID&gt;)
+Description: What the package does (one paragraph).
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+✔ Writing &#39;NAMESPACE&#39;
+✔ Writing &#39;mypkg.Rproj&#39;
+✔ Adding &#39;.Rproj.user&#39; to &#39;.gitignore&#39;
+✔ Adding &#39;^mypkg\\.Rproj$&#39;, &#39;^\\.Rproj\\.user$&#39; to &#39;.Rbuildignore&#39;
+✔ Opening &#39;C:/Users/USER/Desktop/mypkg/&#39; in new RStudio session
+✔ Setting active project to &#39;&lt;no active project&gt;&#39;</code></pre>
+<p>You will see something similar whenever we run a <strong>usethis</strong> command. Green
+ticks indicate that a step has been completed correctly. If you ever see a red
+dot that means that there is something <strong>usethis</strong> can’t do for you and you will
+need to follow some instructions to do it manually. At the end a new RStudio
+window with your package should open. In this window you should see the
+following files:</p>
+<ul>
+<li><code>DESCRIPTION</code> - The metadata file for your package. We will fill this in next
+and it will be updated as we develop our package.</li>
+<li><code>NAMESPACE</code> - This file describes the functions in our package. Traditionally
+this has been a tricky file to get right but the modern development tools
+mean that we shouldn’t need to edit it manually. If you open it you will see
+a message telling you not to.</li>
+<li><code>R/</code> - This is the directory that will hold all our R code.</li>
+</ul>
+<p>These files are the minimal amount that is required for a package but we will
+create other files as we go along. Some other useful files have also been
+created by <strong>usethis</strong>.</p>
+<ul>
+<li><code>.gitignore</code> - This is useful if you use git for version control.</li>
+<li><code>.Rbuildignore</code> - This file is used to mark files that are in the directory
+but aren’t really part of the package and shouldn’t be included when we build
+it. Most of the time you won’t need to worry about this as <strong>usethis</strong> will
+edit it for you.</li>
+<li><code>mypkg.Rproj</code> - The RStudio project file. Again you don’t need to worry about
+this.</li>
+</ul>
+</div>
+<div id="filling-in-the-description" class="section level2">
+<h2><span class="header-section-number">2.4</span> Filling in the DESCRIPTION</h2>
+<p>The <code>DESCRIPTION</code> file is one of the most important parts of a package. It
+contains all the metadata about the package, things like what the package is
+called, what version it is, a description, who the authors are, what other
+packages it depends on etc. Open the <code>DESCRIPTION</code> file and you should see
+something like this (with your package name).</p>
+<pre><code>Package: mypkg
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = &quot;First&quot;,
+           family = &quot;Last&quot;,
+           role = c(&quot;aut&quot;, &quot;cre&quot;),
+           email = &quot;first.last@example.com&quot;,
+           comment = c(ORCID = &quot;YOUR-ORCID-ID&quot;))
+Description: What the package does (one paragraph).
+License: What license it uses
+Encoding: UTF-8
+LazyData: true</code></pre>
+<div id="title-and-description" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> Title and description</h3>
+<p>The package name is already set correctly but most of the other fields need to
+be updated. First let’s update the title and description. The title should be
+a single line in Title Case that explains what your package is. The description
+is a paragraph which goes into a bit more detail. For example you could write
+something like this:</p>
+<pre><code>Package: mypkg
+Title: My Personal Package
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = &quot;First&quot;,
+           family = &quot;Last&quot;,
+           role = c(&quot;aut&quot;, &quot;cre&quot;),
+           email = &quot;first.last@example.com&quot;,
+           comment = c(ORCID = &quot;YOUR-ORCID-ID&quot;))
+Description: This is my personal package. It contains some handy functions that
+    I find useful for my projects.
+License: What license it uses
+Encoding: UTF-8
+LazyData: true</code></pre>
+</div>
+<div id="authors" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> Authors</h3>
+<p>The next thing we will update is the <a href="mailto:Authors@R" class="email">Authors@R</a> field. There are a couple of ways
+to define the author for a package but <a href="mailto:Authors@R" class="email">Authors@R</a> is the most flexible. The
+example shows us how to define an author. You can see that the example person
+has been assigned the author (“aut”) and creator (“cre”) roles. There must be
+at least one author and one creator for every package (they can be the same
+person) and the creator must have an email address. There are many possible
+roles (including woodcutter (“wdc”) and lyricist (“lyr”)) but the most important
+ones are:</p>
+<ul>
+<li>cre: the creator or maintainer of the package, the person who should be
+contacted with there are problems</li>
+<li>aut: authors, people who have made significant contributions to the package</li>
+<li>ctb: contributors, people who have made smaller contributions</li>
+<li>cph: copyright holder, useful if this is someone other than the creator (such
+as their employer)</li>
+</ul>
+<blockquote>
+<p><strong>Adding an ORCID</strong></p>
+<p>If you have an ORCID you can add it as a comment as shown in the example.
+Although not an official field this is recognised in various places (including
+CRAN) and is recommended if you want to get academic credit for your package
+(or have a common name that could be confused with other package authors).</p>
+</blockquote>
+<p>Update the author information with your details. If you need to add another
+author simply concatenate them using <code>c()</code> like you would with a normal vector.</p>
+<pre><code>Package: mypkg
+Title: My Personal Package
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = &quot;Package&quot;,
+           family = &quot;Creator&quot;,
+           role = c(&quot;aut&quot;, &quot;cre&quot;),
+           email = &quot;package.creator@mypkg.com&quot;),
+    person(given = &quot;Package&quot;,
+           family = &quot;Contributor&quot;,
+           role = c(&quot;ctb&quot;),
+           email = &quot;package.contributor@mypkg.com&quot;)
+    )
+Description: This is my personal package. It contains some handy functions that
+    I find useful for my projects.
+License: What license it uses
+Encoding: UTF-8
+LazyData: true</code></pre>
+</div>
+<div id="license" class="section level3">
+<h3><span class="header-section-number">2.4.3</span> License</h3>
+<p>The last thing we will update now is the software license. The describes how
+our code can be used and without one people must assume that it can’t be used
+at all! It is good to be as open and free as you can with your license to make
+sure your code is as useful to the community as possible. For this example we
+will use the MIT license which basically says the code can be used for any
+purpose and doesn’t come with any warranties. There are templates for some of
+the most common licenses included in <strong>usethis</strong>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">usethis<span class="op">::</span><span class="kw">use_mit_license</span>(<span class="st">&quot;Your Name&quot;</span>)</a></code></pre></div>
+<p>This will update the license field.</p>
+<pre><code>Package: mypkg
+Title: My Personal Package
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = &quot;Package&quot;,
+           family = &quot;Creator&quot;,
+           role = c(&quot;aut&quot;, &quot;cre&quot;),
+           email = &quot;package.creator@mypkg.com&quot;),
+    person(given = &quot;Package&quot;,
+           family = &quot;Contributor&quot;,
+           role = c(&quot;ctb&quot;),
+           email = &quot;package.contributor@mypkg.com&quot;)
+    )
+Description: This is my personal package. It contains some handy functions that
+    I find useful for my projects.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true</code></pre>
+<p>It will also also create two new files, <code>LICENSE.md</code> which contains the text
+of the MIT license (it’s very short if you want to give it a read) and <code>LICENSE</code>
+which simply contains:</p>
+<pre><code>YEAR: 2019
+COPYRIGHT HOLDER: Your Name</code></pre>
+<p>There are various other licenses you can use but make sure you choose one
+designed for software not other kinds of content. For example the Creative
+Commons licenses are great for writing or images but aren’t designed for code.
+For more information about different licenses and what they cover have a look at
+<a href="http://choosealicense.com/" class="uri">http://choosealicense.com/</a> or <a href="https://tldrlegal.com/" class="uri">https://tldrlegal.com/</a>. For a good discussion
+about why it is important to declare a license read this blog post by Jeff
+Attwood <a href="http://blog.codinghorror.com/pick-a-license-any-license/" class="uri">http://blog.codinghorror.com/pick-a-license-any-license/</a>.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["r-pkg-dev.pdf", "r-pkg-dev.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
