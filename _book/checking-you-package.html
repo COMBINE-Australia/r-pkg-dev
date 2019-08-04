@@ -4,7 +4,7 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | R package workshop</title>
+  <title>4 Checking you package | R package workshop</title>
   <meta name="description" content="<p>These are the materials for the R package development workshop created by
 COMBINE, an association for Australian students in bioinformatics,
 computational biology and related fields.</p>
@@ -12,7 +12,7 @@ This workshop explains the basics of R package development and takes you
 through the steps to create a minimal R package." />
   <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | R package workshop" />
+  <meta property="og:title" content="4 Checking you package | R package workshop" />
   <meta property="og:type" content="book" />
   
   
@@ -24,7 +24,7 @@ through the steps to create a minimal R package." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | R package workshop" />
+  <meta name="twitter:title" content="4 Checking you package | R package workshop" />
   
   <meta name="twitter:description" content="<p>These are the materials for the R package development workshop created by
 COMBINE, an association for Australian students in bioinformatics,
@@ -43,8 +43,8 @@ through the steps to create a minimal R package." />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="checking-you-package.html">
-
+<link rel="prev" href="functions.html">
+<link rel="next" href="references.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -190,33 +190,115 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
+<div id="checking-you-package" class="section level1">
+<h1><span class="header-section-number">4</span> Checking you package</h1>
+<p>Although what is absolutely required for a package is fairly minimal there are a
+range of things that are needed for a package to be considerd “correct”.
+Keeping track of all of these can be difficult but luckily the
+<code>devtools::check()</code> function is here to help! This function runs a series of
+checks developed by some very smart people over a long period of time that are
+designed to make sure your package is working correctly. It is highly
+recommended that you run <code>devtools::check()</code> often and follow it’s advice to
+fix any problems. It’s much easier to fix one or two problems when they first
+come up than to try many at once after you have moved on to other things. Let’s
+run the checks on our package and see what we get.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">devtools<span class="op">::</span><span class="kw">check</span>()</a></code></pre></div>
+<pre><code>-- Building ----------------------------------------------------------- mypkg --
+Setting env vars:
+* CFLAGS    : -Wall -pedantic
+* CXXFLAGS  : -Wall -pedantic
+* CXX11FLAGS: -Wall -pedantic
+--------------------------------------------------------------------------------
+√  checking for file &#39;C:\Users\USER\Desktop\mypkg/DESCRIPTION&#39; (3.1s)
+-  preparing &#39;mypkg&#39;:
+√  checking DESCRIPTION meta-information ... 
+-  checking for LF line-endings in source and make files and shell scripts
+-  checking for empty or unneeded directories
+-  building &#39;mypkg_0.0.0.9000.tar.gz&#39;
+   
+-- Checking ----------------------------------------------------------- mypkg --
+Setting env vars:
+* _R_CHECK_CRAN_INCOMING_REMOTE_: FALSE
+* _R_CHECK_CRAN_INCOMING_       : FALSE
+* _R_CHECK_FORCE_SUGGESTS_      : FALSE
+-- R CMD check -------------------------------------------------------------------------
+-  using log directory &#39;C:/Users/USER/AppData/Local/Temp/Rtmp8eH30T/mypkg.Rcheck&#39; (2.3s)
+-  using R version 3.6.0 (2019-04-26)
+-  using platform: x86_64-w64-mingw32 (64-bit)
+-  using session charset: ISO8859-1
+-  using options &#39;--no-manual --as-cran&#39;
+√  checking for file &#39;mypkg/DESCRIPTION&#39; ... 
+-  this is package &#39;mypkg&#39; version &#39;0.0.0.9000&#39;
+-  package encoding: UTF-8
+√  checking package namespace information ...
+√  checking package dependencies (1s)
+√  checking if this is a source package ...
+√  checking if there is a namespace
+√  checking for .dll and .exe files
+√  checking for hidden files and directories ... 
+√  checking for portable file names ...
+√  checking serialization versions ...
+√  checking whether package &#39;mypkg&#39; can be installed (1.4s)
+√  checking package directory
+√  checking for future file timestamps (815ms)
+√  checking DESCRIPTION meta-information (353ms)
+√  checking top-level files ...
+√  checking for left-over files
+√  checking index information
+√  checking package subdirectories ... 
+√  checking R files for non-ASCII characters ... 
+√  checking R files for syntax errors ... 
+√  checking whether the package can be loaded ... 
+√  checking whether the package can be loaded with stated dependencies ... 
+√  checking whether the package can be unloaded cleanly ... 
+√  checking whether the namespace can be loaded with stated dependencies ... 
+√  checking whether the namespace can be unloaded cleanly ... 
+√  checking loading without being on the library search path ... 
+√  checking dependencies in R code ... 
+√  checking S3 generic/method consistency (410ms)
+√  checking replacement functions ... 
+√  checking foreign function calls ... 
+√  checking R code for possible problems (2.2s)
+W  checking for missing documentation entries ... 
+   Undocumented code objects:
+     &#39;make_shades&#39;
+   All user-level objects in a package should have documentation entries.
+   See chapter &#39;Writing R documentation files&#39; in the &#39;Writing R
+   Extensions&#39; manual.
+-  checking examples ... NONE (956ms)
+   
+   See
+     &#39;C:/Users/USER/AppData/Local/Temp/Rtmp8eH30T/mypkg.Rcheck/00check.log&#39;
+   for details.
+   
+   
+-- R CMD check results ------------------------------------------- mypkg 0.0.0.9000 ----
+Duration: 12.3s
 
-<div id="refs" class="references">
-<div>
-<p>Xie, Yihui. 2015. <em>Dynamic Documents with R and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.</p>
+&gt; checking for missing documentation entries ... WARNING
+  Undocumented code objects:
+    &#39;make_shades&#39;
+  All user-level objects in a package should have documentation entries.
+  See chapter &#39;Writing R documentation files&#39; in the &#39;Writing R
+  Extensions&#39; manual.
+
+0 errors √ | 1 warning x | 0 notes √</code></pre>
+<p>You can see all the different types of checks that <strong>devtools</strong> has run but
+they most important section is at the end where it tells you how many errors,
+warnings and notes there are. Often these come with hints about how to fix them
+but sometimes they can be hard to understand. If you are not sure what they
+mean try doing an internet search and it is likely that somebody else has come
+across the same problem. Our package has received one warning telling us that we
+are missing some documentation.</p>
+
 </div>
-<div>
-<p>———. 2019. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.</p>
-</div>
-</div>
-</div>
-
-
-
-
-
-
-
-
             </section>
 
           </div>
         </div>
       </div>
-<a href="checking-you-package.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

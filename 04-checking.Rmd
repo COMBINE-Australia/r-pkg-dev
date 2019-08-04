@@ -1,0 +1,107 @@
+# Checking you package
+
+Although what is absolutely required for a package is fairly minimal there are a
+range of things that are needed for a package to be considerd "correct".
+Keeping track of all of these can be difficult but luckily the
+`devtools::check()` function is here to help! This function runs a series of
+checks developed by some very smart people over a long period of time that are
+designed to make sure your package is working correctly. It is highly
+recommended that you run `devtools::check()` often and follow it's advice to
+fix any problems. It's much easier to fix one or two problems when they first
+come up than to try many at once after you have moved on to other things. Let's
+run the checks on our package and see what we get.
+
+```{r}
+devtools::check()
+```
+
+```{}
+-- Building ----------------------------------------------------------- mypkg --
+Setting env vars:
+* CFLAGS    : -Wall -pedantic
+* CXXFLAGS  : -Wall -pedantic
+* CXX11FLAGS: -Wall -pedantic
+--------------------------------------------------------------------------------
+√  checking for file 'C:\Users\USER\Desktop\mypkg/DESCRIPTION' (3.1s)
+-  preparing 'mypkg':
+√  checking DESCRIPTION meta-information ... 
+-  checking for LF line-endings in source and make files and shell scripts
+-  checking for empty or unneeded directories
+-  building 'mypkg_0.0.0.9000.tar.gz'
+   
+-- Checking ----------------------------------------------------------- mypkg --
+Setting env vars:
+* _R_CHECK_CRAN_INCOMING_REMOTE_: FALSE
+* _R_CHECK_CRAN_INCOMING_       : FALSE
+* _R_CHECK_FORCE_SUGGESTS_      : FALSE
+-- R CMD check -------------------------------------------------------------------------
+-  using log directory 'C:/Users/USER/AppData/Local/Temp/Rtmp8eH30T/mypkg.Rcheck' (2.3s)
+-  using R version 3.6.0 (2019-04-26)
+-  using platform: x86_64-w64-mingw32 (64-bit)
+-  using session charset: ISO8859-1
+-  using options '--no-manual --as-cran'
+√  checking for file 'mypkg/DESCRIPTION' ... 
+-  this is package 'mypkg' version '0.0.0.9000'
+-  package encoding: UTF-8
+√  checking package namespace information ...
+√  checking package dependencies (1s)
+√  checking if this is a source package ...
+√  checking if there is a namespace
+√  checking for .dll and .exe files
+√  checking for hidden files and directories ... 
+√  checking for portable file names ...
+√  checking serialization versions ...
+√  checking whether package 'mypkg' can be installed (1.4s)
+√  checking package directory
+√  checking for future file timestamps (815ms)
+√  checking DESCRIPTION meta-information (353ms)
+√  checking top-level files ...
+√  checking for left-over files
+√  checking index information
+√  checking package subdirectories ... 
+√  checking R files for non-ASCII characters ... 
+√  checking R files for syntax errors ... 
+√  checking whether the package can be loaded ... 
+√  checking whether the package can be loaded with stated dependencies ... 
+√  checking whether the package can be unloaded cleanly ... 
+√  checking whether the namespace can be loaded with stated dependencies ... 
+√  checking whether the namespace can be unloaded cleanly ... 
+√  checking loading without being on the library search path ... 
+√  checking dependencies in R code ... 
+√  checking S3 generic/method consistency (410ms)
+√  checking replacement functions ... 
+√  checking foreign function calls ... 
+√  checking R code for possible problems (2.2s)
+W  checking for missing documentation entries ... 
+   Undocumented code objects:
+     'make_shades'
+   All user-level objects in a package should have documentation entries.
+   See chapter 'Writing R documentation files' in the 'Writing R
+   Extensions' manual.
+-  checking examples ... NONE (956ms)
+   
+   See
+     'C:/Users/USER/AppData/Local/Temp/Rtmp8eH30T/mypkg.Rcheck/00check.log'
+   for details.
+   
+   
+-- R CMD check results ------------------------------------------- mypkg 0.0.0.9000 ----
+Duration: 12.3s
+
+> checking for missing documentation entries ... WARNING
+  Undocumented code objects:
+    'make_shades'
+  All user-level objects in a package should have documentation entries.
+  See chapter 'Writing R documentation files' in the 'Writing R
+  Extensions' manual.
+
+0 errors √ | 1 warning x | 0 notes √
+```
+
+You can see all the different types of checks that **devtools** has run but
+they most important section is at the end where it tells you how many errors,
+warnings and notes there are. Often these come with hints about how to fix them
+but sometimes they can be hard to understand. If you are not sure what they
+mean try doing an internet search and it is likely that somebody else has come
+across the same problem. Our package has received one warning telling us that we
+are missing some documentation.
