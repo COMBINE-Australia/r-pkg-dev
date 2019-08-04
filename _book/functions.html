@@ -4,7 +4,7 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | R package workshop</title>
+  <title>3 Functions | R package workshop</title>
   <meta name="description" content="<p>These are the materials for the R package development workshop created by
 COMBINE, an association for Australian students in bioinformatics,
 computational biology and related fields.</p>
@@ -12,7 +12,7 @@ This workshop explains the basics of R package development and takes you
 through the steps to create a minimal R package." />
   <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | R package workshop" />
+  <meta property="og:title" content="3 Functions | R package workshop" />
   <meta property="og:type" content="book" />
   
   
@@ -24,7 +24,7 @@ through the steps to create a minimal R package." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | R package workshop" />
+  <meta name="twitter:title" content="3 Functions | R package workshop" />
   
   <meta name="twitter:description" content="<p>These are the materials for the R package development workshop created by
 COMBINE, an association for Australian students in bioinformatics,
@@ -43,8 +43,8 @@ through the steps to create a minimal R package." />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="functions.html">
-
+<link rel="prev" href="setting-up.html">
+<link rel="next" href="references.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -189,33 +189,76 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
-
-<div id="refs" class="references">
-<div>
-<p>Xie, Yihui. 2015. <em>Dynamic Documents with R and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.</p>
+<div id="functions" class="section level1">
+<h1><span class="header-section-number">3</span> Functions</h1>
+<div id="adding-a-function" class="section level2">
+<h2><span class="header-section-number">3.1</span> Adding a function</h2>
+<p>Now that our package is all set up it’s time to add our first function! We can
+use the <code>usethis::use_r()</code> function to set up the file. Our function is going
+to be about colours so we will use that as the name of the R file.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">usethis<span class="op">::</span><span class="kw">use_r</span>(<span class="st">&quot;colours&quot;</span>)</a></code></pre></div>
+<blockquote>
+<p><strong>Organising your code</strong></p>
+<p>There are no rules about how to organise your functions into different files
+but you want generally want to group similar functions into a file with a
+a clear name. Having all of your functions in a single file isn’t great, but
+neither is having a separate file for each function. A good rule of thumb is
+that if you are finding it hard to locate a function you might need to move
+it to a new file. There are two shortcuts for finding functions in RStudio,
+selecting a function name and pressing <strong>F2</strong> or pressing <strong>Ctrl + .</strong> and
+searching for the function.</p>
+</blockquote>
+<p>As an example we are going to write a function that takes the red, green and
+blue values for a colour and returns a given number of shades. Copy the
+following code into your R file and save it (you can ignore the comments if you
+want to, they are just there to explain how the function works).</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">make_shades &lt;-<span class="st"> </span><span class="cf">function</span>(red, green, blue, n, <span class="dt">lighter =</span> <span class="ot">TRUE</span>) {</a>
+<a class="sourceLine" id="cb11-2" title="2">    <span class="co"># Convert the colour to RGB</span></a>
+<a class="sourceLine" id="cb11-3" title="3">    colour_rgb &lt;-<span class="st"> </span>grDevices<span class="op">::</span><span class="kw">col2rgb</span>(colour)[, <span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb11-4" title="4">    </a>
+<a class="sourceLine" id="cb11-5" title="5">    <span class="co"># Decide if we are heading towards white or black</span></a>
+<a class="sourceLine" id="cb11-6" title="6">    <span class="cf">if</span> (lighter) {</a>
+<a class="sourceLine" id="cb11-7" title="7">        end &lt;-<span class="st"> </span><span class="dv">255</span></a>
+<a class="sourceLine" id="cb11-8" title="8">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb11-9" title="9">        end &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb11-10" title="10">    }</a>
+<a class="sourceLine" id="cb11-11" title="11"></a>
+<a class="sourceLine" id="cb11-12" title="12">    <span class="co"># Calculate the red, green and blue for the shades</span></a>
+<a class="sourceLine" id="cb11-13" title="13">    <span class="co"># we calculate one extra point to avoid pure white/black</span></a>
+<a class="sourceLine" id="cb11-14" title="14">    red &lt;-<span class="st"> </span><span class="kw">seq</span>(colour_rgb[<span class="dv">1</span>], end, <span class="dt">length.out =</span> n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)[<span class="dv">1</span><span class="op">:</span>n]</a>
+<a class="sourceLine" id="cb11-15" title="15">    green &lt;-<span class="st"> </span><span class="kw">seq</span>(colour_rgb[<span class="dv">2</span>], end, <span class="dt">length.out =</span> n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)[<span class="dv">1</span><span class="op">:</span>n]</a>
+<a class="sourceLine" id="cb11-16" title="16">    blue &lt;-<span class="st"> </span><span class="kw">seq</span>(colour_rgb[<span class="dv">3</span>], end, <span class="dt">length.out =</span> n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)[<span class="dv">1</span><span class="op">:</span>n]</a>
+<a class="sourceLine" id="cb11-17" title="17">    </a>
+<a class="sourceLine" id="cb11-18" title="18">    <span class="co"># Convert the RGB values to hex codes</span></a>
+<a class="sourceLine" id="cb11-19" title="19">    shades &lt;-<span class="st"> </span>grDevices<span class="op">::</span><span class="kw">rgb</span>(red, green, blue, <span class="dt">maxColorValue =</span> <span class="dv">255</span>)</a>
+<a class="sourceLine" id="cb11-20" title="20">    </a>
+<a class="sourceLine" id="cb11-21" title="21">    <span class="kw">return</span>(shades)</a>
+<a class="sourceLine" id="cb11-22" title="22">}</a></code></pre></div>
 </div>
-<div>
-<p>———. 2019. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.</p>
+<div id="using-the-function" class="section level2">
+<h2><span class="header-section-number">3.2</span> Using the function</h2>
+<p>Now that we have a function we want to see if it works. Usually when we write
+a new function we load it by copying the code to the console or sourcing the
+R file. When we are developing a package we want to try and keep our
+environment empty so that we can be sure we are only working with objects inside
+the package. Instead we can load functions using <code>devtools::load_all()</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">devtools<span class="op">::</span><span class="kw">load_all</span>()</a></code></pre></div>
+<p>The function doesn’t appear in the environment, just like all the functions in
+a package don’t appear in the environment when we load it using <code>library()</code>.
+But if we try to use it the function should work.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">make_shades</span>(<span class="st">&quot;goldenrod&quot;</span>, <span class="dv">5</span>)</a></code></pre></div>
+<p>Congratulations, you now have a functional package! In the next section we
+will perform some checks to see if we have forgotten anything.</p>
+
 </div>
 </div>
-</div>
-
-
-
-
-
-
-
-
             </section>
 
           </div>
         </div>
       </div>
-<a href="functions.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="setting-up.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

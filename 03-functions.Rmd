@@ -1,0 +1,75 @@
+# Functions
+
+## Adding a function
+
+Now that our package is all set up it's time to add our first function! We can
+use the `usethis::use_r()` function to set up the file. Our function is going
+to be about colours so we will use that as the name of the R file.
+
+```{r}
+usethis::use_r("colours")
+```
+
+> **Organising your code**
+>
+> There are no rules about how to organise your functions into different files
+> but you want generally want to group similar functions into a file with a
+> a clear name. Having all of your functions in a single file isn't great, but
+> neither is having a separate file for each function. A good rule of thumb is
+> that if you are finding it hard to locate a function you might need to move
+> it to a new file. There are two shortcuts for finding functions in RStudio,
+> selecting a function name and pressing **F2** or pressing **Ctrl + .** and
+> searching for the function.
+
+As an example we are going to write a function that takes the red, green and
+blue values for a colour and returns a given number of shades. Copy the
+following code into your R file and save it (you can ignore the comments if you
+want to, they are just there to explain how the function works).
+
+```{r}
+make_shades <- function(red, green, blue, n, lighter = TRUE) {
+    # Convert the colour to RGB
+    colour_rgb <- grDevices::col2rgb(colour)[, 1]
+    
+    # Decide if we are heading towards white or black
+    if (lighter) {
+        end <- 255
+    } else {
+        end <- 0
+    }
+
+    # Calculate the red, green and blue for the shades
+    # we calculate one extra point to avoid pure white/black
+    red <- seq(colour_rgb[1], end, length.out = n + 1)[1:n]
+    green <- seq(colour_rgb[2], end, length.out = n + 1)[1:n]
+    blue <- seq(colour_rgb[3], end, length.out = n + 1)[1:n]
+    
+    # Convert the RGB values to hex codes
+    shades <- grDevices::rgb(red, green, blue, maxColorValue = 255)
+    
+    return(shades)
+}
+```
+
+## Using the function
+
+Now that we have a function we want to see if it works. Usually when we write
+a new function we load it by copying the code to the console or sourcing the
+R file. When we are developing a package we want to try and keep our 
+environment empty so that we can be sure we are only working with objects inside
+the package. Instead we can load functions using `devtools::load_all()`.
+
+```{r}
+devtools::load_all()
+```
+
+The function doesn't appear in the environment, just like all the functions in
+a package don't appear in the environment when we load it using `library()`.
+But if we try to use it the function should work.
+
+```{r}
+make_shades("goldenrod", 5)
+```
+
+Congratulations, you now have a functional package! In the next section we
+will perform some checks to see if we have forgotten anything.
