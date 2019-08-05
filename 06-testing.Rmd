@@ -1,0 +1,249 @@
+# Testing
+
+Now that we have some documentation `devtools::check()` should run without any
+problems.
+
+```{r}
+devtools::check()
+```
+
+```{}
+-- R CMD check results ------------------------------------------- mypkg 0.0.0.9000 ----
+Duration: 15.2s
+
+0 errors √ | 0 warnings √ | 0 notes √
+```
+_(This is just the bottom part of the output to save space)_
+
+While we pass all the standard package checks there is one kind of check that
+we don't have yet. Unit tests are checks to make sure that a function works in
+the way that we expect. The examples we wrote earlier are kind of like informal
+unit tests because they are run as part of the checking process but it is better
+to have something more rigorous. One approach to writing unit tests is what is
+known as "test driven development". The idea here is to write the tests before
+you write a function. This way you know exactly what a function is supposed to
+do and what problems there might be. While this is a good principal it can
+take a lot of advance planning. A more common approach could be called
+"bug-driven testing". For this approach whenever we come across a bug we write
+a test for it before we fix it, that way the same bug should never happen a
+again. When combined with some tests for obvious problems this is a good
+compromise better testing for every possible outcome and not testing at all.
+For example let's see what happens when we ask `make_shades()` for a negative
+number of shades.
+
+```{r}
+make_shades("goldenrod", -1)
+```
+
+```{}
+Error in seq(colour_rgb[1], end, length.out = n + 1)[1:n] : 
+  only 0's may be mixed with negative subscripts
+```
+
+This doesn't make sense so we expect to get an error but it would be useful if
+the error message was more informative. What if we ask for zero shades?
+
+```{r}
+make_shades("goldenrod", 0)
+```
+
+```{}
+[1] "#DAA520"
+```
+
+That does work, but it probably shouldn't. Before we make any changes to the
+function let's design some tests to make sure we get what we expect. There are
+a few ways to write unit tests for R packages but we are going to use the
+**testthat** package. We can set everything up with **usethis**.
+
+```{r}
+usethis::use_testthat()
+```
+
+```{}
+✔ Adding 'testthat' to Suggests field in DESCRIPTION
+✔ Creating 'tests/testthat/'
+✔ Writing 'tests/testthat.R'
+● Call `use_test()` to initialize a basic test file and open it for editing.
+```
+
+Now we have a `tests/` directory to hold all our tests. There is also a
+`tests/testthat.R` file which looks like this:
+
+```{r}
+library(testthat)
+library(mypkg)
+
+test_check("mypkg")
+```
+
+All this does is make sure that our tests are run when we do
+`devtools::check()`. To open a new test file we can use `usethis::use_test()`.
+
+```{r}
+usethis::use_test("colours")
+```
+
+```{}
+✔ Increasing 'testthat' version to '>= 2.1.0' in DESCRIPTION
+✔ Writing 'tests/testthat/test-colours.R'
+● Modify 'tests/testthat/test-colours.R'
+```
+
+Just like R files our test file needs a name. Tests can be split up however you
+like but it often makes sense to have them match up with the R files so things
+are easy to find. Our test file comes with a small example that shows how to
+use **testthat**.
+
+```{r}
+test_that("multiplication works", {
+  expect_equal(2 * 2, 4)
+})
+```
+
+Each set of tests starts with the `test_that()` function. This function has two
+arguments, a description and the code with the tests that we want to run. It
+looks a bit strange to start with but it makes sense if you read it as a
+sentence, "Test that multiplication work". That makes it clear what the test
+is for. Inside the code section we see an `expect` function. This function also
+has two parts, the thing we want to test and what we expect it to be. There are
+different functions for different types of expectations. Reading this part as
+a sentence says something like "Expect that 2 * 2 is equal to 4". For our test
+we want to use the `expect_error()` function, because that is what we expect.
+
+```{r}
+test_that("n is at least 1", {
+    expect_error(make_shades("goldenrod", -1),
+                 "n must be at least 1")
+    expect_error(make_shades("goldenrod", 0),
+                 "n must be at least 1")
+})
+```
+
+To run our tests we use `devtools::test()`.
+
+```{r}
+devtools::test()
+```
+
+```{}
+Loading mypkg
+Testing mypkg
+√ |  OK F W S | Context
+x |   0 2     | colours
+--------------------------------------------------------------------------------
+test-colours.R:2: failure: n is at least 1
+`make_shades("goldenrod", -1)` threw an error with unexpected message.
+Expected match: "n must be at least 1"
+Actual message: "only 0's may be mixed with negative subscripts"
+
+test-colours.R:4: failure: n is at least 1
+`make_shades("goldenrod", 0)` did not throw an error.
+--------------------------------------------------------------------------------
+
+== Results =====================================================================
+OK:       0
+Failed:   2
+Warnings: 0
+Skipped:  0
+
+No one is perfect!
+```
+
+We can see that both of our tests failed. That is ok because we haven't fixed
+the function yet. The first test fails because the error message is wrong and
+the second one because there is no error. Now that we have some tests and we
+know they check the right things we can modify our function to check the value
+of `n` and give the correct error.
+
+Let's add some code to check the value of `n`. We will update the documentation
+as well so the user knows what values can be used.
+
+```{r}
+#' Make shades
+#'
+#' Given a colour make \code{n} lighter or darker shades
+#'
+#' @param colour The colour to make shades of
+#' @param n The number of shades to make, at least 1
+#' @param lighter Whether to make lighter (\code{TRUE}) or darker (\code{FALSE})
+#' shades
+#'
+#' @return A vector of \code{n} colour hex codes
+#' @export
+#'
+#' @examples
+#' # Five lighter shades
+#' make_shades("goldenrod", 5)
+#' # Five darker shades
+#' make_shades("goldenrod", 5, lighter = FALSE)
+make_shades <- function(colour, n, lighter = TRUE) {
+    
+    # Check the value of n
+    if (n < 1) {
+        stop("n must be at least 1")
+    }
+    
+    # Convert the colour to RGB
+    colour_rgb <- grDevices::col2rgb(colour)[, 1]
+
+    # Decide if we are heading towards white or black
+    if (lighter) {
+        end <- 255
+    } else {
+        end <- 0
+    }
+
+    # Calculate the red, green and blue for the shades
+    # we calculate one extra point to avoid pure white/black
+    red <- seq(colour_rgb[1], end, length.out = n + 1)[1:n]
+    green <- seq(colour_rgb[2], end, length.out = n + 1)[1:n]
+    blue <- seq(colour_rgb[3], end, length.out = n + 1)[1:n]
+
+    # Convert the RGB values to hex codes
+    shades <- grDevices::rgb(red, green, blue, maxColorValue = 255)
+
+    return(shades)
+}
+
+```
+
+> **Writing parameter checks**
+>
+> These kinds of checks for parameter inputs are an important part of a function
+> that is going to be used by other people (or future you). They make sure that
+> all the input is correct before the function tries to do anything and avoids
+> confusing error messages. However they can be fiddly and repetitive to write.
+> If you find yourself writing lots of these checks two packages that can make
+> life easier by providing functions to do it for you are **checkmate** and
+> **assertthat**.
+
+Here we have used the `stop()` function to raise an error. If we wanted to give
+a warning we would use `warning()` and if just wanted to give some information
+to the user we would use `message()`. Using `message()` instead of `print()` or
+`cat()` is important because it means the user can hide the messages using
+`suppressMessages()` (or `suppressWarnings()` for warnings). Now we can try our
+tests again and they should pass.
+
+```{r}
+devtools::test()
+```
+
+```{}
+Loading mypkg
+Testing mypkg
+√ |  OK F W S | Context
+√ |   2       | colours
+
+== Results =====================================================================
+OK:       2
+Failed:   0
+Warnings: 0
+Skipped:  0
+```
+
+There are more tests we could write for this function but we will leave that as
+an exercise for you. If you want to see what parts of your code need testing you
+can run the `devtools::test_coverage()` function (you might need to install the
+**DT** package first). This function uses the **covr** package to make a report
+showing which lines of your code are covered by tests.

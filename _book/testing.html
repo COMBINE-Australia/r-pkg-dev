@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Testing | R package workshop</title>
+  <meta name="description" content="<p>These are the materials for the R package development workshop created by
+COMBINE, an association for Australian students in bioinformatics,
+computational biology and related fields.</p>
+This workshop explains the basics of R package development and takes you
+through the steps to create a minimal R package." />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Testing | R package workshop" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="<p>These are the materials for the R package development workshop created by
+COMBINE, an association for Australian students in bioinformatics,
+computational biology and related fields.</p>
+This workshop explains the basics of R package development and takes you
+through the steps to create a minimal R package." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Testing | R package workshop" />
+  
+  <meta name="twitter:description" content="<p>These are the materials for the R package development workshop created by
+COMBINE, an association for Australian students in bioinformatics,
+computational biology and related fields.</p>
+This workshop explains the basics of R package development and takes you
+through the steps to create a minimal R package." />
+  
+
+<meta name="author" content="COMBINE Australia" />
+
+
+<meta name="date" content="2019-08-05" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="documenting-functions.html">
+<link rel="next" href="references.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R package development workshop</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-this-workshop"><i class="fa fa-check"></i>About this workshop</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#requirements"><i class="fa fa-check"></i>Requirements</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-and-rstudio"><i class="fa fa-check"></i>R and RStudio</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#github"><i class="fa fa-check"></i>GitHub</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-a-package"><i class="fa fa-check"></i><b>1.1</b> What is a package?</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#why-write-a-package"><i class="fa fa-check"></i><b>1.2</b> Why write a package?</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction.html"><a href="introduction.html#packages-for-writing-packages"><i class="fa fa-check"></i><b>1.2.1</b> Packages for writing packages</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="setting-up.html"><a href="setting-up.html"><i class="fa fa-check"></i><b>2</b> Setting up</a><ul>
+<li class="chapter" data-level="2.1" data-path="setting-up.html"><a href="setting-up.html#open-rstudio"><i class="fa fa-check"></i><b>2.1</b> Open RStudio</a></li>
+<li class="chapter" data-level="2.2" data-path="setting-up.html"><a href="setting-up.html#naming-your-package"><i class="fa fa-check"></i><b>2.2</b> Naming your package</a></li>
+<li class="chapter" data-level="2.3" data-path="setting-up.html"><a href="setting-up.html#creating-your-package"><i class="fa fa-check"></i><b>2.3</b> Creating your package</a></li>
+<li class="chapter" data-level="2.4" data-path="setting-up.html"><a href="setting-up.html#filling-in-the-description"><i class="fa fa-check"></i><b>2.4</b> Filling in the DESCRIPTION</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="setting-up.html"><a href="setting-up.html#title-and-description"><i class="fa fa-check"></i><b>2.4.1</b> Title and description</a></li>
+<li class="chapter" data-level="2.4.2" data-path="setting-up.html"><a href="setting-up.html#authors"><i class="fa fa-check"></i><b>2.4.2</b> Authors</a></li>
+<li class="chapter" data-level="2.4.3" data-path="setting-up.html"><a href="setting-up.html#license"><i class="fa fa-check"></i><b>2.4.3</b> License</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>3</b> Functions</a><ul>
+<li class="chapter" data-level="3.1" data-path="functions.html"><a href="functions.html#adding-a-function"><i class="fa fa-check"></i><b>3.1</b> Adding a function</a></li>
+<li class="chapter" data-level="3.2" data-path="functions.html"><a href="functions.html#using-the-function"><i class="fa fa-check"></i><b>3.2</b> Using the function</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="checking-you-package.html"><a href="checking-you-package.html"><i class="fa fa-check"></i><b>4</b> Checking you package</a></li>
+<li class="chapter" data-level="5" data-path="documenting-functions.html"><a href="documenting-functions.html"><i class="fa fa-check"></i><b>5</b> Documenting functions</a><ul>
+<li class="chapter" data-level="5.1" data-path="documenting-functions.html"><a href="documenting-functions.html#adding-documentation"><i class="fa fa-check"></i><b>5.1</b> Adding documentation</a></li>
+<li class="chapter" data-level="5.2" data-path="documenting-functions.html"><a href="documenting-functions.html#building-documentation"><i class="fa fa-check"></i><b>5.2</b> Building documentation</a></li>
+<li class="chapter" data-level="5.3" data-path="documenting-functions.html"><a href="documenting-functions.html#formatting-documentation"><i class="fa fa-check"></i><b>5.3</b> Formatting documentation</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="testing.html"><a href="testing.html"><i class="fa fa-check"></i><b>6</b> Testing</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R package workshop</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="testing" class="section level1">
+<h1><span class="header-section-number">6</span> Testing</h1>
+<p>Now that we have some documentation <code>devtools::check()</code> should run without any
+problems.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">devtools<span class="op">::</span><span class="kw">check</span>()</a></code></pre></div>
+<pre><code>-- R CMD check results ------------------------------------------- mypkg 0.0.0.9000 ----
+Duration: 15.2s
+
+0 errors √ | 0 warnings √ | 0 notes √</code></pre>
+<p><em>(This is just the bottom part of the output to save space)</em></p>
+<p>While we pass all the standard package checks there is one kind of check that
+we don’t have yet. Unit tests are checks to make sure that a function works in
+the way that we expect. The examples we wrote earlier are kind of like informal
+unit tests because they are run as part of the checking process but it is better
+to have something more rigorous. One approach to writing unit tests is what is
+known as “test driven development”. The idea here is to write the tests before
+you write a function. This way you know exactly what a function is supposed to
+do and what problems there might be. While this is a good principal it can
+take a lot of advance planning. A more common approach could be called
+“bug-driven testing”. For this approach whenever we come across a bug we write
+a test for it before we fix it, that way the same bug should never happen a
+again. When combined with some tests for obvious problems this is a good
+compromise better testing for every possible outcome and not testing at all.
+For example let’s see what happens when we ask <code>make_shades()</code> for a negative
+number of shades.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">make_shades</span>(<span class="st">&quot;goldenrod&quot;</span>, <span class="dv">-1</span>)</a></code></pre></div>
+<pre><code>Error in seq(colour_rgb[1], end, length.out = n + 1)[1:n] : 
+  only 0&#39;s may be mixed with negative subscripts</code></pre>
+<p>This doesn’t make sense so we expect to get an error but it would be useful if
+the error message was more informative. What if we ask for zero shades?</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">make_shades</span>(<span class="st">&quot;goldenrod&quot;</span>, <span class="dv">0</span>)</a></code></pre></div>
+<pre><code>[1] &quot;#DAA520&quot;</code></pre>
+<p>That does work, but it probably shouldn’t. Before we make any changes to the
+function let’s design some tests to make sure we get what we expect. There are
+a few ways to write unit tests for R packages but we are going to use the
+<strong>testthat</strong> package. We can set everything up with <strong>usethis</strong>.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1">usethis<span class="op">::</span><span class="kw">use_testthat</span>()</a></code></pre></div>
+<pre><code>✔ Adding &#39;testthat&#39; to Suggests field in DESCRIPTION
+✔ Creating &#39;tests/testthat/&#39;
+✔ Writing &#39;tests/testthat.R&#39;
+● Call `use_test()` to initialize a basic test file and open it for editing.</code></pre>
+<p>Now we have a <code>tests/</code> directory to hold all our tests. There is also a
+<code>tests/testthat.R</code> file which looks like this:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">library</span>(testthat)</a>
+<a class="sourceLine" id="cb35-2" title="2"><span class="kw">library</span>(mypkg)</a>
+<a class="sourceLine" id="cb35-3" title="3"></a>
+<a class="sourceLine" id="cb35-4" title="4"><span class="kw">test_check</span>(<span class="st">&quot;mypkg&quot;</span>)</a></code></pre></div>
+<p>All this does is make sure that our tests are run when we do
+<code>devtools::check()</code>. To open a new test file we can use <code>usethis::use_test()</code>.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">usethis<span class="op">::</span><span class="kw">use_test</span>(<span class="st">&quot;colours&quot;</span>)</a></code></pre></div>
+<pre><code>✔ Increasing &#39;testthat&#39; version to &#39;&gt;= 2.1.0&#39; in DESCRIPTION
+✔ Writing &#39;tests/testthat/test-colours.R&#39;
+● Modify &#39;tests/testthat/test-colours.R&#39;</code></pre>
+<p>Just like R files our test file needs a name. Tests can be split up however you
+like but it often makes sense to have them match up with the R files so things
+are easy to find. Our test file comes with a small example that shows how to
+use <strong>testthat</strong>.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">test_that</span>(<span class="st">&quot;multiplication works&quot;</span>, {</a>
+<a class="sourceLine" id="cb38-2" title="2">  <span class="kw">expect_equal</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span>, <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb38-3" title="3">})</a></code></pre></div>
+<p>Each set of tests starts with the <code>test_that()</code> function. This function has two
+arguments, a description and the code with the tests that we want to run. It
+looks a bit strange to start with but it makes sense if you read it as a
+sentence, “Test that multiplication work”. That makes it clear what the test
+is for. Inside the code section we see an <code>expect</code> function. This function also
+has two parts, the thing we want to test and what we expect it to be. There are
+different functions for different types of expectations. Reading this part as
+a sentence says something like “Expect that 2 * 2 is equal to 4”. For our test
+we want to use the <code>expect_error()</code> function, because that is what we expect.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">test_that</span>(<span class="st">&quot;n is at least 1&quot;</span>, {</a>
+<a class="sourceLine" id="cb39-2" title="2">    <span class="kw">expect_error</span>(<span class="kw">make_shades</span>(<span class="st">&quot;goldenrod&quot;</span>, <span class="dv">-1</span>),</a>
+<a class="sourceLine" id="cb39-3" title="3">                 <span class="st">&quot;n must be at least 1&quot;</span>)</a>
+<a class="sourceLine" id="cb39-4" title="4">    <span class="kw">expect_error</span>(<span class="kw">make_shades</span>(<span class="st">&quot;goldenrod&quot;</span>, <span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb39-5" title="5">                 <span class="st">&quot;n must be at least 1&quot;</span>)</a>
+<a class="sourceLine" id="cb39-6" title="6">})</a></code></pre></div>
+<p>To run our tests we use <code>devtools::test()</code>.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">devtools<span class="op">::</span><span class="kw">test</span>()</a></code></pre></div>
+<pre><code>Loading mypkg
+Testing mypkg
+√ |  OK F W S | Context
+x |   0 2     | colours
+--------------------------------------------------------------------------------
+test-colours.R:2: failure: n is at least 1
+`make_shades(&quot;goldenrod&quot;, -1)` threw an error with unexpected message.
+Expected match: &quot;n must be at least 1&quot;
+Actual message: &quot;only 0&#39;s may be mixed with negative subscripts&quot;
+
+test-colours.R:4: failure: n is at least 1
+`make_shades(&quot;goldenrod&quot;, 0)` did not throw an error.
+--------------------------------------------------------------------------------
+
+== Results =====================================================================
+OK:       0
+Failed:   2
+Warnings: 0
+Skipped:  0
+
+No one is perfect!</code></pre>
+<p>We can see that both of our tests failed. That is ok because we haven’t fixed
+the function yet. The first test fails because the error message is wrong and
+the second one because there is no error. Now that we have some tests and we
+know they check the right things we can modify our function to check the value
+of <code>n</code> and give the correct error.</p>
+<p>Let’s add some code to check the value of <code>n</code>. We will update the documentation
+as well so the user knows what values can be used.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="co">#&#39; Make shades</span></a>
+<a class="sourceLine" id="cb42-2" title="2"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb42-3" title="3"><span class="co">#&#39; Given a colour make \code{n} lighter or darker shades</span></a>
+<a class="sourceLine" id="cb42-4" title="4"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb42-5" title="5"><span class="co">#&#39; @param colour The colour to make shades of</span></a>
+<a class="sourceLine" id="cb42-6" title="6"><span class="co">#&#39; @param n The number of shades to make, at least 1</span></a>
+<a class="sourceLine" id="cb42-7" title="7"><span class="co">#&#39; @param lighter Whether to make lighter (\code{TRUE}) or darker (\code{FALSE})</span></a>
+<a class="sourceLine" id="cb42-8" title="8"><span class="co">#&#39; shades</span></a>
+<a class="sourceLine" id="cb42-9" title="9"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb42-10" title="10"><span class="co">#&#39; @return A vector of \code{n} colour hex codes</span></a>
+<a class="sourceLine" id="cb42-11" title="11"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb42-12" title="12"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb42-13" title="13"><span class="co">#&#39; @examples</span></a>
+<a class="sourceLine" id="cb42-14" title="14"><span class="co">#&#39; # Five lighter shades</span></a>
+<a class="sourceLine" id="cb42-15" title="15"><span class="co">#&#39; make_shades(&quot;goldenrod&quot;, 5)</span></a>
+<a class="sourceLine" id="cb42-16" title="16"><span class="co">#&#39; # Five darker shades</span></a>
+<a class="sourceLine" id="cb42-17" title="17"><span class="co">#&#39; make_shades(&quot;goldenrod&quot;, 5, lighter = FALSE)</span></a>
+<a class="sourceLine" id="cb42-18" title="18">make_shades &lt;-<span class="st"> </span><span class="cf">function</span>(colour, n, <span class="dt">lighter =</span> <span class="ot">TRUE</span>) {</a>
+<a class="sourceLine" id="cb42-19" title="19">    </a>
+<a class="sourceLine" id="cb42-20" title="20">    <span class="co"># Check the value of n</span></a>
+<a class="sourceLine" id="cb42-21" title="21">    <span class="cf">if</span> (n <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb42-22" title="22">        <span class="kw">stop</span>(<span class="st">&quot;n must be at least 1&quot;</span>)</a>
+<a class="sourceLine" id="cb42-23" title="23">    }</a>
+<a class="sourceLine" id="cb42-24" title="24">    </a>
+<a class="sourceLine" id="cb42-25" title="25">    <span class="co"># Convert the colour to RGB</span></a>
+<a class="sourceLine" id="cb42-26" title="26">    colour_rgb &lt;-<span class="st"> </span>grDevices<span class="op">::</span><span class="kw">col2rgb</span>(colour)[, <span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb42-27" title="27"></a>
+<a class="sourceLine" id="cb42-28" title="28">    <span class="co"># Decide if we are heading towards white or black</span></a>
+<a class="sourceLine" id="cb42-29" title="29">    <span class="cf">if</span> (lighter) {</a>
+<a class="sourceLine" id="cb42-30" title="30">        end &lt;-<span class="st"> </span><span class="dv">255</span></a>
+<a class="sourceLine" id="cb42-31" title="31">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb42-32" title="32">        end &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb42-33" title="33">    }</a>
+<a class="sourceLine" id="cb42-34" title="34"></a>
+<a class="sourceLine" id="cb42-35" title="35">    <span class="co"># Calculate the red, green and blue for the shades</span></a>
+<a class="sourceLine" id="cb42-36" title="36">    <span class="co"># we calculate one extra point to avoid pure white/black</span></a>
+<a class="sourceLine" id="cb42-37" title="37">    red &lt;-<span class="st"> </span><span class="kw">seq</span>(colour_rgb[<span class="dv">1</span>], end, <span class="dt">length.out =</span> n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)[<span class="dv">1</span><span class="op">:</span>n]</a>
+<a class="sourceLine" id="cb42-38" title="38">    green &lt;-<span class="st"> </span><span class="kw">seq</span>(colour_rgb[<span class="dv">2</span>], end, <span class="dt">length.out =</span> n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)[<span class="dv">1</span><span class="op">:</span>n]</a>
+<a class="sourceLine" id="cb42-39" title="39">    blue &lt;-<span class="st"> </span><span class="kw">seq</span>(colour_rgb[<span class="dv">3</span>], end, <span class="dt">length.out =</span> n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)[<span class="dv">1</span><span class="op">:</span>n]</a>
+<a class="sourceLine" id="cb42-40" title="40"></a>
+<a class="sourceLine" id="cb42-41" title="41">    <span class="co"># Convert the RGB values to hex codes</span></a>
+<a class="sourceLine" id="cb42-42" title="42">    shades &lt;-<span class="st"> </span>grDevices<span class="op">::</span><span class="kw">rgb</span>(red, green, blue, <span class="dt">maxColorValue =</span> <span class="dv">255</span>)</a>
+<a class="sourceLine" id="cb42-43" title="43"></a>
+<a class="sourceLine" id="cb42-44" title="44">    <span class="kw">return</span>(shades)</a>
+<a class="sourceLine" id="cb42-45" title="45">}</a></code></pre></div>
+<blockquote>
+<p><strong>Writing parameter checks</strong></p>
+<p>These kinds of checks for parameter inputs are an important part of a function
+that is going to be used by other people (or future you). They make sure that
+all the input is correct before the function tries to do anything and avoids
+confusing error messages. However they can be fiddly and repetitive to write.
+If you find yourself writing lots of these checks two packages that can make
+life easier by providing functions to do it for you are <strong>checkmate</strong> and
+<strong>assertthat</strong>.</p>
+</blockquote>
+<p>Here we have used the <code>stop()</code> function to raise an error. If we wanted to give
+a warning we would use <code>warning()</code> and if just wanted to give some information
+to the user we would use <code>message()</code>. Using <code>message()</code> instead of <code>print()</code> or
+<code>cat()</code> is important because it means the user can hide the messages using
+<code>suppressMessages()</code> (or <code>suppressWarnings()</code> for warnings). Now we can try our
+tests again and they should pass.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1">devtools<span class="op">::</span><span class="kw">test</span>()</a></code></pre></div>
+<pre><code>Loading mypkg
+Testing mypkg
+√ |  OK F W S | Context
+√ |   2       | colours
+
+== Results =====================================================================
+OK:       2
+Failed:   0
+Warnings: 0
+Skipped:  0</code></pre>
+<p>There are more tests we could write for this function but we will leave that as
+an exercise for you. If you want to see what parts of your code need testing you
+can run the <code>devtools::test_coverage()</code> function (you might need to install the
+<strong>DT</strong> package first). This function uses the <strong>covr</strong> package to make a report
+showing which lines of your code are covered by tests.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="documenting-functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["r-pkg-dev.pdf", "r-pkg-dev.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
