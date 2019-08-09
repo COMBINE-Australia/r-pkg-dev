@@ -1,0 +1,332 @@
+# Dependencies
+
+Our `make_shades()` function produces shades of a colour but it would be good
+to see what those look like. Before is a new function called `plot_colours()`
+that can visualise them for us using **ggplot2** (if you don't have **ggplot2**
+installed do that now). Add this function to `colours.R`.
+
+```{r}
+#' Plot colours
+#'
+#' Plot a vector of colours to see what they look like
+#' 
+#' @param colours Vector of colour to plot
+#'
+#' @return A ggplot2 object
+#' @export
+#'
+#' @examples
+#' shades <- make_shades("goldenrod", 5)
+#' plot_colours(shades)
+plot_colours <- function(colours) {
+    plot_data <- data.frame(Colour = colours)
+    
+    ggplot(plot_data,
+           aes(x = .data$Colour, y = 1, fill = .data$Colour,
+               label = .data$Colour)) +
+        geom_tile() +
+        geom_text(angle = "90") +
+        scale_fill_identity() +
+        theme_void()
+}
+```
+
+Now that we have added something new we should run our checks again 
+(`devtools::document()` is automatically run as part of `devtools::check()` so
+we can skip that step).
+
+```{r}
+devtools::check()
+```
+
+```{}
+-- R CMD check results ------------------------------------------- mypkg 0.0.0.9000 ----
+Duration: 15.4s
+
+> checking examples ... ERROR
+  Running examples in 'mypkg-Ex.R' failed
+  The error most likely occurred in:
+  
+  > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+  > ### Name: plot_colours
+  > ### Title: Plot colours
+  > ### Aliases: plot_colours
+  > 
+  > ### ** Examples
+  > 
+  > shades <- make_shades("goldenrod", 5)
+  > plot_colours(shades)
+  Error in ggplot(plot_data, aes(x = .data$Colour, y = 1, fill = .data$Colour,  : 
+    could not find function "ggplot"
+  Calls: plot_colours
+  Execution halted
+
+> checking R code for possible problems ... NOTE
+  plot_colours: no visible global function definition for 'ggplot'
+  plot_colours: no visible global function definition for 'aes'
+  plot_colours: no visible binding for global variable '.data'
+  plot_colours: no visible global function definition for 'geom_tile'
+  plot_colours: no visible global function definition for 'geom_text'
+  plot_colours: no visible global function definition for
+    'scale_fill_identity'
+  plot_colours: no visible global function definition for 'theme_void'
+  Undefined global functions or variables:
+    .data aes geom_text geom_tile ggplot scale_fill_identity theme_void
+    
+1 error x | 0 warnings √ | 1 note x
+```
+
+The checks have returned one error and one note. The error is more serious so
+let's have a look at that first. It says `could not find function "ggplot"`.
+Hmmmm...the `ggplot()` function is in the **ggplot2** package. When we used
+`col2rgb()` in the `make_shades()` function we had to prefix it with
+`grDevices::`, maybe we should do the same here.
+
+```{r}
+#' Plot colours
+#'
+#' Plot a vector of colours to see what they look like
+#' 
+#' @param colours Vector of colour to plot
+#'
+#' @return A ggplot2 object
+#' @export
+#'
+#' @examples
+#' shades <- make_shades("goldenrod", 5)
+#' plot_colours(shades)
+plot_colours <- function(colours) {
+    plot_data <- data.frame(Colour = colours)
+    
+    ggplot2::ggplot(plot_data,
+                    ggplot2::aes(x = .data$Colour, y = 1, fill = .data$Colour,
+                                 label = .data$Colour)) +
+        ggplot2::geom_tile() +
+        ggplot2::geom_text(angle = "90") +
+        ggplot2::scale_fill_identity() +
+        ggplot2::theme_void()
+}
+```
+
+Now what do our checks say?
+
+```{r}
+devtools::check()
+```
+
+```{}
+-- R CMD check results ------------------------------------------ mypkg 0.0.0.9000 ----
+Duration: 15s
+
+> checking examples ... ERROR
+  Running examples in 'mypkg-Ex.R' failed
+  The error most likely occurred in:
+  
+  > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+  > ### Name: plot_colours
+  > ### Title: Plot colours
+  > ### Aliases: plot_colours
+  > 
+  > ### ** Examples
+  > 
+  > shades <- make_shades("goldenrod", 5)
+  > plot_colours(shades)
+  Error in loadNamespace(name) : there is no package called 'ggplot2'
+  Calls: plot_colours ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+  Execution halted
+
+> checking dependencies in R code ... WARNING
+  '::' or ':::' import not declared from: 'ggplot2'
+
+> checking R code for possible problems ... NOTE
+  plot_colours: no visible binding for global variable '.data'
+  Undefined global functions or variables:
+    .data
+
+1 error x | 1 warning x | 1 note x
+```
+
+There is now one error, one warning and one note. That seems like we are going
+in the wrong direction but the error is from running the example and the
+warning gives us a clue to what the problem is. It says "'::' or ':::' import
+not declared from: 'ggplot2'". The important word here is "import". Just like
+when we export a function in our package we need to make it clear when we are
+using functions in another package. To do this we can use
+`usethis::use_package()`.
+
+```{r}
+usethis::use_package("ggplot2")
+```
+
+```{}
+✔ Setting active project to 'C:/Users/Luke/Desktop/mypkg'
+✔ Adding 'ggplot2' to Imports field in DESCRIPTION
+● Refer to functions with `ggplot2::fun()`
+```
+
+The output tells us to refer to functions using "::" like we did above so we
+were on the right track. It also mentions that it has modified the `DESCRIPTION`
+file. Let's have a look at it now.
+
+```{}
+Package: mypkg
+Title: My Personal Package
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = "Package",
+           family = "Creator",
+           role = c("aut", "cre"),
+           email = "package.creator@mypkg.com"),
+    person(given = "Package",
+           family = "Contributor",
+           role = c("ctb"),
+           email = "package.contributor@mypkg.com")
+    )
+Description: This is my personal package. It contains some handy functions that
+    I find useful for my projects.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Suggests: 
+    testthat (>= 2.1.0)
+Imports: 
+    ggplot2
+```
+
+The two lines at bottom tells us that our package uses functions in
+**ggplot2**. There are three main types of dependencies^[There is a fourth kind
+(Enhances) but that is almost never used.]. Imports is the most common. This
+means that we use functions from these packages and they must be installed when
+our package is installed. The next most common is Suggests. These are packages
+that we use in developing our package (such as **testthat** which is already
+listed here) or packages that provide some additional, optional functionality.
+Suggested packages aren't usually installed so we need to do a check before we
+use them. The output of `usethis::use_package()` with give you an example if
+you add a suggested package. The third type of dependency is Depends. If you
+depend on a package it will be loaded whenever your package is loaded. There are
+some cases where you might need to do this but you should avoid Depends unless
+it is absolutely necessary.
+
+> **Should you use a dependency?**
+>
+> Deciding which packages (and how many) to depend on is a difficult and
+> philosophical choice. Using functions from other packages can save you time
+> and effort in development but it might make it more difficult to maintain
+> your package. Some things you might want to consider before depending on a
+> package are:
+>
+> * How much of the functionality of the package do you want to use?
+> * Could you easily reproduce that functionality?
+> * How well maintained is the package?
+> * How often is it updated? Packages that change a lot are more likely to
+>   break your code.
+> * How many dependencies of it's own does that package have?
+> * Are you users likely to have the package installed already?
+>
+> Packages like **ggplot2** are good choices for dependencies because they are
+> well maintained, don't change too often, are commonly used and perform a
+> single task so you are likely to use many of the functions.
+
+Hopefully that we have imported **ggplot2** we should pass the checks.
+
+```{r}
+devtools::check()
+```
+
+```{}
+-- R CMD check results ------------------------------------------ mypkg 0.0.0.9000 ----
+Duration: 16.4s
+
+> checking R code for possible problems ... NOTE
+  plot_colours: no visible binding for global variable '.data'
+  Undefined global functions or variables:
+    .data
+
+0 errors √ | 0 warnings √ | 1 note x
+```
+
+Success! Now all that's left is that pesky note. Visualisation functions are
+probably some of the most common functions in packages but there are some
+tricks to programming with **ggplot2**. The details are outside the scope of
+this workshop but if you are interested see the "Using ggplot2 in packages"
+vignette https://ggplot2.tidyverse.org/dev/articles/ggplot2-in-packages.html.
+
+To solve our problem we need to import the **rlang** package.
+
+```{r}
+usethis::use_package("rlang")
+```
+
+```{}
+✔ Adding 'rlang' to Imports field in DESCRIPTION
+● Refer to functions with `rlang::fun()`
+```
+
+Writing `rlang::.data` wouldn't be very attractive or readable^[Also for
+technical reasons it won't work in this case.]. When we want to use a function
+in another package with `::` we need to exlicitly import it. Just like when we
+exported our functions we do this using a Roxygen comment.
+
+```{r}
+#' Plot colours
+#'
+#' Plot a vector of colours to see what they look like
+#' 
+#' @param colours Vector of colour to plot
+#'
+#' @return A ggplot2 object
+#' @export
+#'
+#' @importFrom rlang .data
+#' 
+#' @examples
+#' shades <- make_shades("goldenrod", 5)
+#' plot_colours(shades)
+plot_colours <- function(colours) {
+    plot_data <- data.frame(Colour = colours)
+    
+    ggplot2::ggplot(plot_data,
+                    ggplot2::aes(x = .data$Colour, y = 1, fill = .data$Colour,
+                                 label = .data$Colour)) +
+        ggplot2::geom_tile() +
+        ggplot2::geom_text(angle = "90") +
+        ggplot2::scale_fill_identity() +
+        ggplot2::theme_void()
+}
+```
+
+When we use `devtools::document()` this comment will be read and a note placed
+in the `NAMESPACE` file, just like for `@export`.
+
+```{}
+# Generated by roxygen2: do not edit by hand
+
+export(make_shades)
+export(plot_colours)
+importFrom(rlang,.data)
+```
+
+Those two steps should fix our note.
+
+```{r}
+devtools::check()
+```
+
+```{}
+-- R CMD check results ------------------------------------------ mypkg 0.0.0.9000 ----
+Duration: 16.8s
+
+0 errors √ | 0 warnings √ | 0 notes √
+```
+
+If we used `rlang::.data` in multiple functions in our pacakge it might make
+sense to only import it once. It doesn't matter where we put the `@importFrom`
+line (or how many times) it will still be added to `NAMESPACE`. This means we
+can put all import in a central location. The advantage of this is that they
+only appear once and are all in one place but it makes it harder to know which
+of our functions have which imports and remove them if they are no longer
+needed. Which approach you take is up to you.
+
+We should write some tests for this function as well but we will leave that
+as an exercise for you to try later.

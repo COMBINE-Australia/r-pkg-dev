@@ -1,0 +1,270 @@
+# Other documentation
+
+In a previous section we documented our functions using Roxygen comments but
+there are a few other kinds of documentation we should have.
+
+## Package help file
+
+Users can find out about our functions using `?function-name` but what if they
+want to find out about the package itself? There is some information in the
+`DESCRIPTION` but that can be hard to access. Let's add a help file for the
+pacakge.
+
+```{r}
+usethis::use_package_doc()
+```
+
+```{}
+✔ Writing 'R/mypkg-package.R'
+```
+
+This creates a special R file for us called `mypkg-package.R`. The contents of
+this file doesn't look like much it is understood by **devtools** and
+**roxygen2**.
+
+```{r}
+#' @keywords internal
+"_PACKAGE"
+
+# The following block is used by usethis to automatically manage
+# roxygen namespace tags. Modify with care!
+## usethis namespace: start
+## usethis namespace: end
+NULL
+```
+
+Run `devtools::document()`. 
+
+```{r}
+devtools::document()
+```
+
+```{}
+Updating mypkg documentation
+Writing NAMESPACE
+Loading mypkg
+Writing NAMESPACE
+Writing mypkg-package.Rd
+```
+
+We can see that a new `.Rd` file has been created and we can view the contents
+using `?mypkg`. The information here has been automatically pull from the
+`DESCRIPTION` file so we only need to update it in one place.
+
+## Vignettes
+
+The documentation we have written so far explains how individual functions
+work in detail but it doesn't show what the package does as a whole. Vignettes
+are short tutorials that explain what the package is designed for and how 
+difference functions can be used together. There are different ways to write
+vignettes but usually they are R Markdown files. We can create a vignette with
+`usethis::use_vignette()`. There can be multiple vignettes but it is common
+practice to start with one that introduces the whole package.
+
+> **What is R Markdown?**
+>
+> Markdown is a simple markup language that makes it possible to write documents
+> with minimal formatting. See _Help_ > _Markdown Quick Reference_ in RStudio
+> for a quick guide to how this formatting works. R Markdown adds chunks of R
+> code that are run and the output included in the final document. 
+
+```{r}
+usethis::use_vignette("mypkg")
+```
+
+```{}
+✔ Adding 'knitr' to Suggests field in DESCRIPTION
+✔ Setting VignetteBuilder field in DESCRIPTION to 'knitr'
+✔ Adding 'inst/doc' to '.gitignore'
+✔ Creating 'vignettes/'
+✔ Adding '*.html', '*.R' to 'vignettes/.gitignore'
+✔ Adding 'rmarkdown' to Suggests field in DESCRIPTION
+✔ Writing 'vignettes/mypkg.Rmd'
+● Modify 'vignettes/mypkg.Rmd'
+```
+
+Because this is our first vignette **usethis** has added some information to
+the `DESCRIPTION` file including adding the **knitr** package as a suggested
+dependency. It also creates a `vignettes/` directory and opens our new
+`mypkg.Rmd` file.
+
+````
+---
+title: "mypkg"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mypkg}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE} `r ''`
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup} `r ''`
+library(mypkg)
+```
+
+````
+
+If you are familiar with R Markdown you might not some unusual content in the
+header. This is important for the vignette to build properly. There are also
+some **knitr** options set which are the convention for vignettes.
+
+Let's add a short example of how to use our package.
+
+````
+---
+title: "mypkg"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mypkg}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE} `r ''`
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup} `r ''`
+library(mypkg)
+```
+
+# Introduction
+
+This is my personal package. It contains some handy functions that I find useful
+for my projects.
+
+# Colours
+
+Sometimes you want to generate shades of a colour. The `make_shades()` function
+makes this easy!
+
+```{r} `r ''`
+shades <- make_shades("goldenrod", 5)
+```
+
+If you want to see what the shades look like you can plot them using
+`plot_colours()`.
+
+```{r} `r ''`
+plot_colours(shades)
+```
+
+This function is also useful for viewing any other palettes.
+
+```{r} `r ''`
+plot_colours(rainbow(5))
+```
+````
+
+To see what the vignette looks like run `devtools::build_vignettes()`. Asking
+**devtools** to build the vignette rather than rendering it in another way
+(such as the _Knit_ button in RStudio) makes sure that we are using the
+development version of the package rather than any version that is installed.
+
+```{r}
+devtools::build_vignettes()
+```
+
+```{}
+Building mypkg vignettes
+--- re-building 'mypkg.Rmd' using rmarkdown
+--- finished re-building 'mypkg.Rmd'
+
+Moving mypkg.html, mypkg.R to doc/
+Copying mypkg.Rmd to doc/
+Building vignette index
+```
+
+This creates a new directory called `doc/` that contains the rendered vignette.
+Click on the `mypkg.html` file and open it in your browser.
+
+If you want to use any other packages in your vignette that the package doesn't
+already depend on you need to add them as a suggested dependency.
+
+## README
+
+If you plan on sharing the source code rather than the built package it is
+useful to have a README file to explain what the package is, how to install and
+use it, how to contribute etc. We can create a template with
+`usethis::use_readme_md()` (if we wanted to and R Markdown file with R code and
+output we might use `usethis::use_readme_md()` instead).
+
+```{r}
+usethis::use_readme_md()
+```
+
+```{}
+✔ Writing 'README.md'
+● Modify 'README.md'
+```
+
+````
+# mypkg
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of mypkg is to ...
+
+## Installation
+
+You can install the released version of mypkg from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("mypkg")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+library(mypkg)
+## basic example code
+```
+````
+
+There are the comments near the top that mention badges and you might have seen
+badges (or shields) on README files in code repositories before. There are
+several **usethis** functions for adding badges. For example we can mark this
+package as been at the experimental stage using
+`usethis::use_lifecycle_badge()`.
+
+```{r}
+usethis::use_lifecycle_badge("experimental")
+```
+
+```
+# mypkg
+
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
+
+The goal of mypkg is to ...
+```
+
+The rest of the template isn't very useful so replace it with something better.
+
+## Package website
+
+If you have a publicly available package it can be useful to have a website
+displaying the package documentation. It gives your users somewhere to go and
+helps your package appear in search results. Luckily this is easily achieved
+using the **pkgdown** package. If you have it installed you can set it up with
+**usethis**.
+
+```{r}
+usethis::use_pkgdown()
+```
+

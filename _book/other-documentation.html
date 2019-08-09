@@ -4,7 +4,7 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4 Checking you package | R package workshop</title>
+  <title>8 Other documentation | R package workshop</title>
   <meta name="description" content="<p>These are the materials for the R package development workshop created by
 COMBINE, an association for Australian students in bioinformatics,
 computational biology and related fields.</p>
@@ -12,7 +12,7 @@ This workshop explains the basics of R package development and takes you
 through the steps to create a minimal R package." />
   <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4 Checking you package | R package workshop" />
+  <meta property="og:title" content="8 Other documentation | R package workshop" />
   <meta property="og:type" content="book" />
   
   
@@ -24,7 +24,7 @@ through the steps to create a minimal R package." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4 Checking you package | R package workshop" />
+  <meta name="twitter:title" content="8 Other documentation | R package workshop" />
   
   <meta name="twitter:description" content="<p>These are the materials for the R package development workshop created by
 COMBINE, an association for Australian students in bioinformatics,
@@ -43,8 +43,8 @@ through the steps to create a minimal R package." />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="functions.html">
-<link rel="next" href="documenting-functions.html">
+<link rel="prev" href="dependencies.html">
+<link rel="next" href="references.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -203,115 +203,222 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="checking-you-package" class="section level1">
-<h1><span class="header-section-number">4</span> Checking you package</h1>
-<p>Although what is absolutely required for a package is fairly minimal there are a
-range of things that are needed for a package to be considerd “correct”.
-Keeping track of all of these can be difficult but luckily the
-<code>devtools::check()</code> function is here to help! This function runs a series of
-checks developed by some very smart people over a long period of time that are
-designed to make sure your package is working correctly. It is highly
-recommended that you run <code>devtools::check()</code> often and follow it’s advice to
-fix any problems. It’s much easier to fix one or two problems when they first
-come up than to try many at once after you have moved on to other things. Let’s
-run the checks on our package and see what we get.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">devtools<span class="op">::</span><span class="kw">check</span>()</a></code></pre></div>
-<pre><code>-- Building ----------------------------------------------------------- mypkg --
-Setting env vars:
-* CFLAGS    : -Wall -pedantic
-* CXXFLAGS  : -Wall -pedantic
-* CXX11FLAGS: -Wall -pedantic
---------------------------------------------------------------------------------
-√  checking for file &#39;C:\Users\USER\Desktop\mypkg/DESCRIPTION&#39; (3.1s)
--  preparing &#39;mypkg&#39;:
-√  checking DESCRIPTION meta-information ... 
--  checking for LF line-endings in source and make files and shell scripts
--  checking for empty or unneeded directories
--  building &#39;mypkg_0.0.0.9000.tar.gz&#39;
-   
--- Checking ----------------------------------------------------------- mypkg --
-Setting env vars:
-* _R_CHECK_CRAN_INCOMING_REMOTE_: FALSE
-* _R_CHECK_CRAN_INCOMING_       : FALSE
-* _R_CHECK_FORCE_SUGGESTS_      : FALSE
--- R CMD check -------------------------------------------------------------------------
--  using log directory &#39;C:/Users/USER/AppData/Local/Temp/Rtmp8eH30T/mypkg.Rcheck&#39; (2.3s)
--  using R version 3.6.0 (2019-04-26)
--  using platform: x86_64-w64-mingw32 (64-bit)
--  using session charset: ISO8859-1
--  using options &#39;--no-manual --as-cran&#39;
-√  checking for file &#39;mypkg/DESCRIPTION&#39; ... 
--  this is package &#39;mypkg&#39; version &#39;0.0.0.9000&#39;
--  package encoding: UTF-8
-√  checking package namespace information ...
-√  checking package dependencies (1s)
-√  checking if this is a source package ...
-√  checking if there is a namespace
-√  checking for .dll and .exe files
-√  checking for hidden files and directories ... 
-√  checking for portable file names ...
-√  checking serialization versions ...
-√  checking whether package &#39;mypkg&#39; can be installed (1.4s)
-√  checking package directory
-√  checking for future file timestamps (815ms)
-√  checking DESCRIPTION meta-information (353ms)
-√  checking top-level files ...
-√  checking for left-over files
-√  checking index information
-√  checking package subdirectories ... 
-√  checking R files for non-ASCII characters ... 
-√  checking R files for syntax errors ... 
-√  checking whether the package can be loaded ... 
-√  checking whether the package can be loaded with stated dependencies ... 
-√  checking whether the package can be unloaded cleanly ... 
-√  checking whether the namespace can be loaded with stated dependencies ... 
-√  checking whether the namespace can be unloaded cleanly ... 
-√  checking loading without being on the library search path ... 
-√  checking dependencies in R code ... 
-√  checking S3 generic/method consistency (410ms)
-√  checking replacement functions ... 
-√  checking foreign function calls ... 
-√  checking R code for possible problems (2.2s)
-W  checking for missing documentation entries ... 
-   Undocumented code objects:
-     &#39;make_shades&#39;
-   All user-level objects in a package should have documentation entries.
-   See chapter &#39;Writing R documentation files&#39; in the &#39;Writing R
-   Extensions&#39; manual.
--  checking examples ... NONE (956ms)
-   
-   See
-     &#39;C:/Users/USER/AppData/Local/Temp/Rtmp8eH30T/mypkg.Rcheck/00check.log&#39;
-   for details.
-   
-   
--- R CMD check results ------------------------------------------- mypkg 0.0.0.9000 ----
-Duration: 12.3s
+<div id="other-documentation" class="section level1">
+<h1><span class="header-section-number">8</span> Other documentation</h1>
+<p>In a previous section we documented our functions using Roxygen comments but
+there are a few other kinds of documentation we should have.</p>
+<div id="package-help-file" class="section level2">
+<h2><span class="header-section-number">8.1</span> Package help file</h2>
+<p>Users can find out about our functions using <code>?function-name</code> but what if they
+want to find out about the package itself? There is some information in the
+<code>DESCRIPTION</code> but that can be hard to access. Let’s add a help file for the
+pacakge.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" title="1">usethis<span class="op">::</span><span class="kw">use_package_doc</span>()</a></code></pre></div>
+<pre><code>✔ Writing &#39;R/mypkg-package.R&#39;</code></pre>
+<p>This creates a special R file for us called <code>mypkg-package.R</code>. The contents of
+this file doesn’t look like much it is understood by <strong>devtools</strong> and
+<strong>roxygen2</strong>.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" title="1"><span class="co">#&#39; @keywords internal</span></a>
+<a class="sourceLine" id="cb64-2" title="2"><span class="st">&quot;_PACKAGE&quot;</span></a>
+<a class="sourceLine" id="cb64-3" title="3"></a>
+<a class="sourceLine" id="cb64-4" title="4"><span class="co"># The following block is used by usethis to automatically manage</span></a>
+<a class="sourceLine" id="cb64-5" title="5"><span class="co"># roxygen namespace tags. Modify with care!</span></a>
+<a class="sourceLine" id="cb64-6" title="6"><span class="co">## usethis namespace: start</span></a>
+<a class="sourceLine" id="cb64-7" title="7"><span class="co">## usethis namespace: end</span></a>
+<a class="sourceLine" id="cb64-8" title="8"><span class="ot">NULL</span></a></code></pre></div>
+<p>Run <code>devtools::document()</code>.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" title="1">devtools<span class="op">::</span><span class="kw">document</span>()</a></code></pre></div>
+<pre><code>Updating mypkg documentation
+Writing NAMESPACE
+Loading mypkg
+Writing NAMESPACE
+Writing mypkg-package.Rd</code></pre>
+<p>We can see that a new <code>.Rd</code> file has been created and we can view the contents
+using <code>?mypkg</code>. The information here has been automatically pull from the
+<code>DESCRIPTION</code> file so we only need to update it in one place.</p>
+</div>
+<div id="vignettes" class="section level2">
+<h2><span class="header-section-number">8.2</span> Vignettes</h2>
+<p>The documentation we have written so far explains how individual functions
+work in detail but it doesn’t show what the package does as a whole. Vignettes
+are short tutorials that explain what the package is designed for and how
+difference functions can be used together. There are different ways to write
+vignettes but usually they are R Markdown files. We can create a vignette with
+<code>usethis::use_vignette()</code>. There can be multiple vignettes but it is common
+practice to start with one that introduces the whole package.</p>
+<blockquote>
+<p><strong>What is R Markdown?</strong></p>
+<p>Markdown is a simple markup language that makes it possible to write documents
+with minimal formatting. See <em>Help</em> &gt; <em>Markdown Quick Reference</em> in RStudio
+for a quick guide to how this formatting works. R Markdown adds chunks of R
+code that are run and the output included in the final document.</p>
+</blockquote>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" title="1">usethis<span class="op">::</span><span class="kw">use_vignette</span>(<span class="st">&quot;mypkg&quot;</span>)</a></code></pre></div>
+<pre><code>✔ Adding &#39;knitr&#39; to Suggests field in DESCRIPTION
+✔ Setting VignetteBuilder field in DESCRIPTION to &#39;knitr&#39;
+✔ Adding &#39;inst/doc&#39; to &#39;.gitignore&#39;
+✔ Creating &#39;vignettes/&#39;
+✔ Adding &#39;*.html&#39;, &#39;*.R&#39; to &#39;vignettes/.gitignore&#39;
+✔ Adding &#39;rmarkdown&#39; to Suggests field in DESCRIPTION
+✔ Writing &#39;vignettes/mypkg.Rmd&#39;
+● Modify &#39;vignettes/mypkg.Rmd&#39;</code></pre>
+<p>Because this is our first vignette <strong>usethis</strong> has added some information to
+the <code>DESCRIPTION</code> file including adding the <strong>knitr</strong> package as a suggested
+dependency. It also creates a <code>vignettes/</code> directory and opens our new
+<code>mypkg.Rmd</code> file.</p>
+<pre><code>---
+title: &quot;mypkg&quot;
+output: rmarkdown::html_vignette
+vignette: &gt;
+  %\VignetteIndexEntry{mypkg}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
-&gt; checking for missing documentation entries ... WARNING
-  Undocumented code objects:
-    &#39;make_shades&#39;
-  All user-level objects in a package should have documentation entries.
-  See chapter &#39;Writing R documentation files&#39; in the &#39;Writing R
-  Extensions&#39; manual.
+```{r, include = FALSE} 
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = &quot;#&gt;&quot;
+)
+```
 
-0 errors √ | 1 warning x | 0 notes √</code></pre>
-<p>You can see all the different types of checks that <strong>devtools</strong> has run but
-they most important section is at the end where it tells you how many errors,
-warnings and notes there are. Often these come with hints about how to fix them
-but sometimes they can be hard to understand. If you are not sure what they
-mean try doing an internet search and it is likely that somebody else has come
-across the same problem. Our package has received one warning telling us that we
-are missing some documentation.</p>
+```{r setup} 
+library(mypkg)
+```
+</code></pre>
+<p>If you are familiar with R Markdown you might not some unusual content in the
+header. This is important for the vignette to build properly. There are also
+some <strong>knitr</strong> options set which are the convention for vignettes.</p>
+<p>Let’s add a short example of how to use our package.</p>
+<pre><code>---
+title: &quot;mypkg&quot;
+output: rmarkdown::html_vignette
+vignette: &gt;
+  %\VignetteIndexEntry{mypkg}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
+```{r, include = FALSE} 
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = &quot;#&gt;&quot;
+)
+```
+
+```{r setup} 
+library(mypkg)
+```
+
+# Introduction
+
+This is my personal package. It contains some handy functions that I find useful
+for my projects.
+
+# Colours
+
+Sometimes you want to generate shades of a colour. The `make_shades()` function
+makes this easy!
+
+```{r} 
+shades &lt;- make_shades(&quot;goldenrod&quot;, 5)
+```
+
+If you want to see what the shades look like you can plot them using
+`plot_colours()`.
+
+```{r} 
+plot_colours(shades)
+```
+
+This function is also useful for viewing any other palettes.
+
+```{r} 
+plot_colours(rainbow(5))
+```</code></pre>
+<p>To see what the vignette looks like run <code>devtools::build_vignettes()</code>. Asking
+<strong>devtools</strong> to build the vignette rather than rendering it in another way
+(such as the <em>Knit</em> button in RStudio) makes sure that we are using the
+development version of the package rather than any version that is installed.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1">devtools<span class="op">::</span><span class="kw">build_vignettes</span>()</a></code></pre></div>
+<pre><code>Building mypkg vignettes
+--- re-building &#39;mypkg.Rmd&#39; using rmarkdown
+--- finished re-building &#39;mypkg.Rmd&#39;
+
+Moving mypkg.html, mypkg.R to doc/
+Copying mypkg.Rmd to doc/
+Building vignette index</code></pre>
+<p>This creates a new directory called <code>doc/</code> that contains the rendered vignette.
+Click on the <code>mypkg.html</code> file and open it in your browser.</p>
+<p>If you want to use any other packages in your vignette that the package doesn’t
+already depend on you need to add them as a suggested dependency.</p>
+</div>
+<div id="readme" class="section level2">
+<h2><span class="header-section-number">8.3</span> README</h2>
+<p>If you plan on sharing the source code rather than the built package it is
+useful to have a README file to explain what the package is, how to install and
+use it, how to contribute etc. We can create a template with
+<code>usethis::use_readme_md()</code> (if we wanted to and R Markdown file with R code and
+output we might use <code>usethis::use_readme_md()</code> instead).</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1">usethis<span class="op">::</span><span class="kw">use_readme_md</span>()</a></code></pre></div>
+<pre><code>✔ Writing &#39;README.md&#39;
+● Modify &#39;README.md&#39;</code></pre>
+<pre><code># mypkg
+
+&lt;!-- badges: start --&gt;
+&lt;!-- badges: end --&gt;
+
+The goal of mypkg is to ...
+
+## Installation
+
+You can install the released version of mypkg from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages(&quot;mypkg&quot;)
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+library(mypkg)
+## basic example code
+```</code></pre>
+<p>There are the comments near the top that mention badges and you might have seen
+badges (or shields) on README files in code repositories before. There are
+several <strong>usethis</strong> functions for adding badges. For example we can mark this
+package as been at the experimental stage using
+<code>usethis::use_lifecycle_badge()</code>.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1">usethis<span class="op">::</span><span class="kw">use_lifecycle_badge</span>(<span class="st">&quot;experimental&quot;</span>)</a></code></pre></div>
+<pre><code># mypkg
+
+&lt;!-- badges: start --&gt;
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+&lt;!-- badges: end --&gt;
+
+The goal of mypkg is to ...</code></pre>
+<p>The rest of the template isn’t very useful so replace it with something better.</p>
+</div>
+<div id="package-website" class="section level2">
+<h2><span class="header-section-number">8.4</span> Package website</h2>
+<p>If you have a publicly available package it can be useful to have a website
+displaying the package documentation. It gives your users somewhere to go and
+helps your package appear in search results. Luckily this is easily achieved
+using the <strong>pkgdown</strong> package. If you have it installed you can set it up with
+<strong>usethis</strong>.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" title="1">usethis<span class="op">::</span><span class="kw">use_pkgdown</span>()</a></code></pre></div>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="documenting-functions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="dependencies.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
