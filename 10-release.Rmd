@@ -1,0 +1,281 @@
+# Building, installing and releasing
+
+If you want to start using your package in other projects the simplest thing
+to do is run `devtools::install()`. This will install your package in the same
+way as any other package so that it can be loaded with `library()`. However this
+will only work on the computer you are developing the package on. If you want
+to share the package with other people (or other computers you work on) there
+are a few different options.
+
+## Building
+
+One way to share your package is to manually transfer it to somewhere else. But
+rather then copying the development directory what you should share is a
+prebuilt package archive. Running `devtools::build()` will bundle up your
+package into a `.tar.gz` file without any of the extra bits required during
+development. This archive can then to transferred to wherever you need it and
+installed using `install.packages("mypkg.tar.gz", repos = NULL)` or `R CMD
+INSTALL mypkg.tar.gz` on the command line. While this is fine if you just want
+to share the package with yourself or a few people you know it doesn't work if
+you want it to be available to the general community.
+
+## Official repositories
+
+### CRAN
+
+The most common repository for public R packages is the Comprehensive R Archive
+Network (CRAN). This is where packages are usually downloaded from when you
+use `install.packages()`. Compared to similar repositories for other programming
+languages getting your package accepted to CRAN means meeting a series of
+requirements. While this makes the submission process more difficult it gives
+users confidence that your package is reliable and will work on multiple
+platforms. It also makes your package much easier to install for most users and
+makes it more discoverable. The details of the CRAN submission process are
+beyond the scope of this workshop but it is very well covered in the "Release"
+section of Hadley Wickham's "R packages" book
+(http://r-pkgs.had.co.nz/release.html) and the CRAN section of Karl Broman's
+"R package primer" (https://kbroman.org/pkg_primer/pages/cran.html). You should
+also read the offical CRAN submission checklist 
+https://cran.r-project.org/web/packages/submission_checklist.html. The CRAN
+submission process has a reputation for being prickly and frustrating to go
+through but it is important to remember that the maintainers are volunteering
+their time to do this for thousands of packages. Because of their hard work
+CRAN is a large part of why R is so successful.
+
+### Bioconductor
+
+If your package is designed for analysing biological data you might want to
+submit it to Bioconductor rather than CRAN. While Bioconductor has a smaller
+audience it is more specialised and is often the first place researchers in the
+life sciences look. Building a Bioconductor package also means that you can
+take advantage of the extensive ecosystem of existing objects and packages for
+handling biological data types. While there are lots of advantages to having
+your package on Bioconductor the coding style is slightly different to what is
+often used for CRAN packages. If you think you might want to submit your
+package to Bioconductor in the future have a look at the Bioconductor package
+guideline (https://www.bioconductor.org/developers/package-guidelines/) and the
+how to guide to building a Bioconductor package
+(https://www.bioconductor.org/developers/how-to/buildingPackagesForBioc/). The
+Bioconductor submission process is conducted through GitHub 
+(https://bioconductor.org/developers/package-submission/). The Bioconductor
+maintainers will guide you through the process and make suggestions about how
+to improve your package and integrate it with other Bioconductor packages.
+Unlike CRAN which uploads packages all year round Bioconductor has two annual
+releases, usually in April and October. This means that all the packages in a
+release are guaranteed to be compatible with each other but make sure you
+submit in time or you will have to wait another six months for your package to
+be available to most users.
+
+### rOpenSci
+
+rOpenSci is not a package repository as such but an organisation that reviews
+and improves R packages. Packages that have been accepted by rOpenSci should
+meet a certain set of standards. By submitting your package to rOpenSci you will
+get it reviewed by experienced programmers who can offer suggestions on how to
+improve it. If you are accepted you will receive assistance with maintaining
+your package and it will be promoted by the organisation. Have a look at their
+submission page for more details https://github.com/ropensci/software-review.
+
+## Code sharing websites
+
+Uploading your package to a code sharing website such as GitHub, Bitbucket or
+GitLab offers a good compromise between making your package available and
+going through an official submission process. This is a particularly a good
+option for packages that are still in early development and are not ready to
+be submitted to one of the major repositories. Making your package available on
+one of these sites also gives it a central location for people to ask questions
+and submit issues. Code sharing websites are usually accessed through the git
+version control system. If you are unfamiliar with using git on the command line
+there are functions in **usethis** that can run the commands for you from R. The
+following steps will take you through uploading a package to GitHub but they are
+similar for other websites. If you don't already have a GitHub account create
+one here https://github.com/join.
+
+### Set up git
+
+First we need to configure our git details.
+
+```{r}
+usethis::use_git_config(user.name = "Your Name", user.email = "your@email.com")
+```
+
+The email address should be the same one you used to sign up to GitHub. Now we
+can set up git in our package repository.
+
+```{r}
+usethis::use_git()
+```
+
+```{}
+✔ Initialising Git repo
+There are 13 uncommitted files:
+* '.gitignore'
+* '.Rbuildignore'
+* 'DESCRIPTION'
+* 'LICENSE'
+* 'LICENSE.md'
+* 'man/'
+* 'mypkg.Rproj'
+* 'NAMESPACE'
+* 'NEWS.md'
+* 'R/'
+* 'README.md'
+* 'tests/'
+* 'vignettes/'
+Is it ok to commit them?
+
+1: Not now
+2: Yup
+3: Negative
+
+Selection: 2
+✔ Adding files
+✔ Commit with message 'Initial commit'
+● A restart of RStudio is required to activate the Git pane
+Restart now?
+
+1: No
+2: No way
+3: Yes
+
+Selection: 1
+```
+
+If you are already familiar with git this should make sense to you. If not, what
+this step does (in summary) is set up git and save the current state of the
+package. If you chose to restart RStudio you will see a new git pane that can
+be used to complete most of the following steps by pointing and clicking.
+
+### Connect to GitHub
+
+The next step is to link the directory on your computer with a repository on
+GitHub. First we need to create a special access token. The following command
+with open a GitHub website.
+
+```{r}
+usethis::use_github()
+```
+
+```{}
+✔ Opening URL 'https://github.com/settings/tokens/new?scopes=repo,gist&description=R:GITHUB_PAT'
+● Call `usethis::edit_r_environ()` to open '.Renviron'.
+● Store your PAT with a line like:
+  GITHUB_PAT=xxxyyyzzz
+  [Copied to clipboard]
+● Make sure '.Renviron' ends with a newline!
+```
+
+Click the "Generate token" button on the webpage and then copy the code on the
+next page. As it says you can only view this once so be careful to copy it now
+and don't close the page until you are finished. When you have the code follow
+the rest of the instructions from **usethis**.
+
+```{r}
+usethis::edit_r_environ()
+```
+
+```{}
+● Modify 'C:/Users/Luke/Documents/.Renviron'
+● Restart R for changes to take effect
+```
+
+Edit the file to look something like this (with your code).
+
+```{}
+GITHUB_PAT=YOUR_CODE_GOES_HERE
+```
+
+Save it then restart R by clicking the _Session_ menu and selecting _Restart R_
+(or using **Ctrl+Shift+F10**).
+
+```{}
+Restarting R session...
+```
+
+Copying that code and adding it to your `.Renviron` gives R on the computer you
+are using access to your GitHub repositories. If you move to a new computer you
+will need to do this again. Now we have access to GitHub we can create a
+repository for our packages.
+
+```{r}
+usethis::use_github()
+```
+
+```{}
+✔ Setting active project to 'C:/Users/Luke/Desktop/mypkg'
+✔ Checking that current branch is 'master'
+Which git protocol to use? (enter 0 to exit) 
+
+1: ssh   <-- presumes that you have set up ssh keys
+2: https <-- choose this if you don't have ssh keys (or don't know if you do)
+
+Selection: 2
+● Tip: To suppress this menu in future, put
+  `options(usethis.protocol = "https")`
+  in your script or in a user- or project-level startup file, '.Rprofile'.
+  Call `usethis::edit_r_profile()` to open it for editing.
+● Check title and description
+  Name:        mypkg
+  Description: My Personal Package
+Are title and description ok?
+
+1: For sure
+2: No way
+3: Negative
+
+Selection: 1
+✔ Creating GitHub repository
+✔ Setting remote 'origin' to 'https://github.com/lazappi/mypkg.git'
+✔ Adding GitHub links to DESCRIPTION
+✔ Setting URL field in DESCRIPTION to 'https://github.com/lazappi/mypkg'
+✔ Setting BugReports field in DESCRIPTION to 'https://github.com/lazappi/mypkg/issues'
+✔ Pushing 'master' branch to GitHub and setting remote tracking branch
+✔ Opening URL 'https://github.com/lazappi/mypkg'
+```
+
+Respond to the prompts from **usethis** about the method for connecting to
+GitHub and the title and description for the repository. When everthing is done
+a website should open with your new package repository. Another thing this
+function does is add some extra information to the description that let's people
+know where to find your new website.
+
+```r}
+URL: https://github.com/user/mypkg
+BugReports: https://github.com/user/mypkg/issues
+```
+
+### Installing from GitHub
+
+Now that your package is on the internet anyone can install it using the
+`install_github()` function in the **remotes** package (which you should
+already have installed as a dependency of **devtools**). All you need to give
+it is the name of the user and repository.
+
+```{r}
+remotes::install_github("user/mypkg")
+```
+
+If you are familiar with git you can install from a particular branch, tag or
+commit by adding that after `@`.
+
+```{r}
+remotes::install_github("user/mypkg@branch_name")
+remotes::install_github("user/mypkg@tag_id")
+remotes::install_github("user/mypkg@commit_sha")
+```
+
+### Updating GitHub
+
+After you make improvements to your package you will probably want to update the
+version that is online. To do this you need to learn a bit more about git. Jenny
+Bryan's "Happy Git with R" tutorial (https://happygitwithr.com) is a great place
+to get started but the (very) quick steps in RStudio are:
+
+1. Open the _Git_ pane (it will be with _Environment_, _History_ etc.)
+2. Click the check box next to each of the listed files
+3. Click the _Commit_ button
+4. Enter a message in the window that opens and click the _Commit_ button
+5. Click the _Push_ button with the green up arrow
+
+Refresh the GitHub repository website and you should see the changes you have
+made.

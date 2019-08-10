@@ -1,0 +1,76 @@
+# Versioning
+
+We now have at least something for all of the major parts of our package.
+Whenever you reach a milestone like this it is good to update the package
+version. Having a good versioning system is important when it comes to things
+like solving user issues. Version information is recorded in the `DESCRIPTION`
+file. This is what we have at the moment.
+
+```{}
+Version: 0.0.0.9000
+```
+
+This version number follows the format `major.minor.patch.dev`. The different
+parts of the version represent different things:
+
+* `major` - A significant change to the package that would be expected to break
+  users code. This is updated very rarely when the package has been redesigned
+  in some way.
+* `minor` - A minor version update means that new functionality has been added
+  to the package. It might be new functions to improvements to existing
+  functions that are compatible with most existing code.
+* `patch` - Patch updates are bug fixes. They solve existing issues but don't
+  do anything new.
+* `dev` - Dev versions are used during development and this part is missing from
+  release versions. For example you might use a dev version when you  give
+  someone a beta version to test. A package with a dev version can be expected
+  to change rapidly or have undiscovered issues.
+
+Now that we know how this system works let's increase our package version.
+
+```{r}
+usethis::use_version()
+```
+
+```{}
+Current version is 0.0.0.9000.
+Which part to increment? (0 to exit) 
+
+1: major --> 1.0.0
+2: minor --> 0.1.0
+3: patch --> 0.0.1
+4:   dev --> 0.0.0.9001
+
+Selection:
+```
+
+The prompt asks us which part of the version we want to increment. We have added
+some new functions so let's make a new minor version.
+
+```{}
+Selection: 2
+✔ Setting Version field in DESCRIPTION to '0.1.0'
+```
+
+Whenever we update the package version we should record what changes have been
+made. We do this is a `NEWS.md` file.
+
+```{r}
+usethis::use_news_md()
+```
+
+```{}
+✔ Writing 'NEWS.md'
+● Modify 'NEWS.md'
+```
+
+Modify the file to record what we have done during the workshop.
+
+```{}
+# mypkg 0.1.0
+
+* Created the package
+* Added the `make_shades()` function
+* Added the `plot_colours()` function
+* Added a vignette
+```
