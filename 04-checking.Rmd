@@ -98,10 +98,15 @@ Duration: 12.3s
 0 errors √ | 1 warning x | 0 notes √
 ```
 
-You can see all the different types of checks that **devtools** has run but
-they most important section is at the end where it tells you how many errors,
-warnings and notes there are. Often these come with hints about how to fix them
-but sometimes they can be hard to understand. If you are not sure what they
-mean try doing an internet search and it is likely that somebody else has come
-across the same problem. Our package has received one warning telling us that we
-are missing some documentation.
+You can see all the different types of checks that **devtools** has run but they
+most important section is at the end where it tells you how many errors,
+warnings and notes there are. Errors happen when you code has broken and failed
+one of the checks. If errors are not fixed your package will not work correctly.
+Warnings are slightly less serious but should also be addressed. Your package
+will probably work without fixing thise but it is highly advised that you do.
+Notes are advice rather than problems. It can be up to you whether or not to
+address them but there is usally a good reason to. Often the failed checks come
+with hints about how to fix them but sometimes they can be hard to understand.
+If you are not sure what they mean try doing an internet search and it is likely
+that somebody else has come across the same problem. Our package has received
+one warning telling us that we are missing some documentation.

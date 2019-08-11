@@ -1,0 +1,101 @@
+# Good practices and advice
+
+This section contains some general advice about package development. It may be
+opinionated in places so decide which things work for you.
+
+## Design advice
+
+* **Compatibility** - Make your package compatible with how your users already
+  work. If there are data structure that are commonly used write your functions
+  to work with those rather than having to convert between formats.
+* **Ambition** - It's easy to get carried away with trying to make a package
+  that does everything but try to start with whatever is most important/novel.
+  This will give you a useful package as quickly and easily as possible and
+  make it easier to maintain in the long run. You can always add more
+  functionality later if you need to.
+* **Messages** - Try to make your errors and messages as clear as possible and
+  other advice about how to fix them. This can often mean writing a check
+  yourself rather than relying on a default message from somewhere else.
+* **Check input** - If there are restrictions on the values parameters can take
+  check them at the beginning of your functions. This prevents problems as
+  quickly as possible and means you can assume values are correct in the rest of
+  the function.
+* **Useability** - Spend time to make your package as easy to use as possible.
+  Users won't know that your code is faster or produces better results if they
+  can't understand how to use your functions. This includes good documentation
+  but also things like having good default values for parameters.
+* **Naming** - Be obvious and consistent in how you name functions and
+  parameters. This makes it easier for users to guess what they are without
+  looking at the documentation. One option is to have a consistent prefix to
+  function names (like **usethis** does) which makes it obvious which package
+  they come from and avoids clashes with names in other packages.
+
+## Coding style
+
+Unlike some other languages R is very flexible in how your code can be
+formatted. Whatever coding style you prefer it is important to be consistent.
+This makes your code easier to read and makes it easier for other people to
+contribute to it. It is useful to document what coding style you are using. The
+easiest way to do this is to adopt a existing style guide such as those created
+for the Tidyverse (https://style.tidyverse.org/) or Google 
+(https://google.github.io/styleguide/Rguide.html) or this one by Jean Fan
+(https://jef.works/R-style-guide/). When contibuting to other people's projects
+it is important (and polite) to conform to their coding style rather than
+trying to impose your own.
+
+If you want to make sure the style of your package is consistent there are some
+packages that can help you do that. The **lintr** package will flag any style
+issues (and a range of other programming issues) while the **styler** package
+can be used to reformat code files. The **goodpractice** package can also be
+used to analyse your package and offer advice. If you are more worried about
+problems with the text parts of your package (documentation and vignettes) then
+you can activate spell checking with `usethis::use_spell_check()`.
+
+## Version control
+
+There are three main ways to keep tracks of changes to your package:
+
+1. Don't keep track
+2. Save files with different versions
+3. Use a version control system (VCS)
+
+While it can be challenging at first to get your head around git (or another
+VCS) it is highly recommended and worth the effort, both for packages and your
+other programming projects. Here are something of the big benefits of having
+your package in git:
+
+* You have a complete record of every change that has been made to the package
+* It is easy to go back if anything breaks or you need an old version for
+  something
+* Because of this you don't have to worry about breaking things and it is
+  easier to experiment
+* Much easier to merge changes from collaborators who might want to contribute
+  to your package
+* Access to a variety of platforms and services built around this technology,
+  for example installing your package, hosting a package website and continuous
+  integration (see below)
+  
+As mentioned earlier a great way to get started with git for R projects is
+Jenny Bryan's "Happy Git with R" (https://happygitwithr.com) but there are
+many more tutorials and workshops available.
+
+## Continuous integration
+
+During the workshop we should you how to run checks and tests on your package
+but this will only tell you if they pass on your particular computer and
+platform. Continuous integration services can be used to automatically check
+your package on multiple platforms whenever you make a significant change to
+your package. They can be linked to your repository on code sharing websites
+like GitHub and whenever you push a new version that will run the checks for
+you. This is similar to what CRAN and Bioconductor do for their packages but
+we doing it yourself you can be more confident that you won't run into issues
+when you submit your package to them. If your package isn't on one of the major
+repositories it helps give your users confidence that it will be reliable.
+Some continuous integration services are:
+
+* Travis CI (https://travis-ci.com/)
+* AppVeyor (https://www.appveyor.com/)
+* CircleCI (https://circleci.com/)
+
+Each of these has a free service at it is easy to set them up for your package
+using the appropriate `usethis::use_CI_SERVICE()` function.
