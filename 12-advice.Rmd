@@ -37,11 +37,13 @@ formatted. Whatever coding style you prefer it is important to be consistent.
 This makes your code easier to read and makes it easier for other people to
 contribute to it. It is useful to document what coding style you are using. The
 easiest way to do this is to adopt a existing style guide such as those created
-for the Tidyverse (https://style.tidyverse.org/) or Google 
+for the Tidyverse (https://style.tidyverse.org/) or Google
 (https://google.github.io/styleguide/Rguide.html) or this one by Jean Fan
-(https://jef.works/R-style-guide/). When contibuting to other people's projects
-it is important (and polite) to conform to their coding style rather than
-trying to impose your own.
+(https://jef.works/R-style-guide/). If you are interested in which styles people
+actually use check out this analysis presented at useR! 2019
+https://github.com/chainsawriot/rstyle. When contibuting to other people's
+projects it is important (and polite) to conform to their coding style rather
+than trying to impose your own.
 
 If you want to make sure the style of your package is consistent there are some
 packages that can help you do that. The **lintr** package will flag any style

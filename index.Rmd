@@ -34,8 +34,8 @@ The goal of this workshop is to explain the basics of R package development. By
 the end of the workshop you should have your own minimal R package that you can
 use to store your personal functions.
 
-The materials were written using the **bookdown** package [@R-bookdown], which
-is built on top of R Markdown and **knitr** [@xie2015].
+The materials were written using the **bookdown** package
+(https://bookdown.org/home/), which is built on top of R Markdown and **knitr**.
 
 ## Requirements {-}
 

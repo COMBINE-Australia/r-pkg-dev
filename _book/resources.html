@@ -4,7 +4,7 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>8 Other documentation | R package workshop</title>
+  <title>Resources | R package workshop</title>
   <meta name="description" content="<p>These are the materials for the R package development workshop created by
 COMBINE, an association for Australian students in bioinformatics,
 computational biology and related fields.</p>
@@ -12,7 +12,7 @@ This workshop explains the basics of R package development and takes you
 through the steps to create a minimal R package." />
   <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="8 Other documentation | R package workshop" />
+  <meta property="og:title" content="Resources | R package workshop" />
   <meta property="og:type" content="book" />
   
   
@@ -24,7 +24,7 @@ through the steps to create a minimal R package." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8 Other documentation | R package workshop" />
+  <meta name="twitter:title" content="Resources | R package workshop" />
   
   <meta name="twitter:description" content="<p>These are the materials for the R package development workshop created by
 COMBINE, an association for Australian students in bioinformatics,
@@ -43,8 +43,8 @@ through the steps to create a minimal R package." />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="dependencies.html">
-<link rel="next" href="versioning.html">
+<link rel="prev" href="good-practices-and-advice.html">
+
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -242,222 +242,133 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="other-documentation" class="section level1">
-<h1><span class="header-section-number">8</span> Other documentation</h1>
-<p>In a previous section we documented our functions using Roxygen comments but
-there are a few other kinds of documentation we should have.</p>
-<div id="package-help-file" class="section level2">
-<h2><span class="header-section-number">8.1</span> Package help file</h2>
-<p>Users can find out about our functions using <code>?function-name</code> but what if they
-want to find out about the package itself? There is some information in the
-<code>DESCRIPTION</code> but that can be hard to access. Let’s add a help file for the
-pacakge.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" title="1">usethis<span class="op">::</span><span class="kw">use_package_doc</span>()</a></code></pre></div>
-<pre><code>✔ Writing &#39;R/mypkg-package.R&#39;</code></pre>
-<p>This creates a special R file for us called <code>mypkg-package.R</code>. The contents of
-this file doesn’t look like much it is understood by <strong>devtools</strong> and
-<strong>roxygen2</strong>.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" title="1"><span class="co">#&#39; @keywords internal</span></a>
-<a class="sourceLine" id="cb64-2" title="2"><span class="st">&quot;_PACKAGE&quot;</span></a>
-<a class="sourceLine" id="cb64-3" title="3"></a>
-<a class="sourceLine" id="cb64-4" title="4"><span class="co"># The following block is used by usethis to automatically manage</span></a>
-<a class="sourceLine" id="cb64-5" title="5"><span class="co"># roxygen namespace tags. Modify with care!</span></a>
-<a class="sourceLine" id="cb64-6" title="6"><span class="co">## usethis namespace: start</span></a>
-<a class="sourceLine" id="cb64-7" title="7"><span class="co">## usethis namespace: end</span></a>
-<a class="sourceLine" id="cb64-8" title="8"><span class="ot">NULL</span></a></code></pre></div>
-<p>Run <code>devtools::document()</code>.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" title="1">devtools<span class="op">::</span><span class="kw">document</span>()</a></code></pre></div>
-<pre><code>Updating mypkg documentation
-Writing NAMESPACE
-Loading mypkg
-Writing NAMESPACE
-Writing mypkg-package.Rd</code></pre>
-<p>We can see that a new <code>.Rd</code> file has been created and we can view the contents
-using <code>?mypkg</code>. The information here has been automatically pull from the
-<code>DESCRIPTION</code> file so we only need to update it in one place.</p>
+<div id="resources" class="section level1 unnumbered">
+<h1>Resources</h1>
+<p>This section has links to additional resources on package development, many of
+which were used in developing these materials.</p>
+<div id="official-guides" class="section level2 unnumbered">
+<h2>Official guides</h2>
+<div id="cran-1" class="section level3 unnumbered">
+<h3>CRAN</h3>
+<ul>
+<li><strong>Writing R extensions</strong>
+<a href="https://cran.r-project.org/doc/manuals/R-exts.html" class="uri">https://cran.r-project.org/doc/manuals/R-exts.html</a></li>
+</ul>
 </div>
-<div id="vignettes" class="section level2">
-<h2><span class="header-section-number">8.2</span> Vignettes</h2>
-<p>The documentation we have written so far explains how individual functions
-work in detail but it doesn’t show what the package does as a whole. Vignettes
-are short tutorials that explain what the package is designed for and how
-difference functions can be used together. There are different ways to write
-vignettes but usually they are R Markdown files. We can create a vignette with
-<code>usethis::use_vignette()</code>. There can be multiple vignettes but it is common
-practice to start with one that introduces the whole package.</p>
-<blockquote>
-<p><strong>What is R Markdown?</strong></p>
-<p>Markdown is a simple markup language that makes it possible to write documents
-with minimal formatting. See <em>Help</em> &gt; <em>Markdown Quick Reference</em> in RStudio
-for a quick guide to how this formatting works. R Markdown adds chunks of R
-code that are run and the output included in the final document.</p>
-</blockquote>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" title="1">usethis<span class="op">::</span><span class="kw">use_vignette</span>(<span class="st">&quot;mypkg&quot;</span>)</a></code></pre></div>
-<pre><code>✔ Adding &#39;knitr&#39; to Suggests field in DESCRIPTION
-✔ Setting VignetteBuilder field in DESCRIPTION to &#39;knitr&#39;
-✔ Adding &#39;inst/doc&#39; to &#39;.gitignore&#39;
-✔ Creating &#39;vignettes/&#39;
-✔ Adding &#39;*.html&#39;, &#39;*.R&#39; to &#39;vignettes/.gitignore&#39;
-✔ Adding &#39;rmarkdown&#39; to Suggests field in DESCRIPTION
-✔ Writing &#39;vignettes/mypkg.Rmd&#39;
-● Modify &#39;vignettes/mypkg.Rmd&#39;</code></pre>
-<p>Because this is our first vignette <strong>usethis</strong> has added some information to
-the <code>DESCRIPTION</code> file including adding the <strong>knitr</strong> package as a suggested
-dependency. It also creates a <code>vignettes/</code> directory and opens our new
-<code>mypkg.Rmd</code> file.</p>
-<pre><code>---
-title: &quot;mypkg&quot;
-output: rmarkdown::html_vignette
-vignette: &gt;
-  %\VignetteIndexEntry{mypkg}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-```{r, include = FALSE} 
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = &quot;#&gt;&quot;
-)
-```
-
-```{r setup} 
-library(mypkg)
-```
-</code></pre>
-<p>If you are familiar with R Markdown you might not some unusual content in the
-header. This is important for the vignette to build properly. There are also
-some <strong>knitr</strong> options set which are the convention for vignettes.</p>
-<p>Let’s add a short example of how to use our package.</p>
-<pre><code>---
-title: &quot;mypkg&quot;
-output: rmarkdown::html_vignette
-vignette: &gt;
-  %\VignetteIndexEntry{mypkg}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-```{r, include = FALSE} 
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = &quot;#&gt;&quot;
-)
-```
-
-```{r setup} 
-library(mypkg)
-```
-
-# Introduction
-
-This is my personal package. It contains some handy functions that I find useful
-for my projects.
-
-# Colours
-
-Sometimes you want to generate shades of a colour. The `make_shades()` function
-makes this easy!
-
-```{r} 
-shades &lt;- make_shades(&quot;goldenrod&quot;, 5)
-```
-
-If you want to see what the shades look like you can plot them using
-`plot_colours()`.
-
-```{r} 
-plot_colours(shades)
-```
-
-This function is also useful for viewing any other palettes.
-
-```{r} 
-plot_colours(rainbow(5))
-```</code></pre>
-<p>To see what the vignette looks like run <code>devtools::build_vignettes()</code>. Asking
-<strong>devtools</strong> to build the vignette rather than rendering it in another way
-(such as the <em>Knit</em> button in RStudio) makes sure that we are using the
-development version of the package rather than any version that is installed.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1">devtools<span class="op">::</span><span class="kw">build_vignettes</span>()</a></code></pre></div>
-<pre><code>Building mypkg vignettes
---- re-building &#39;mypkg.Rmd&#39; using rmarkdown
---- finished re-building &#39;mypkg.Rmd&#39;
-
-Moving mypkg.html, mypkg.R to doc/
-Copying mypkg.Rmd to doc/
-Building vignette index</code></pre>
-<p>This creates a new directory called <code>doc/</code> that contains the rendered vignette.
-Click on the <code>mypkg.html</code> file and open it in your browser.</p>
-<p>If you want to use any other packages in your vignette that the package doesn’t
-already depend on you need to add them as a suggested dependency.</p>
+<div id="bioconductor-1" class="section level3 unnumbered">
+<h3>Bioconductor</h3>
+<ul>
+<li><strong>Bioconductor Package Guidelines</strong>
+<a href="https://www.bioconductor.org/developers/package-guidelines/" class="uri">https://www.bioconductor.org/developers/package-guidelines/</a></li>
+<li><strong>Building Packages for Bioconductor</strong>
+<a href="https://www.bioconductor.org/developers/how-to/buildingPackagesForBioc/" class="uri">https://www.bioconductor.org/developers/how-to/buildingPackagesForBioc/</a></li>
+<li><strong>Bioconductor Package Submission</strong>
+<a href="https://bioconductor.org/developers/package-submission/" class="uri">https://bioconductor.org/developers/package-submission/</a></li>
+</ul>
 </div>
-<div id="readme" class="section level2">
-<h2><span class="header-section-number">8.3</span> README</h2>
-<p>If you plan on sharing the source code rather than the built package it is
-useful to have a README file to explain what the package is, how to install and
-use it, how to contribute etc. We can create a template with
-<code>usethis::use_readme_md()</code> (if we wanted to and R Markdown file with R code and
-output we might use <code>usethis::use_readme_md()</code> instead).</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1">usethis<span class="op">::</span><span class="kw">use_readme_md</span>()</a></code></pre></div>
-<pre><code>✔ Writing &#39;README.md&#39;
-● Modify &#39;README.md&#39;</code></pre>
-<pre><code># mypkg
-
-&lt;!-- badges: start --&gt;
-&lt;!-- badges: end --&gt;
-
-The goal of mypkg is to ...
-
-## Installation
-
-You can install the released version of mypkg from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages(&quot;mypkg&quot;)
-```
-
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(mypkg)
-## basic example code
-```</code></pre>
-<p>There are the comments near the top that mention badges and you might have seen
-badges (or shields) on README files in code repositories before. There are
-several <strong>usethis</strong> functions for adding badges. For example we can mark this
-package as been at the experimental stage using
-<code>usethis::use_lifecycle_badge()</code>.</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1">usethis<span class="op">::</span><span class="kw">use_lifecycle_badge</span>(<span class="st">&quot;experimental&quot;</span>)</a></code></pre></div>
-<pre><code># mypkg
-
-&lt;!-- badges: start --&gt;
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-&lt;!-- badges: end --&gt;
-
-The goal of mypkg is to ...</code></pre>
-<p>The rest of the template isn’t very useful so replace it with something better.</p>
+<div id="ropensci-1" class="section level3 unnumbered">
+<h3>rOpenSci</h3>
+<ul>
+<li><strong>rOpenSci Packages: Development, Maintenance, and Peer Review</strong>
+<a href="https://devguide.ropensci.org/" class="uri">https://devguide.ropensci.org/</a></li>
+</ul>
 </div>
-<div id="package-website" class="section level2">
-<h2><span class="header-section-number">8.4</span> Package website</h2>
-<p>If you have a publicly available package it can be useful to have a website
-displaying the package documentation. It gives your users somewhere to go and
-helps your package appear in search results. Luckily this is easily achieved
-using the <strong>pkgdown</strong> package. If you have it installed you can set it up with
-<strong>usethis</strong>.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" title="1">usethis<span class="op">::</span><span class="kw">use_pkgdown</span>()</a></code></pre></div>
+<div id="rstudio" class="section level3 unnumbered">
+<h3>RStudio</h3>
+<ul>
+<li><strong>Developing Packages with RStudio</strong>
+<a href="https://support.rstudio.com/hc/en-us/articles/200486488-Developing-Packages-with-RStudio" class="uri">https://support.rstudio.com/hc/en-us/articles/200486488-Developing-Packages-with-RStudio</a></li>
+<li><strong>Building, Testing and Distributing Packages</strong>
+<a href="https://support.rstudio.com/hc/en-us/articles/200486508-Building-Testing-and-Distributing-Packages" class="uri">https://support.rstudio.com/hc/en-us/articles/200486508-Building-Testing-and-Distributing-Packages</a></li>
+<li><strong>Writing Package Documentation</strong>
+<a href="https://support.rstudio.com/hc/en-us/articles/200532317-Writing-Package-Documentation" class="uri">https://support.rstudio.com/hc/en-us/articles/200532317-Writing-Package-Documentation</a></li>
+</ul>
+</div>
+</div>
+<div id="books" class="section level2 unnumbered">
+<h2>Books</h2>
+<ul>
+<li><strong>R Packages</strong> (Hadley Wickham)
+<a href="http://r-pkgs.had.co.nz/" class="uri">http://r-pkgs.had.co.nz/</a></li>
+<li><strong>Advanced R</strong> (Hadley Wickam)
+<a href="https://adv-r.hadley.nz/" class="uri">https://adv-r.hadley.nz/</a></li>
+<li><strong>Advanced R Course</strong> (Florian Privé)
+<a href="https://privefl.github.io/advr38book/" class="uri">https://privefl.github.io/advr38book/</a></li>
+</ul>
+</div>
+<div id="tutorials" class="section level2 unnumbered">
+<h2>Tutorials</h2>
+<ul>
+<li><strong>Writing an R package from scratch</strong> (Hilary Parker)
+<a href="https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/" class="uri">https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/</a></li>
+<li><strong>Writing an R package from scratch (Updated)</strong> (Thomas Westlake)
+<a href="https://r-mageddon.netlify.com/post/writing-an-r-package-from-scratch/" class="uri">https://r-mageddon.netlify.com/post/writing-an-r-package-from-scratch/</a></li>
+<li><strong>usethis workflow for package development</strong> (Emil Hvitfeldt)
+<a href="https://www.hvitfeldt.me/blog/usethis-workflow-for-package-development/" class="uri">https://www.hvitfeldt.me/blog/usethis-workflow-for-package-development/</a></li>
+<li><strong>R package primer</strong> (Karl Broman)
+<a href="https://kbroman.org/pkg_primer/" class="uri">https://kbroman.org/pkg_primer/</a></li>
+<li><strong>R Package Development Pictorial</strong> (Matthew J Denny)
+<a href="http://www.mjdenny.com/R_Package_Pictorial.html" class="uri">http://www.mjdenny.com/R_Package_Pictorial.html</a></li>
+<li><strong>Building R Packages with Devtools</strong> (Jiddu Alexander)
+<a href="http://www.jiddualexander.com/blog/r-package-building/" class="uri">http://www.jiddualexander.com/blog/r-package-building/</a></li>
+<li><strong>Developing R packages</strong> (Jeff Leek)
+<a href="https://github.com/jtleek/rpackages" class="uri">https://github.com/jtleek/rpackages</a></li>
+<li><strong>R Package Tutorial</strong> (Colautti Lab)
+<a href="https://colauttilab.github.io/RCrashCourse/Package_tutorial.html" class="uri">https://colauttilab.github.io/RCrashCourse/Package_tutorial.html</a></li>
+<li><strong>Instructions for creating your own R package</strong> (MIT)
+<a href="http://web.mit.edu/insong/www/pdf/rpackage_instructions.pdf" class="uri">http://web.mit.edu/insong/www/pdf/rpackage_instructions.pdf</a></li>
+</ul>
+</div>
+<div id="workshops-and-courses" class="section level2 unnumbered">
+<h2>Workshops and courses</h2>
+<ul>
+<li><strong>R Forwards Package Workshop</strong> (Chicago, February 23, 2019)
+<a href="https://github.com/forwards/workshops/tree/master/Chicago2019" class="uri">https://github.com/forwards/workshops/tree/master/Chicago2019</a></li>
+<li><strong>Write your own R package</strong> (UBC STAT 545)
+<a href="http://stat545.com/packages00_index.html" class="uri">http://stat545.com/packages00_index.html</a></li>
+</ul>
+</div>
+<div id="blogs" class="section level2 unnumbered">
+<h2>Blogs</h2>
+<ul>
+<li><strong>How to develop good R packages (for open science)</strong> (Malle Salmon)
+<a href="https://masalmon.eu/2017/12/11/goodrpackages/" class="uri">https://masalmon.eu/2017/12/11/goodrpackages/</a></li>
+</ul>
+</div>
+<div id="style" class="section level2 unnumbered">
+<h2>Style</h2>
+<ul>
+<li><strong>Tidyverse</strong>
+<a href="https://style.tidyverse.org/" class="uri">https://style.tidyverse.org/</a></li>
+<li><strong>Google</strong>
+<a href="https://google.github.io/styleguide/Rguide.html" class="uri">https://google.github.io/styleguide/Rguide.html</a></li>
+<li><strong>Jean Fan</strong>
+<a href="https://jef.works/R-style-guide/" class="uri">https://jef.works/R-style-guide/</a></li>
+<li><strong>A Computational Analysis of the Dynamics of R Style Based on 94 Million Lines of Code from All CRAN Packages in the Past 20 Years.</strong> (Yen, C.Y., Chang, M.H.W., Chan, C.H.)
+<a href="https://github.com/chainsawriot/rstyle" class="uri">https://github.com/chainsawriot/rstyle</a></li>
+</ul>
 
 </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="dependencies.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="versioning.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="good-practices-and-advice.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
