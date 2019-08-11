@@ -3,7 +3,7 @@
 The rendered version of these materials is available at 
 https://combine-australia.github.io/r-pkg-dev/index.html.
 
-## About this workshop {}
+## About this workshop
 
 This workshop was created by COMBINE, an association for Australian students in
 bioinformatics, computational biology and related fields. You can find out
@@ -16,7 +16,7 @@ use to store your personal functions.
 The materials were written using the **bookdown** package
 (https://bookdown.org/home/), which is built on top of R Markdown and **knitr**.
 
-## License {}
+## License
 
 These materials are covered by the Creative Commons Attribution 4.0
 International (CC BY 4.0) license
