@@ -33,10 +33,8 @@ This workshop explains the basics of R package development and takes you
 through the steps to create a minimal R package." />
   
 
-<meta name="author" content="COMBINE Australia" />
 
 
-<meta name="date" content="2019-08-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -147,6 +145,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i>Packages</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#github"><i class="fa fa-check"></i>GitHub</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
 <li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#what-is-a-package"><i class="fa fa-check"></i><b>1.1</b> What is a package?</a></li>
@@ -161,7 +160,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4" data-path="setting-up.html"><a href="setting-up.html#filling-in-the-description"><i class="fa fa-check"></i><b>2.4</b> Filling in the DESCRIPTION</a><ul>
 <li class="chapter" data-level="2.4.1" data-path="setting-up.html"><a href="setting-up.html#title-and-description"><i class="fa fa-check"></i><b>2.4.1</b> Title and description</a></li>
 <li class="chapter" data-level="2.4.2" data-path="setting-up.html"><a href="setting-up.html#authors"><i class="fa fa-check"></i><b>2.4.2</b> Authors</a></li>
-<li class="chapter" data-level="2.4.3" data-path="setting-up.html"><a href="setting-up.html#license"><i class="fa fa-check"></i><b>2.4.3</b> License</a></li>
+<li class="chapter" data-level="2.4.3" data-path="setting-up.html"><a href="setting-up.html#license-1"><i class="fa fa-check"></i><b>2.4.3</b> License</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>3</b> Functions</a><ul>
@@ -244,8 +243,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">R package workshop</h1>
-<p class="author"><em>COMBINE Australia</em></p>
-<p class="date"><em>2019-08-11</em></p>
 </div>
 <div id="preface" class="section level1 unnumbered">
 <h1>Preface</h1>
@@ -276,7 +273,7 @@ using R version 3.6.0 (2019-04-26) and RStudio version
 </div>
 <div id="packages" class="section level3 unnumbered">
 <h3>Packages</h3>
-<p>The packages used in the workshop are below with the versions used in these
+<p>The main packages used in the workshop are below with the versions used in these
 materials:</p>
 <ul>
 <li><strong>devtools</strong> (v2.0.2)</li>
@@ -284,11 +281,14 @@ materials:</p>
 <li><strong>roxygen2</strong> (v6.1.1)</li>
 <li><strong>testthat</strong> (v2.1.1)</li>
 <li><strong>knitr</strong> (v1.23)</li>
+<li><strong>ggplot2</strong> (v3.2.0)</li>
+<li><strong>rlang</strong> (v0.4.0)</li>
 </ul>
 <p>Please make sure these packages are installed before starting the workshop. You
 can install them by running the following code.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">pkgs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;devtools&quot;</span>, <span class="st">&quot;usethis&quot;</span>, <span class="st">&quot;roxygen2&quot;</span>, <span class="st">&quot;testhat&quot;</span>, <span class="st">&quot;knitr&quot;</span>)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">install.packages</span>(pkgs)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">pkgs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;devtools&quot;</span>, <span class="st">&quot;usethis&quot;</span>, <span class="st">&quot;roxygen2&quot;</span>, <span class="st">&quot;testhat&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>,</a>
+<a class="sourceLine" id="cb1-2" title="2">          <span class="st">&quot;rlang&quot;</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">install.packages</span>(pkgs)</a></code></pre></div>
 </div>
 <div id="github" class="section level3 unnumbered">
 <h3>GitHub</h3>
@@ -299,8 +299,14 @@ way to distribute it. Towards the end of the workshop is a section showing you
 to upload your package to GitHub using R commands (no knowledge of git
 necessary). If you would like to try this and don’t already have a GitHub
 account please create one at <a href="https://github.com/join" class="uri">https://github.com/join</a>.</p>
-
 </div>
+</div>
+<div id="license" class="section level2 unnumbered">
+<h2>License</h2>
+<p>These materials are covered by the Creative Commons Attribution 4.0
+International (CC BY 4.0) license
+(<a href="https://creativecommons.org/licenses/by/4.0/" class="uri">https://creativecommons.org/licenses/by/4.0/</a>).</p>
+
 </div>
 </div>
             </section>

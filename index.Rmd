@@ -1,10 +1,7 @@
 --- 
 title: "R package workshop"
-author: "COMBINE Australia"
-date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
-bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
 description: |
@@ -54,7 +51,7 @@ https://www.rstudio.com/products/rstudio/download/.
 
 ### Packages {-}
 
-The packages used in the workshop are below with the versions used in these
+The main packages used in the workshop are below with the versions used in these
 materials:
 
 * **devtools** (v`r packageVersion("devtools")`)
@@ -62,12 +59,15 @@ materials:
 * **roxygen2** (v`r packageVersion("roxygen2")`)
 * **testthat** (v`r packageVersion("testthat")`)
 * **knitr** (v`r packageVersion("knitr")`)
+* **ggplot2** (v`r packageVersion("ggplot2")`)
+* **rlang** (v`r packageVersion("rlang")`)
 
 Please make sure these packages are installed before starting the workshop. You
 can install them by running the following code.
 
 ```{r}
-pkgs <- c("devtools", "usethis", "roxygen2", "testhat", "knitr")
+pkgs <- c("devtools", "usethis", "roxygen2", "testhat", "knitr", "ggplot2",
+          "rlang")
 install.packages(pkgs)
 ```
 
@@ -81,9 +81,8 @@ to upload your package to GitHub using R commands (no knowledge of git
 necessary). If you would like to try this and don't already have a GitHub
 account please create one at https://github.com/join.
 
-```{r packages, eval = TRUE, include = FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), "bookdown", "knitr", "rmarkdown"
-), "packages.bib")
-```
+## License {-}
+
+These materials are covered by the Creative Commons Attribution 4.0
+International (CC BY 4.0) license
+(https://creativecommons.org/licenses/by/4.0/).
