@@ -13,10 +13,10 @@ One way to share your package is to manually transfer it to somewhere else. But
 rather then copying the development directory what you should share is a
 prebuilt package archive. Running `devtools::build()` will bundle up your
 package into a `.tar.gz` file without any of the extra bits required during
-development. This archive can then to transferred to wherever you need it and
+development. This archive can then be transferred to wherever you need it and
 installed using `install.packages("mypkg.tar.gz", repos = NULL)` or `R CMD
 INSTALL mypkg.tar.gz` on the command line. While this is fine if you just want
-to share the package with yourself or a few people you know it doesn't work if
+to share the package with yourself or a few people you know, it doesn't work if
 you want it to be available to the general community.
 
 ## Official repositories
@@ -80,7 +80,7 @@ submission page for more details https://github.com/ropensci/software-review.
 
 Uploading your package to a code sharing website such as GitHub, Bitbucket or
 GitLab offers a good compromise between making your package available and
-going through an official submission process. This is a particularly a good
+going through an official submission process. This is a particularly good
 option for packages that are still in early development and are not ready to
 be submitted to one of the major repositories. Making your package available on
 one of these sites also gives it a central location for people to ask questions
@@ -150,7 +150,7 @@ be used to complete most of the following steps by pointing and clicking.
 
 The next step is to link the directory on your computer with a repository on
 GitHub. First we need to create a special access token. The following command
-with open a GitHub website.
+will open a GitHub website.
 
 ```{r}
 usethis::use_github()
@@ -194,7 +194,7 @@ Restarting R session...
 
 Copying that code and adding it to your `.Renviron` gives R on the computer you
 are using access to your GitHub repositories. If you move to a new computer you
-will need to do this again. Now we have access to GitHub we can create a
+will need to do this again. Now that we have access to GitHub we can create a
 repository for our packages.
 
 ```{r}

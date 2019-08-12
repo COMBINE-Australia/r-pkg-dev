@@ -83,12 +83,12 @@ many more tutorials and workshops available.
 
 ## Continuous integration
 
-During the workshop we should you how to run checks and tests on your package
+During the workshop we showed you how to run checks and tests on your package
 but this will only tell you if they pass on your particular computer and
 platform. Continuous integration services can be used to automatically check
 your package on multiple platforms whenever you make a significant change to
 your package. They can be linked to your repository on code sharing websites
-like GitHub and whenever you push a new version that will run the checks for
+like GitHub and whenever you push a new version they will run the checks for
 you. This is similar to what CRAN and Bioconductor do for their packages but
 we doing it yourself you can be more confident that you won't run into issues
 when you submit your package to them. If your package isn't on one of the major

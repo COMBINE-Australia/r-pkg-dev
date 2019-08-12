@@ -244,7 +244,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="dependencies" class="section level1">
 <h1><span class="header-section-number">7</span> Dependencies</h1>
 <p>Our <code>make_shades()</code> function produces shades of a colour but it would be good
-to see what those look like. Before is a new function called <code>plot_colours()</code>
+to see what those look like. Below is a new function called <code>plot_colours()</code>
 that can visualise them for us using <strong>ggplot2</strong> (if you don’t have <strong>ggplot2</strong>
 installed do that now). Add this function to <code>colours.R</code>.</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="co">#&#39; Plot colours</span></a>
@@ -404,14 +404,14 @@ Suggests:
     testthat (&gt;= 2.1.0)
 Imports: 
     ggplot2</code></pre>
-<p>The two lines at bottom tells us that our package uses functions in
+<p>The two lines at the bottom tell us that our package uses functions in
 <strong>ggplot2</strong>. There are three main types of dependencies<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. Imports is the most common. This
 means that we use functions from these packages and they must be installed when
 our package is installed. The next most common is Suggests. These are packages
 that we use in developing our package (such as <strong>testthat</strong> which is already
 listed here) or packages that provide some additional, optional functionality.
 Suggested packages aren’t usually installed so we need to do a check before we
-use them. The output of <code>usethis::use_package()</code> with give you an example if
+use them. The output of <code>usethis::use_package()</code> will give you an example if
 you add a suggested package. The third type of dependency is Depends. If you
 depend on a package it will be loaded whenever your package is loaded. There are
 some cases where you might need to do this but you should avoid Depends unless
@@ -436,7 +436,7 @@ break your code.</li>
 well maintained, don’t change too often, are commonly used and perform a
 single task so you are likely to use many of the functions.</p>
 </blockquote>
-<p>Hopefully that we have imported <strong>ggplot2</strong> we should pass the checks.</p>
+<p>Hopefully now that we have imported <strong>ggplot2</strong> we should pass the checks.</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1">devtools<span class="op">::</span><span class="kw">check</span>()</a></code></pre></div>
 <pre><code>-- R CMD check results ------------------------------------------ mypkg 0.0.0.9000 ----
 Duration: 16.4s

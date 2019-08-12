@@ -2,7 +2,7 @@
 
 In this workshop we have worked though the basic steps required to create an
 R package. In this section we introduce some of the advanced topics that may be
-useful for you as you develop more complex packages. This are included here to
+useful for you as you develop more complex packages. These are included here to
 give you an idea of what is possible for you to consider when planning a
 package. Most of these topics are covered in Hadley Wickhams "Advanced R" book
 (https://adv-r.hadley.nz) but there are many other guides and tutorials

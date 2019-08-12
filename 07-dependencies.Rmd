@@ -1,7 +1,7 @@
 # Dependencies
 
 Our `make_shades()` function produces shades of a colour but it would be good
-to see what those look like. Before is a new function called `plot_colours()`
+to see what those look like. Below is a new function called `plot_colours()`
 that can visualise them for us using **ggplot2** (if you don't have **ggplot2**
 installed do that now). Add this function to `colours.R`.
 
@@ -194,7 +194,7 @@ Imports:
     ggplot2
 ```
 
-The two lines at bottom tells us that our package uses functions in
+The two lines at the bottom tell us that our package uses functions in
 **ggplot2**. There are three main types of dependencies^[There is a fourth kind
 (Enhances) but that is almost never used.]. Imports is the most common. This
 means that we use functions from these packages and they must be installed when
@@ -202,7 +202,7 @@ our package is installed. The next most common is Suggests. These are packages
 that we use in developing our package (such as **testthat** which is already
 listed here) or packages that provide some additional, optional functionality.
 Suggested packages aren't usually installed so we need to do a check before we
-use them. The output of `usethis::use_package()` with give you an example if
+use them. The output of `usethis::use_package()` will give you an example if
 you add a suggested package. The third type of dependency is Depends. If you
 depend on a package it will be loaded whenever your package is loaded. There are
 some cases where you might need to do this but you should avoid Depends unless
@@ -228,7 +228,7 @@ it is absolutely necessary.
 > well maintained, don't change too often, are commonly used and perform a
 > single task so you are likely to use many of the functions.
 
-Hopefully that we have imported **ggplot2** we should pass the checks.
+Hopefully now that we have imported **ggplot2** we should pass the checks.
 
 ```{r}
 devtools::check()

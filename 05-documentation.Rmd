@@ -94,9 +94,9 @@ will then add the correct information to the `NAMESPACE` file. If we had an
 internal function that wasn't meant to be used by the user we would leave out
 `@export`.
 
-The last field in the skeleton is `@examples`. This is where we but some
+The last field in the skeleton is `@examples`. This is where we put some
 short examples showing how the function can be used. These will be placed in
-the help file and came be run using `example("function")`. Let's add a couple
+the help file and can be run using `example("function")`. Let's add a couple
 of examples. If you want to add a comment to an example you need to add
 another `#`.
 

@@ -272,7 +272,7 @@ Loading mypkg
 Writing NAMESPACE
 Writing mypkg-package.Rd</code></pre>
 <p>We can see that a new <code>.Rd</code> file has been created and we can view the contents
-using <code>?mypkg</code>. The information here has been automatically pull from the
+using <code>?mypkg</code>. The information here has been automatically pulled from the
 <code>DESCRIPTION</code> file so we only need to update it in one place.</p>
 </div>
 <div id="vignettes" class="section level2">
@@ -280,7 +280,7 @@ using <code>?mypkg</code>. The information here has been automatically pull from
 <p>The documentation we have written so far explains how individual functions
 work in detail but it doesn’t show what the package does as a whole. Vignettes
 are short tutorials that explain what the package is designed for and how
-difference functions can be used together. There are different ways to write
+different functions can be used together. There are different ways to write
 vignettes but usually they are R Markdown files. We can create a vignette with
 <code>usethis::use_vignette()</code>. There can be multiple vignettes but it is common
 practice to start with one that introduces the whole package.</p>
@@ -324,7 +324,7 @@ knitr::opts_chunk$set(
 library(mypkg)
 ```
 </code></pre>
-<p>If you are familiar with R Markdown you might not some unusual content in the
+<p>If you are familiar with R Markdown you might note some unusual content in the
 header. This is important for the vignette to build properly. There are also
 some <strong>knitr</strong> options set which are the convention for vignettes.</p>
 <p>Let’s add a short example of how to use our package.</p>

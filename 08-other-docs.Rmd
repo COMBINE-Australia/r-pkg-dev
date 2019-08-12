@@ -48,7 +48,7 @@ Writing mypkg-package.Rd
 ```
 
 We can see that a new `.Rd` file has been created and we can view the contents
-using `?mypkg`. The information here has been automatically pull from the
+using `?mypkg`. The information here has been automatically pulled from the
 `DESCRIPTION` file so we only need to update it in one place.
 
 ## Vignettes
@@ -56,7 +56,7 @@ using `?mypkg`. The information here has been automatically pull from the
 The documentation we have written so far explains how individual functions
 work in detail but it doesn't show what the package does as a whole. Vignettes
 are short tutorials that explain what the package is designed for and how 
-difference functions can be used together. There are different ways to write
+different functions can be used together. There are different ways to write
 vignettes but usually they are R Markdown files. We can create a vignette with
 `usethis::use_vignette()`. There can be multiple vignettes but it is common
 practice to start with one that introduces the whole package.
@@ -111,7 +111,7 @@ library(mypkg)
 
 ````
 
-If you are familiar with R Markdown you might not some unusual content in the
+If you are familiar with R Markdown you might note some unusual content in the
 header. This is important for the vignette to build properly. There are also
 some **knitr** options set which are the convention for vignettes.
 
