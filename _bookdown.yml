@@ -4,3 +4,5 @@ language:
   ui:
     chapter_name: ""
 output_dir: "docs"
+edit: https://github.com/COMBINE-Australia/r-pkg-dev/edit/master/%s
+history: https://github.com/COMBINE-Australia/r-pkg-dev/commits/master/%s
