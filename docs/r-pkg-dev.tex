@@ -24,7 +24,6 @@
 \usepackage{hyperref}
 \hypersetup{unicode=true,
             pdftitle={R package workshop},
-            pdfauthor={COMBINE Australia},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -119,13 +118,11 @@
   \title{R package workshop}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
-    \author{COMBINE Australia}
-    \preauthor{\centering\large\emph}
-  \postauthor{\par}
-      \predate{\centering\large\emph}
-  \postdate{\par}
-    \date{2019-08-03}
-
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
 \usepackage{booktabs}
 
 \begin{document}
@@ -135,34 +132,2661 @@
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
-\hypertarget{intro}{%
-\chapter{Introduction}\label{intro}}
+\hypertarget{preface}{%
+\chapter*{Preface}\label{preface}}
+\addcontentsline{toc}{chapter}{Preface}
 
-You can label chapter and section titles using \texttt{\{\#label\}} after them, e.g., we can reference Chapter \ref{intro}. If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \ref{methods}.
+\hypertarget{about-this-workshop}{%
+\section*{About this workshop}\label{about-this-workshop}}
+\addcontentsline{toc}{section}{About this workshop}
 
-Figures and tables with captions will be placed in \texttt{figure} and \texttt{table} environments, respectively.
+This workshop was created by COMBINE, an association for Australian students in
+bioinformatics, computational biology and related fields. You can find out
+more about COMBINE at \url{http://combine.org.au}.
+
+The goal of this workshop is to explain the basics of R package development. By
+the end of the workshop you should have your own minimal R package that you can
+use to store your personal functions.
+
+The materials were written using the \textbf{bookdown} package
+(\url{https://bookdown.org/home/}), which is built on top of R Markdown and \textbf{knitr}.
+
+\hypertarget{requirements}{%
+\section*{Requirements}\label{requirements}}
+\addcontentsline{toc}{section}{Requirements}
+
+The workshop assumes that you are familar with basic R and the RStudio IDE. This
+includes topics such as installing packages, assigning variables and writing
+functions. If you are not comfortable with these you may need to complete an
+introductory R workshop first.
+
+\hypertarget{r-and-rstudio}{%
+\subsection*{R and RStudio}\label{r-and-rstudio}}
+\addcontentsline{toc}{subsection}{R and RStudio}
+
+You will need a recent version of R and RStudio. These materials were written
+using R version 3.6.0 (2019-04-26) and RStudio version
+1.2.1335. You can download R from
+\url{https://cloud.r-project.org/} and RStudio from
+\url{https://www.rstudio.com/products/rstudio/download/}.
+
+\hypertarget{packages}{%
+\subsection*{Packages}\label{packages}}
+\addcontentsline{toc}{subsection}{Packages}
+
+The main packages used in the workshop are below with the versions used in these
+materials:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{devtools} (v2.0.2)
+\item
+  \textbf{usethis} (v1.5.1)
+\item
+  \textbf{roxygen2} (v6.1.1)
+\item
+  \textbf{testthat} (v2.1.1)
+\item
+  \textbf{knitr} (v1.23)
+\item
+  \textbf{ggplot2} (v3.2.0)
+\item
+  \textbf{rlang} (v0.4.0)
+\end{itemize}
+
+Please make sure these packages are installed before starting the workshop. You
+can install them by running the following code.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar =} \KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{, }\FloatTok{.1}\NormalTok{, }\FloatTok{.1}\NormalTok{))}
-\KeywordTok{plot}\NormalTok{(pressure, }\DataTypeTok{type =} \StringTok{'b'}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\NormalTok{pkgs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"devtools"}\NormalTok{, }\StringTok{"usethis"}\NormalTok{, }\StringTok{"roxygen2"}\NormalTok{, }\StringTok{"testhat"}\NormalTok{, }\StringTok{"knitr"}\NormalTok{, }\StringTok{"ggplot2"}\NormalTok{,}
+          \StringTok{"rlang"}\NormalTok{)}
+\KeywordTok{install.packages}\NormalTok{(pkgs)}
 \end{Highlighting}
 \end{Shaded}
 
-Reference a figure by its code chunk label with the \texttt{fig:} prefix, e.g., see Figure \ref{fig:nice-fig}. Similarly, you can reference tables generated from \texttt{knitr::kable()}, e.g., see Table \ref{tab:nice-tab}.
+\hypertarget{github}{%
+\subsection*{GitHub}\label{github}}
+\addcontentsline{toc}{subsection}{GitHub}
+
+Version control using git is very useful and should be part of your package
+development process but it is outside the scope of this workshop. However,
+uploading your package to code sharing websites such as GitHub is the easiest
+way to distribute it. Towards the end of the workshop is a section showing you
+to upload your package to GitHub using R commands (no knowledge of git
+necessary). If you would like to try this and don't already have a GitHub
+account please create one at \url{https://github.com/join}.
+
+\hypertarget{license}{%
+\section*{License}\label{license}}
+\addcontentsline{toc}{section}{License}
+
+These materials are covered by the Creative Commons Attribution 4.0
+International (CC BY 4.0) license
+(\url{https://creativecommons.org/licenses/by/4.0/}).
+
+\hypertarget{introduction}{%
+\chapter{Introduction}\label{introduction}}
+
+\hypertarget{what-is-a-package}{%
+\section{What is a package?}\label{what-is-a-package}}
+
+An R package is a collection of functions that are bundled together in a way
+that lets them be easily shared. Usually these functions are designed to work
+together to complete a specific task such as analysing a particular kind of
+data. You are probably familiar with many packages already, for example
+\textbf{ggplot2} or \textbf{data.table}.
+
+Packages can take various forms during their life cycle. For example the
+structure you use when writing package code is not exactly the same as what will
+be installed by somebody else. While you don't need to know about these forms in
+detail to create a package it is useful to be aware of them. For more details
+have a look at the ``What is a package?'' section of Hadley Wickham's ``R packages''
+book (\url{http://r-pkgs.had.co.nz/package.html\#package}).
+
+\hypertarget{why-write-a-package}{%
+\section{Why write a package?}\label{why-write-a-package}}
+
+Packages are the best way to distribute code and documentation, and as we are
+about to find out they are very simple to make. Even if you never intend to
+share your package it is useful to have a place to store your commonly used
+functions. You may have heard the advice that if you find yourself reusing code
+then you should turn it into a function so that you don't have to keep rewriting
+it (along with other benefits). The same applies to functions. If you have some
+functions you reuse in different projects then it probably makes sense to put
+those in a package. It's a bit more effort now but it will save you a lot of
+time in the long run.
+
+Of course often you will want to share your package, either to let other people
+use your functions or just so people can see what you have done (for example
+when you have code and data for a publication). If you are thinking about
+making a software package for public use there are a few things you should
+consider first:
+
+\begin{itemize}
+\tightlist
+\item
+  Is your idea new or is there already a package out there that does something
+  similar?
+\item
+  If there is does your package improve on it in some way? For example is it
+  easier to use or does it have better performance?
+\item
+  If a similar package exists could you help improve it rather than making a
+  new one? Most package developers are open to collaboration and you may be
+  able to achieve more by working together.
+\end{itemize}
+
+\hypertarget{packages-for-writing-packages}{%
+\subsection{Packages for writing packages}\label{packages-for-writing-packages}}
+
+This workshop teaches a modern package development workflow that makes use of
+packages designed to help with writing packages. The two main packages are
+\textbf{devtools} and \textbf{usethis}. As you might gather from the name \textbf{devtools}
+contains functions that will help with development tasks such as checking,
+building and installing packages. The \textbf{usethis} package contains a range of
+templates and handy functions for making life easier, many of which were
+originally in \textbf{devtools}\footnote{This is important to remember when looking at older
+  tutorials or answers to questions on the internet. If \texttt{devtools::func()} doesn't
+  seem to exist any more try \texttt{usethis::func()} instead}. All of the core parts
+of package development can be performed in other ways such as typing commands
+on the command line or clicking buttons in RStudio but we choose to use these
+packages because they provide a consistent workflow with sensible defaults.
+Other packages we will use that will be introduced in the appropriate sections
+are:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{roxygen2} for function documentation
+\item
+  \textbf{testthat} for writing unit tests
+\item
+  \textbf{knitr} for building vignettes
+\end{itemize}
+
+\hypertarget{setting-up}{%
+\chapter{Setting up}\label{setting-up}}
+
+\hypertarget{open-rstudio}{%
+\section{Open RStudio}\label{open-rstudio}}
+
+The first thing we need to do is open RStudio. Do this now. If you currently
+have a project open close it by clicking \emph{File \textgreater{} Close project}.
+
+\hypertarget{naming-your-package}{%
+\section{Naming your package}\label{naming-your-package}}
+
+Before we create our package we need to give it a name. Package names can only
+consist of letters, numbers and dots (.) and must start with a letter. While all
+of these are allowed it is generally best to stick to just lowercase letters.
+Having a mix of lower and upper case letters can be hard for users to remember
+(is it \textbf{RColorBrewer} or \textbf{Rcolorbrewer} or \textbf{rcolorbrewer}?). Believe it
+or not choosing a name can be one of the hardest parts of making a package!
+There is a balance between choosing a name that is unique enough that it is easy
+to find (and doesn't already exist) and choosing something that makes it obvious
+what the package does. Acronyms or abbreviations are one option that often works
+well. It can be tricky to change the name of a package later so it is worth
+spending some time thinking about it before you start.
+
+\begin{quote}
+\textbf{Checking availability}
+
+If there is even a small chance that your package might be used by other
+people it is worth checking that a package with your name doesn't already
+exist. A handy tool for doing this is the \textbf{available} package. This package
+will check common package repositories for your name as well as things like
+Urban Dictionary to make sure your name doesn't have some meanings you weren't
+aware of!
+\end{quote}
+
+At the end of this workshop we want you to have a personal package that you can
+continue to add to and use so we suggest choosing a name that is specific to
+you. Something like your initials, a nickname or a username would be good
+options. For the example code we are going to use \texttt{mypkg} and you could use that
+for the workshop if you want to.
+
+\hypertarget{creating-your-package}{%
+\section{Creating your package}\label{creating-your-package}}
+
+To create a template for our package we will use the \texttt{usethis::create\_package()}
+function. All it needs is a path to the directory where we want to create the
+package. For the example we put it on the desktop but you should put it
+somewhere more sensible.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(}
-  \KeywordTok{head}\NormalTok{(iris, }\DecValTok{20}\NormalTok{), }\DataTypeTok{caption =} \StringTok{'Here is a nice table!'}\NormalTok{,}
-  \DataTypeTok{booktabs =} \OtherTok{TRUE}
-\NormalTok{)}
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{create_package}\NormalTok{(}\StringTok{"~/Desktop/mypkg"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-You can write citations, too. For example, we are using the \textbf{bookdown} package \citep{R-bookdown} in this sample book, which was built on top of R Markdown and \textbf{knitr} \citep{xie2015}.
+You will see some information printed to the console, something like (where USER
+is your username):
 
-\bibliography{book.bib,packages.bib}
+\begin{verbatim}
+✔ Creating 'C:/Users/USER/Desktop/mypkg/'
+✔ Setting active project to 'C:/Users/USER/Desktop/mypkg'
+✔ Creating 'R/'
+✔ Writing 'DESCRIPTION'
+Package: mypkg
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R (parsed):
+    * First Last <first.last@example.com> [aut, cre] (<https://orcid.org/YOUR-ORCID-ID>)
+Description: What the package does (one paragraph).
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+✔ Writing 'NAMESPACE'
+✔ Writing 'mypkg.Rproj'
+✔ Adding '.Rproj.user' to '.gitignore'
+✔ Adding '^mypkg\\.Rproj$', '^\\.Rproj\\.user$' to '.Rbuildignore'
+✔ Opening 'C:/Users/USER/Desktop/mypkg/' in new RStudio session
+✔ Setting active project to '<no active project>'
+\end{verbatim}
+
+You will see something similar whenever we run a \textbf{usethis} command. Green
+ticks indicate that a step has been completed correctly. If you ever see a red
+dot that means that there is something \textbf{usethis} can't do for you and you will
+need to follow some instructions to do it manually. At the end a new RStudio
+window with your package should open. In this window you should see the
+following files:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{DESCRIPTION} - The metadata file for your package. We will fill this in next
+  and it will be updated as we develop our package.
+\item
+  \texttt{NAMESPACE} - This file describes the functions in our package. Traditionally
+  this has been a tricky file to get right but the modern development tools
+  mean that we shouldn't need to edit it manually. If you open it you will see
+  a message telling you not to.
+\item
+  \texttt{R/} - This is the directory that will hold all our R code.
+\end{itemize}
+
+These files are the minimal amount that is required for a package but we will
+create other files as we go along. Some other useful files have also been
+created by \textbf{usethis}.
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{.gitignore} - This is useful if you use git for version control.
+\item
+  \texttt{.Rbuildignore} - This file is used to mark files that are in the directory
+  but aren't really part of the package and shouldn't be included when we build
+  it. Most of the time you won't need to worry about this as \textbf{usethis} will
+  edit it for you.
+\item
+  \texttt{mypkg.Rproj} - The RStudio project file. Again you don't need to worry about
+  this.
+\end{itemize}
+
+\hypertarget{filling-in-the-description}{%
+\section{Filling in the DESCRIPTION}\label{filling-in-the-description}}
+
+The \texttt{DESCRIPTION} file is one of the most important parts of a package. It
+contains all the metadata about the package, things like what the package is
+called, what version it is, a description, who the authors are, what other
+packages it depends on etc. Open the \texttt{DESCRIPTION} file and you should see
+something like this (with your package name).
+
+\begin{verbatim}
+Package: mypkg
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+\end{verbatim}
+
+\hypertarget{title-and-description}{%
+\subsection{Title and description}\label{title-and-description}}
+
+The package name is already set correctly but most of the other fields need to
+be updated. First let's update the title and description. The title should be
+a single line in Title Case that explains what your package is. The description
+is a paragraph which goes into a bit more detail. For example you could write
+something like this:
+
+\begin{verbatim}
+Package: mypkg
+Title: My Personal Package
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: This is my personal package. It contains some handy functions that
+    I find useful for my projects.
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+\end{verbatim}
+
+\hypertarget{authors}{%
+\subsection{Authors}\label{authors}}
+
+The next thing we will update is the \href{mailto:Authors@R}{\nolinkurl{Authors@R}} field. There are a couple of ways
+to define the author for a package but \href{mailto:Authors@R}{\nolinkurl{Authors@R}} is the most flexible. The
+example shows us how to define an author. You can see that the example person
+has been assigned the author (``aut'') and creator (``cre'') roles. There must be
+at least one author and one creator for every package (they can be the same
+person) and the creator must have an email address. There are many possible
+roles (including woodcutter (``wdc'') and lyricist (``lyr'')) but the most important
+ones are:
+
+\begin{itemize}
+\tightlist
+\item
+  cre: the creator or maintainer of the package, the person who should be
+  contacted with there are problems
+\item
+  aut: authors, people who have made significant contributions to the package
+\item
+  ctb: contributors, people who have made smaller contributions
+\item
+  cph: copyright holder, useful if this is someone other than the creator (such
+  as their employer)
+\end{itemize}
+
+\begin{quote}
+\textbf{Adding an ORCID}
+
+If you have an ORCID you can add it as a comment as shown in the example.
+Although not an official field this is recognised in various places (including
+CRAN) and is recommended if you want to get academic credit for your package
+(or have a common name that could be confused with other package authors).
+\end{quote}
+
+Update the author information with your details. If you need to add another
+author simply concatenate them using \texttt{c()} like you would with a normal vector.
+
+\begin{verbatim}
+Package: mypkg
+Title: My Personal Package
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = "Package",
+           family = "Creator",
+           role = c("aut", "cre"),
+           email = "package.creator@mypkg.com"),
+    person(given = "Package",
+           family = "Contributor",
+           role = c("ctb"),
+           email = "package.contributor@mypkg.com")
+    )
+Description: This is my personal package. It contains some handy functions that
+    I find useful for my projects.
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+\end{verbatim}
+
+\hypertarget{license-1}{%
+\subsection{License}\label{license-1}}
+
+The last thing we will update now is the software license. The describes how
+our code can be used and without one people must assume that it can't be used
+at all! It is good to be as open and free as you can with your license to make
+sure your code is as useful to the community as possible. For this example we
+will use the MIT license which basically says the code can be used for any
+purpose and doesn't come with any warranties. There are templates for some of
+the most common licenses included in \textbf{usethis}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_mit_license}\NormalTok{(}\StringTok{"Your Name"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+This will update the license field.
+
+\begin{verbatim}
+Package: mypkg
+Title: My Personal Package
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = "Package",
+           family = "Creator",
+           role = c("aut", "cre"),
+           email = "package.creator@mypkg.com"),
+    person(given = "Package",
+           family = "Contributor",
+           role = c("ctb"),
+           email = "package.contributor@mypkg.com")
+    )
+Description: This is my personal package. It contains some handy functions that
+    I find useful for my projects.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+\end{verbatim}
+
+It will also also create two new files, \texttt{LICENSE.md} which contains the text
+of the MIT license (it's very short if you want to give it a read) and \texttt{LICENSE}
+which simply contains:
+
+\begin{verbatim}
+YEAR: 2019
+COPYRIGHT HOLDER: Your Name
+\end{verbatim}
+
+There are various other licenses you can use but make sure you choose one
+designed for software not other kinds of content. For example the Creative
+Commons licenses are great for writing or images but aren't designed for code.
+For more information about different licenses and what they cover have a look at
+\url{http://choosealicense.com/} or \url{https://tldrlegal.com/}. For a good discussion
+about why it is important to declare a license read this blog post by Jeff
+Attwood \url{http://blog.codinghorror.com/pick-a-license-any-license/}.
+
+\hypertarget{functions}{%
+\chapter{Functions}\label{functions}}
+
+\hypertarget{adding-a-function}{%
+\section{Adding a function}\label{adding-a-function}}
+
+Now that our package is all set up it's time to add our first function! We can
+use the \texttt{usethis::use\_r()} function to set up the file. Our function is going
+to be about colours so we will use that as the name of the R file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_r}\NormalTok{(}\StringTok{"colours"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{quote}
+\textbf{Organising your code}
+
+There are no rules about how to organise your functions into different files
+but you want generally want to group similar functions into a file with a
+a clear name. Having all of your functions in a single file isn't great, but
+neither is having a separate file for each function. A good rule of thumb is
+that if you are finding it hard to locate a function you might need to move
+it to a new file. There are two shortcuts for finding functions in RStudio,
+selecting a function name and pressing \textbf{F2} or pressing \textbf{Ctrl + .} and
+searching for the function.
+\end{quote}
+
+As an example we are going to write a function that takes the red, green and
+blue values for a colour and returns a given number of shades. Copy the
+following code into your R file and save it (you can ignore the comments if you
+want to, they are just there to explain how the function works).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{make_shades <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(red, green, blue, n, }\DataTypeTok{lighter =} \OtherTok{TRUE}\NormalTok{) \{}
+    \CommentTok{# Convert the colour to RGB}
+\NormalTok{    colour_rgb <-}\StringTok{ }\NormalTok{grDevices}\OperatorTok{::}\KeywordTok{col2rgb}\NormalTok{(colour)[, }\DecValTok{1}\NormalTok{]}
+    
+    \CommentTok{# Decide if we are heading towards white or black}
+    \ControlFlowTok{if}\NormalTok{ (lighter) \{}
+\NormalTok{        end <-}\StringTok{ }\DecValTok{255}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        end <-}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+
+    \CommentTok{# Calculate the red, green and blue for the shades}
+    \CommentTok{# we calculate one extra point to avoid pure white/black}
+\NormalTok{    red <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(colour_rgb[}\DecValTok{1}\NormalTok{], end, }\DataTypeTok{length.out =}\NormalTok{ n }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{)[}\DecValTok{1}\OperatorTok{:}\NormalTok{n]}
+\NormalTok{    green <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(colour_rgb[}\DecValTok{2}\NormalTok{], end, }\DataTypeTok{length.out =}\NormalTok{ n }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{)[}\DecValTok{1}\OperatorTok{:}\NormalTok{n]}
+\NormalTok{    blue <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(colour_rgb[}\DecValTok{3}\NormalTok{], end, }\DataTypeTok{length.out =}\NormalTok{ n }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{)[}\DecValTok{1}\OperatorTok{:}\NormalTok{n]}
+    
+    \CommentTok{# Convert the RGB values to hex codes}
+\NormalTok{    shades <-}\StringTok{ }\NormalTok{grDevices}\OperatorTok{::}\KeywordTok{rgb}\NormalTok{(red, green, blue, }\DataTypeTok{maxColorValue =} \DecValTok{255}\NormalTok{)}
+    
+    \KeywordTok{return}\NormalTok{(shades)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{using-the-function}{%
+\section{Using the function}\label{using-the-function}}
+
+Now that we have a function we want to see if it works. Usually when we write
+a new function we load it by copying the code to the console or sourcing the
+R file. When we are developing a package we want to try and keep our
+environment empty so that we can be sure we are only working with objects inside
+the package. Instead we can load functions using \texttt{devtools::load\_all()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{load_all}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+The function doesn't appear in the environment, just like all the functions in
+a package don't appear in the environment when we load it using \texttt{library()}.
+But if we try to use it the function should work.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{make_shades}\NormalTok{(}\StringTok{"goldenrod"}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Congratulations, you now have a functional package! In the next section we
+will perform some checks to see if we have forgotten anything.
+
+\hypertarget{checking-you-package}{%
+\chapter{Checking you package}\label{checking-you-package}}
+
+Although what is absolutely required for a package is fairly minimal there are a
+range of things that are needed for a package to be considerd ``correct''.
+Keeping track of all of these can be difficult but luckily the
+\texttt{devtools::check()} function is here to help! This function runs a series of
+checks developed by some very smart people over a long period of time that are
+designed to make sure your package is working correctly. It is highly
+recommended that you run \texttt{devtools::check()} often and follow it's advice to
+fix any problems. It's much easier to fix one or two problems when they first
+come up than to try many at once after you have moved on to other things. Let's
+run the checks on our package and see what we get.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{check}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+-- Building ----------------------------------------------------------- mypkg --
+Setting env vars:
+* CFLAGS    : -Wall -pedantic
+* CXXFLAGS  : -Wall -pedantic
+* CXX11FLAGS: -Wall -pedantic
+--------------------------------------------------------------------------------
+√  checking for file 'C:\Users\USER\Desktop\mypkg/DESCRIPTION' (3.1s)
+-  preparing 'mypkg':
+√  checking DESCRIPTION meta-information ... 
+-  checking for LF line-endings in source and make files and shell scripts
+-  checking for empty or unneeded directories
+-  building 'mypkg_0.0.0.9000.tar.gz'
+   
+-- Checking ----------------------------------------------------------- mypkg --
+Setting env vars:
+* _R_CHECK_CRAN_INCOMING_REMOTE_: FALSE
+* _R_CHECK_CRAN_INCOMING_       : FALSE
+* _R_CHECK_FORCE_SUGGESTS_      : FALSE
+-- R CMD check -------------------------------------------------------------------------
+-  using log directory 'C:/Users/USER/AppData/Local/Temp/Rtmp8eH30T/mypkg.Rcheck' (2.3s)
+-  using R version 3.6.0 (2019-04-26)
+-  using platform: x86_64-w64-mingw32 (64-bit)
+-  using session charset: ISO8859-1
+-  using options '--no-manual --as-cran'
+√  checking for file 'mypkg/DESCRIPTION' ... 
+-  this is package 'mypkg' version '0.0.0.9000'
+-  package encoding: UTF-8
+√  checking package namespace information ...
+√  checking package dependencies (1s)
+√  checking if this is a source package ...
+√  checking if there is a namespace
+√  checking for .dll and .exe files
+√  checking for hidden files and directories ... 
+√  checking for portable file names ...
+√  checking serialization versions ...
+√  checking whether package 'mypkg' can be installed (1.4s)
+√  checking package directory
+√  checking for future file timestamps (815ms)
+√  checking DESCRIPTION meta-information (353ms)
+√  checking top-level files ...
+√  checking for left-over files
+√  checking index information
+√  checking package subdirectories ... 
+√  checking R files for non-ASCII characters ... 
+√  checking R files for syntax errors ... 
+√  checking whether the package can be loaded ... 
+√  checking whether the package can be loaded with stated dependencies ... 
+√  checking whether the package can be unloaded cleanly ... 
+√  checking whether the namespace can be loaded with stated dependencies ... 
+√  checking whether the namespace can be unloaded cleanly ... 
+√  checking loading without being on the library search path ... 
+√  checking dependencies in R code ... 
+√  checking S3 generic/method consistency (410ms)
+√  checking replacement functions ... 
+√  checking foreign function calls ... 
+√  checking R code for possible problems (2.2s)
+W  checking for missing documentation entries ... 
+   Undocumented code objects:
+     'make_shades'
+   All user-level objects in a package should have documentation entries.
+   See chapter 'Writing R documentation files' in the 'Writing R
+   Extensions' manual.
+-  checking examples ... NONE (956ms)
+   
+   See
+     'C:/Users/USER/AppData/Local/Temp/Rtmp8eH30T/mypkg.Rcheck/00check.log'
+   for details.
+   
+   
+-- R CMD check results ------------------------------------------- mypkg 0.0.0.9000 ----
+Duration: 12.3s
+
+> checking for missing documentation entries ... WARNING
+  Undocumented code objects:
+    'make_shades'
+  All user-level objects in a package should have documentation entries.
+  See chapter 'Writing R documentation files' in the 'Writing R
+  Extensions' manual.
+
+0 errors √ | 1 warning x | 0 notes √
+\end{verbatim}
+
+You can see all the different types of checks that \textbf{devtools} has run but they
+most important section is at the end where it tells you how many errors,
+warnings and notes there are. Errors happen when you code has broken and failed
+one of the checks. If errors are not fixed your package will not work correctly.
+Warnings are slightly less serious but should also be addressed. Your package
+will probably work without fixing thise but it is highly advised that you do.
+Notes are advice rather than problems. It can be up to you whether or not to
+address them but there is usally a good reason to. Often the failed checks come
+with hints about how to fix them but sometimes they can be hard to understand.
+If you are not sure what they mean try doing an internet search and it is likely
+that somebody else has come across the same problem. Our package has received
+one warning telling us that we are missing some documentation.
+
+\hypertarget{documenting-functions}{%
+\chapter{Documenting functions}\label{documenting-functions}}
+
+The output of our check tells us that we are missing documentation for the
+\texttt{make\_shades} function. Writing this kind of documentation is another part of
+package development that has been made much easier by modern packages, in this
+case one called \textbf{roxygen2}. R help files use a complicated syntax similar to
+LaTeX that can be easy to mess up. Instead of writing this all ourselves
+using Roxygen lets us just write some special comments at the start of each
+function. This has the extra advantage of keeping the documentation with the
+code which make it easier to keep it up to date.
+
+\hypertarget{adding-documentation}{%
+\section{Adding documentation}\label{adding-documentation}}
+
+To insert a documentation skeleton in RStudio click inside the \texttt{make\_shades}
+function then open the \emph{Code} menu and select \emph{Insert Roxygen skeleton} or use
+\textbf{Ctrl + Alt + Shift + R}. The inserted code looks like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#' Title}
+\CommentTok{#'}
+\CommentTok{#' @param colour }
+\CommentTok{#' @param n }
+\CommentTok{#' @param lighter }
+\CommentTok{#'}
+\CommentTok{#' @return}
+\CommentTok{#' @export}
+\CommentTok{#'}
+\CommentTok{#' @examples}
+\end{Highlighting}
+\end{Shaded}
+
+Roxygen comments all start with \texttt{\#\textquotesingle{}}. The first line is the title of the
+function then there is a blank line. Following that there can be a paragraph
+giving a more detailed description of the function. Let's fill those in to
+start with.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#' Make shades}
+\CommentTok{#'}
+\CommentTok{#' Given a colour make n lighter or darker shades}
+\CommentTok{#' }
+\CommentTok{#' @param colour }
+\CommentTok{#' @param n }
+\CommentTok{#' @param lighter }
+\CommentTok{#'}
+\CommentTok{#' @return}
+\CommentTok{#' @export}
+\CommentTok{#'}
+\CommentTok{#' @examples}
+\end{Highlighting}
+\end{Shaded}
+
+The next section describes the parameters (or arguments) for the function marked
+by the \texttt{@param} field. RStudio has helpfully filled in names of these for us
+but we need to provide a description.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#' Make shades}
+\CommentTok{#'}
+\CommentTok{#' Given a colour make n lighter or darker shades}
+\CommentTok{#' }
+\CommentTok{#' @param colour The colour to make shades of}
+\CommentTok{#' @param n The number of shades to make}
+\CommentTok{#' @param lighter Whether to make lighter (TRUE) or darker (FALSE) shades}
+\CommentTok{#'}
+\CommentTok{#' @return}
+\CommentTok{#' @export}
+\CommentTok{#'}
+\CommentTok{#' @examples}
+\end{Highlighting}
+\end{Shaded}
+
+The next field is \texttt{@return}. This is where we describe what the function
+returns. This is usually fairly short but you should provide enough detail to
+make sure that the user knows what they are getting back.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#' Make shades}
+\CommentTok{#'}
+\CommentTok{#' Given a colour make n lighter or darker shades}
+\CommentTok{#' }
+\CommentTok{#' @param colour The colour to make shades of}
+\CommentTok{#' @param n The number of shades to make}
+\CommentTok{#' @param lighter Whether to make lighter (TRUE) or darker (FALSE) shades}
+\CommentTok{#'}
+\CommentTok{#' @return A vector of n colour hex codes}
+\CommentTok{#' @export}
+\CommentTok{#'}
+\CommentTok{#' @examples}
+\end{Highlighting}
+\end{Shaded}
+
+After \texttt{@return} we have \texttt{@export}. This field is a bit different because
+it doesn't add documentation to the help file, instead it modifies the
+\texttt{NAMESPACE} file. Adding \texttt{@export} tells Roxygen that this is a function that
+we want to be available to the user. When we build the documentation Roxygen
+will then add the correct information to the \texttt{NAMESPACE} file. If we had an
+internal function that wasn't meant to be used by the user we would leave out
+\texttt{@export}.
+
+The last field in the skeleton is \texttt{@examples}. This is where we put some
+short examples showing how the function can be used. These will be placed in
+the help file and can be run using \texttt{example("function")}. Let's add a couple
+of examples. If you want to add a comment to an example you need to add
+another \texttt{\#}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#' Make shades}
+\CommentTok{#'}
+\CommentTok{#' Given a colour make n lighter or darker shades}
+\CommentTok{#' }
+\CommentTok{#' @param colour The colour to make shades of}
+\CommentTok{#' @param n The number of shades to make}
+\CommentTok{#' @param lighter Whether to make lighter (TRUE) or darker (FALSE) shades}
+\CommentTok{#'}
+\CommentTok{#' @return A vector of n colour hex codes}
+\CommentTok{#' @export}
+\CommentTok{#'}
+\CommentTok{#' @examples}
+\CommentTok{#' # Five lighter shades}
+\CommentTok{#' make_shades("goldenrod", 5)}
+\CommentTok{#' # Five darker shades}
+\CommentTok{#' make_shades("goldenrod", 5, lighter = FALSE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{quote}
+\textbf{Other fields}
+
+In this example we only fill in the fields in the skeleton but there are many
+other useful fields. For example \texttt{@author} (specify the function author),
+\texttt{@references} (any associated references) and \texttt{@seealso} (links to related
+functions).
+\end{quote}
+
+\hypertarget{building-documentation}{%
+\section{Building documentation}\label{building-documentation}}
+
+Now we can build our documentation using \textbf{devtools}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{document}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Updating mypkg documentation
+Updating roxygen version in C:\Users\USER\Desktop\mypkg/DESCRIPTION
+Writing NAMESPACE
+Loading mypkg
+Writing NAMESPACE
+Writing make_shades.Rd
+\end{verbatim}
+
+The output shows us that \textbf{devtools} has done a few things. Firstly it has
+set the version of \textbf{roxygen2} we are using in the \texttt{DESCRIPTION} file by
+adding this line:
+
+\begin{verbatim}
+RoxygenNote: 6.1.1
+\end{verbatim}
+
+Next it has updated the \texttt{NAMESPACE} file. If you open it you will see:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Generated by roxygen2: do not edit by hand}
+
+\KeywordTok{export}\NormalTok{(make_shades)}
+\end{Highlighting}
+\end{Shaded}
+
+Which tells us that the \texttt{make\_shades} function is exported.
+
+The last thing it has done is create a new file called \texttt{make\_shades.Rd} in the
+\texttt{man/} directory (which will be created if it doesn't exist). The \texttt{.Rd}
+extension stands for ``R documentation'' and this is what is turned into a help
+file when the package is installed. Open the file and see what it looks like.
+
+\begin{verbatim}
+% Generated by roxygen2: do not edit by hand
+% Please edit documentation in R/colours.R
+\name{make_shades}
+\alias{make_shades}
+\title{Make shades}
+\usage{
+make_shades(colour, n, lighter = TRUE)
+}
+\arguments{
+\item{colour}{The colour to make shades of}
+
+\item{n}{The number of shades to make}
+
+\item{lighter}{Whether to make lighter (TRUE) or darker (FALSE) shades}
+}
+\value{
+A vector of n colour hex codes
+}
+\description{
+Given a colour make n lighter or darker shades
+}
+\examples{
+# Five lighter shades
+make_shades("goldenrod", 5)
+# Five darker shades
+make_shades("goldenrod", 5, lighter = FALSE)
+}
+\end{verbatim}
+
+Hopefully you can see why we want to avoid writing this manually! This is only
+a simple function but already the help file is quite complicated with lots of
+braces. To see what the rendered documentation looks like just run
+\texttt{?make\_shades}.
+
+\hypertarget{formatting-documentation}{%
+\section{Formatting documentation}\label{formatting-documentation}}
+
+The rendered output already looks pretty good but we might want to add some
+extra formatting to it to make it a bit clearer. As we have seen above there
+is a special syntax for different kinds of formatting. For example we can mark
+code in the documentation using \texttt{\textbackslash{}code\{\}}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#' Make shades}
+\CommentTok{#'}
+\CommentTok{#' Given a colour make \textbackslash{}code\{n\} lighter or darker shades}
+\CommentTok{#' }
+\CommentTok{#' @param colour The colour to make shades of}
+\CommentTok{#' @param n The number of shades to make}
+\CommentTok{#' @param lighter Whether to make lighter (\textbackslash{}code\{TRUE\}) or darker (\textbackslash{}code\{FALSE\})}
+\CommentTok{#' shades}
+\CommentTok{#'}
+\CommentTok{#' @return A vector of \textbackslash{}code\{n\} colour hex codes}
+\CommentTok{#' @export}
+\CommentTok{#'}
+\CommentTok{#' @examples}
+\CommentTok{#' # Five lighter shades}
+\CommentTok{#' make_shades("goldenrod", 5)}
+\CommentTok{#' # Five darker shades}
+\CommentTok{#' make_shades("goldenrod", 5, lighter = FALSE)}
+\end{Highlighting}
+\end{Shaded}
+
+Run \texttt{devtools::document()} again and see what has changed in the rendered file.
+There are many other kinds of formatting we could use, for example: \texttt{\textbackslash{}code\{\}},
+\texttt{\textbackslash{}eqn\{\}}, \texttt{\textbackslash{}emph\{\}}, \texttt{\textbackslash{}strong\{\}}, \texttt{\textbackslash{}itemize\{\}}, \texttt{\textbackslash{}enumerate\{\}}, \texttt{\textbackslash{}link\{\}},
+\texttt{\textbackslash{}link{[}{]}\{\}}, \texttt{\textbackslash{}url\{\}}, \texttt{\textbackslash{}href\{\}\{\}}, \texttt{\textbackslash{}email\{\}}.
+
+\begin{quote}
+\textbf{Using Markdown}
+
+If you are familiar with Markdown you may prefer to use it for writing
+documentation. Luckily Roxygen has a Markdown mode that can be activated using
+\texttt{usethis::use\_roxygen\_md()}. See the Roxygen Markdown vignette for more
+details \url{https://cran.r-project.org/web/packages/roxygen2/vignettes/markdown.html}.
+\end{quote}
+
+\hypertarget{testing}{%
+\chapter{Testing}\label{testing}}
+
+Now that we have some documentation \texttt{devtools::check()} should run without any
+problems.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{check}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+-- R CMD check results ------------------------------------------- mypkg 0.0.0.9000 ----
+Duration: 15.2s
+
+0 errors √ | 0 warnings √ | 0 notes √
+\end{verbatim}
+
+\emph{(This is just the bottom part of the output to save space)}
+
+While we pass all the standard package checks there is one kind of check that
+we don't have yet. Unit tests are checks to make sure that a function works in
+the way that we expect. The examples we wrote earlier are kind of like informal
+unit tests because they are run as part of the checking process but it is better
+to have something more rigorous. One approach to writing unit tests is what is
+known as ``test driven development''. The idea here is to write the tests before
+you write a function. This way you know exactly what a function is supposed to
+do and what problems there might be. While this is a good principal it can
+take a lot of advance planning. A more common approach could be called
+``bug-driven testing''. For this approach whenever we come across a bug we write
+a test for it before we fix it, that way the same bug should never happen a
+again. When combined with some tests for obvious problems this is a good
+compromise better testing for every possible outcome and not testing at all.
+For example let's see what happens when we ask \texttt{make\_shades()} for a negative
+number of shades.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{make_shades}\NormalTok{(}\StringTok{"goldenrod"}\NormalTok{, }\DecValTok{-1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Error in seq(colour_rgb[1], end, length.out = n + 1)[1:n] : 
+  only 0's may be mixed with negative subscripts
+\end{verbatim}
+
+This doesn't make sense so we expect to get an error but it would be useful if
+the error message was more informative. What if we ask for zero shades?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{make_shades}\NormalTok{(}\StringTok{"goldenrod"}\NormalTok{, }\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "#DAA520"
+\end{verbatim}
+
+That does work, but it probably shouldn't. Before we make any changes to the
+function let's design some tests to make sure we get what we expect. There are
+a few ways to write unit tests for R packages but we are going to use the
+\textbf{testthat} package. We can set everything up with \textbf{usethis}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_testthat}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+✔ Adding 'testthat' to Suggests field in DESCRIPTION
+✔ Creating 'tests/testthat/'
+✔ Writing 'tests/testthat.R'
+● Call `use_test()` to initialize a basic test file and open it for editing.
+\end{verbatim}
+
+Now we have a \texttt{tests/} directory to hold all our tests. There is also a
+\texttt{tests/testthat.R} file which looks like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(testthat)}
+\KeywordTok{library}\NormalTok{(mypkg)}
+
+\KeywordTok{test_check}\NormalTok{(}\StringTok{"mypkg"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+All this does is make sure that our tests are run when we do
+\texttt{devtools::check()}. To open a new test file we can use \texttt{usethis::use\_test()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_test}\NormalTok{(}\StringTok{"colours"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+✔ Increasing 'testthat' version to '>= 2.1.0' in DESCRIPTION
+✔ Writing 'tests/testthat/test-colours.R'
+● Modify 'tests/testthat/test-colours.R'
+\end{verbatim}
+
+Just like R files our test file needs a name. Tests can be split up however you
+like but it often makes sense to have them match up with the R files so things
+are easy to find. Our test file comes with a small example that shows how to
+use \textbf{testthat}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{test_that}\NormalTok{(}\StringTok{"multiplication works"}\NormalTok{, \{}
+  \KeywordTok{expect_equal}\NormalTok{(}\DecValTok{2} \OperatorTok{*}\StringTok{ }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{)}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+Each set of tests starts with the \texttt{test\_that()} function. This function has two
+arguments, a description and the code with the tests that we want to run. It
+looks a bit strange to start with but it makes sense if you read it as a
+sentence, ``Test that multiplication work''. That makes it clear what the test
+is for. Inside the code section we see an \texttt{expect} function. This function also
+has two parts, the thing we want to test and what we expect it to be. There are
+different functions for different types of expectations. Reading this part as
+a sentence says something like ``Expect that 2 * 2 is equal to 4''. For our test
+we want to use the \texttt{expect\_error()} function, because that is what we expect.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{test_that}\NormalTok{(}\StringTok{"n is at least 1"}\NormalTok{, \{}
+    \KeywordTok{expect_error}\NormalTok{(}\KeywordTok{make_shades}\NormalTok{(}\StringTok{"goldenrod"}\NormalTok{, }\DecValTok{-1}\NormalTok{),}
+                 \StringTok{"n must be at least 1"}\NormalTok{)}
+    \KeywordTok{expect_error}\NormalTok{(}\KeywordTok{make_shades}\NormalTok{(}\StringTok{"goldenrod"}\NormalTok{, }\DecValTok{0}\NormalTok{),}
+                 \StringTok{"n must be at least 1"}\NormalTok{)}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+To run our tests we use \texttt{devtools::test()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{test}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Loading mypkg
+Testing mypkg
+√ |  OK F W S | Context
+x |   0 2     | colours
+--------------------------------------------------------------------------------
+test-colours.R:2: failure: n is at least 1
+`make_shades("goldenrod", -1)` threw an error with unexpected message.
+Expected match: "n must be at least 1"
+Actual message: "only 0's may be mixed with negative subscripts"
+
+test-colours.R:4: failure: n is at least 1
+`make_shades("goldenrod", 0)` did not throw an error.
+--------------------------------------------------------------------------------
+
+== Results =====================================================================
+OK:       0
+Failed:   2
+Warnings: 0
+Skipped:  0
+
+No one is perfect!
+\end{verbatim}
+
+We can see that both of our tests failed. That is ok because we haven't fixed
+the function yet. The first test fails because the error message is wrong and
+the second one because there is no error. Now that we have some tests and we
+know they check the right things we can modify our function to check the value
+of \texttt{n} and give the correct error.
+
+Let's add some code to check the value of \texttt{n}. We will update the documentation
+as well so the user knows what values can be used.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#' Make shades}
+\CommentTok{#'}
+\CommentTok{#' Given a colour make \textbackslash{}code\{n\} lighter or darker shades}
+\CommentTok{#'}
+\CommentTok{#' @param colour The colour to make shades of}
+\CommentTok{#' @param n The number of shades to make, at least 1}
+\CommentTok{#' @param lighter Whether to make lighter (\textbackslash{}code\{TRUE\}) or darker (\textbackslash{}code\{FALSE\})}
+\CommentTok{#' shades}
+\CommentTok{#'}
+\CommentTok{#' @return A vector of \textbackslash{}code\{n\} colour hex codes}
+\CommentTok{#' @export}
+\CommentTok{#'}
+\CommentTok{#' @examples}
+\CommentTok{#' # Five lighter shades}
+\CommentTok{#' make_shades("goldenrod", 5)}
+\CommentTok{#' # Five darker shades}
+\CommentTok{#' make_shades("goldenrod", 5, lighter = FALSE)}
+\NormalTok{make_shades <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(colour, n, }\DataTypeTok{lighter =} \OtherTok{TRUE}\NormalTok{) \{}
+    
+    \CommentTok{# Check the value of n}
+    \ControlFlowTok{if}\NormalTok{ (n }\OperatorTok{<}\StringTok{ }\DecValTok{1}\NormalTok{) \{}
+        \KeywordTok{stop}\NormalTok{(}\StringTok{"n must be at least 1"}\NormalTok{)}
+\NormalTok{    \}}
+    
+    \CommentTok{# Convert the colour to RGB}
+\NormalTok{    colour_rgb <-}\StringTok{ }\NormalTok{grDevices}\OperatorTok{::}\KeywordTok{col2rgb}\NormalTok{(colour)[, }\DecValTok{1}\NormalTok{]}
+
+    \CommentTok{# Decide if we are heading towards white or black}
+    \ControlFlowTok{if}\NormalTok{ (lighter) \{}
+\NormalTok{        end <-}\StringTok{ }\DecValTok{255}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        end <-}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+
+    \CommentTok{# Calculate the red, green and blue for the shades}
+    \CommentTok{# we calculate one extra point to avoid pure white/black}
+\NormalTok{    red <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(colour_rgb[}\DecValTok{1}\NormalTok{], end, }\DataTypeTok{length.out =}\NormalTok{ n }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{)[}\DecValTok{1}\OperatorTok{:}\NormalTok{n]}
+\NormalTok{    green <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(colour_rgb[}\DecValTok{2}\NormalTok{], end, }\DataTypeTok{length.out =}\NormalTok{ n }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{)[}\DecValTok{1}\OperatorTok{:}\NormalTok{n]}
+\NormalTok{    blue <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(colour_rgb[}\DecValTok{3}\NormalTok{], end, }\DataTypeTok{length.out =}\NormalTok{ n }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{)[}\DecValTok{1}\OperatorTok{:}\NormalTok{n]}
+
+    \CommentTok{# Convert the RGB values to hex codes}
+\NormalTok{    shades <-}\StringTok{ }\NormalTok{grDevices}\OperatorTok{::}\KeywordTok{rgb}\NormalTok{(red, green, blue, }\DataTypeTok{maxColorValue =} \DecValTok{255}\NormalTok{)}
+
+    \KeywordTok{return}\NormalTok{(shades)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{quote}
+\textbf{Writing parameter checks}
+
+These kinds of checks for parameter inputs are an important part of a function
+that is going to be used by other people (or future you). They make sure that
+all the input is correct before the function tries to do anything and avoids
+confusing error messages. However they can be fiddly and repetitive to write.
+If you find yourself writing lots of these checks two packages that can make
+life easier by providing functions to do it for you are \textbf{checkmate} and
+\textbf{assertthat}.
+\end{quote}
+
+Here we have used the \texttt{stop()} function to raise an error. If we wanted to give
+a warning we would use \texttt{warning()} and if just wanted to give some information
+to the user we would use \texttt{message()}. Using \texttt{message()} instead of \texttt{print()} or
+\texttt{cat()} is important because it means the user can hide the messages using
+\texttt{suppressMessages()} (or \texttt{suppressWarnings()} for warnings). Now we can try our
+tests again and they should pass.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{test}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Loading mypkg
+Testing mypkg
+√ |  OK F W S | Context
+√ |   2       | colours
+
+== Results =====================================================================
+OK:       2
+Failed:   0
+Warnings: 0
+Skipped:  0
+\end{verbatim}
+
+There are more tests we could write for this function but we will leave that as
+an exercise for you. If you want to see what parts of your code need testing you
+can run the \texttt{devtools::test\_coverage()} function (you might need to install the
+\textbf{DT} package first). This function uses the \textbf{covr} package to make a report
+showing which lines of your code are covered by tests.
+
+\hypertarget{dependencies}{%
+\chapter{Dependencies}\label{dependencies}}
+
+Our \texttt{make\_shades()} function produces shades of a colour but it would be good
+to see what those look like. Below is a new function called \texttt{plot\_colours()}
+that can visualise them for us using \textbf{ggplot2} (if you don't have \textbf{ggplot2}
+installed do that now). Add this function to \texttt{colours.R}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#' Plot colours}
+\CommentTok{#'}
+\CommentTok{#' Plot a vector of colours to see what they look like}
+\CommentTok{#' }
+\CommentTok{#' @param colours Vector of colour to plot}
+\CommentTok{#'}
+\CommentTok{#' @return A ggplot2 object}
+\CommentTok{#' @export}
+\CommentTok{#'}
+\CommentTok{#' @examples}
+\CommentTok{#' shades <- make_shades("goldenrod", 5)}
+\CommentTok{#' plot_colours(shades)}
+\NormalTok{plot_colours <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(colours) \{}
+\NormalTok{    plot_data <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{Colour =}\NormalTok{ colours)}
+    
+    \KeywordTok{ggplot}\NormalTok{(plot_data,}
+           \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ .data}\OperatorTok{$}\NormalTok{Colour, }\DataTypeTok{y =} \DecValTok{1}\NormalTok{, }\DataTypeTok{fill =}\NormalTok{ .data}\OperatorTok{$}\NormalTok{Colour,}
+               \DataTypeTok{label =}\NormalTok{ .data}\OperatorTok{$}\NormalTok{Colour)) }\OperatorTok{+}
+\StringTok{        }\KeywordTok{geom_tile}\NormalTok{() }\OperatorTok{+}
+\StringTok{        }\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{angle =} \StringTok{"90"}\NormalTok{) }\OperatorTok{+}
+\StringTok{        }\KeywordTok{scale_fill_identity}\NormalTok{() }\OperatorTok{+}
+\StringTok{        }\KeywordTok{theme_void}\NormalTok{()}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Now that we have added something new we should run our checks again
+(\texttt{devtools::document()} is automatically run as part of \texttt{devtools::check()} so
+we can skip that step).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{check}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+-- R CMD check results ------------------------------------------- mypkg 0.0.0.9000 ----
+Duration: 15.4s
+
+> checking examples ... ERROR
+  Running examples in 'mypkg-Ex.R' failed
+  The error most likely occurred in:
+  
+  > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+  > ### Name: plot_colours
+  > ### Title: Plot colours
+  > ### Aliases: plot_colours
+  > 
+  > ### ** Examples
+  > 
+  > shades <- make_shades("goldenrod", 5)
+  > plot_colours(shades)
+  Error in ggplot(plot_data, aes(x = .data$Colour, y = 1, fill = .data$Colour,  : 
+    could not find function "ggplot"
+  Calls: plot_colours
+  Execution halted
+
+> checking R code for possible problems ... NOTE
+  plot_colours: no visible global function definition for 'ggplot'
+  plot_colours: no visible global function definition for 'aes'
+  plot_colours: no visible binding for global variable '.data'
+  plot_colours: no visible global function definition for 'geom_tile'
+  plot_colours: no visible global function definition for 'geom_text'
+  plot_colours: no visible global function definition for
+    'scale_fill_identity'
+  plot_colours: no visible global function definition for 'theme_void'
+  Undefined global functions or variables:
+    .data aes geom_text geom_tile ggplot scale_fill_identity theme_void
+    
+1 error x | 0 warnings √ | 1 note x
+\end{verbatim}
+
+The checks have returned one error and one note. The error is more serious so
+let's have a look at that first. It says \texttt{could\ not\ find\ function\ "ggplot"}.
+Hmmmm\ldots{}the \texttt{ggplot()} function is in the \textbf{ggplot2} package. When we used
+\texttt{col2rgb()} in the \texttt{make\_shades()} function we had to prefix it with
+\texttt{grDevices::}, maybe we should do the same here.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#' Plot colours}
+\CommentTok{#'}
+\CommentTok{#' Plot a vector of colours to see what they look like}
+\CommentTok{#' }
+\CommentTok{#' @param colours Vector of colour to plot}
+\CommentTok{#'}
+\CommentTok{#' @return A ggplot2 object}
+\CommentTok{#' @export}
+\CommentTok{#'}
+\CommentTok{#' @examples}
+\CommentTok{#' shades <- make_shades("goldenrod", 5)}
+\CommentTok{#' plot_colours(shades)}
+\NormalTok{plot_colours <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(colours) \{}
+\NormalTok{    plot_data <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{Colour =}\NormalTok{ colours)}
+    
+\NormalTok{    ggplot2}\OperatorTok{::}\KeywordTok{ggplot}\NormalTok{(plot_data,}
+\NormalTok{                    ggplot2}\OperatorTok{::}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ .data}\OperatorTok{$}\NormalTok{Colour, }\DataTypeTok{y =} \DecValTok{1}\NormalTok{, }\DataTypeTok{fill =}\NormalTok{ .data}\OperatorTok{$}\NormalTok{Colour,}
+                                 \DataTypeTok{label =}\NormalTok{ .data}\OperatorTok{$}\NormalTok{Colour)) }\OperatorTok{+}
+\StringTok{        }\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{geom_tile}\NormalTok{() }\OperatorTok{+}
+\StringTok{        }\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{angle =} \StringTok{"90"}\NormalTok{) }\OperatorTok{+}
+\StringTok{        }\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{scale_fill_identity}\NormalTok{() }\OperatorTok{+}
+\StringTok{        }\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{theme_void}\NormalTok{()}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Now what do our checks say?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{check}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+-- R CMD check results ------------------------------------------ mypkg 0.0.0.9000 ----
+Duration: 15s
+
+> checking examples ... ERROR
+  Running examples in 'mypkg-Ex.R' failed
+  The error most likely occurred in:
+  
+  > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+  > ### Name: plot_colours
+  > ### Title: Plot colours
+  > ### Aliases: plot_colours
+  > 
+  > ### ** Examples
+  > 
+  > shades <- make_shades("goldenrod", 5)
+  > plot_colours(shades)
+  Error in loadNamespace(name) : there is no package called 'ggplot2'
+  Calls: plot_colours ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+  Execution halted
+
+> checking dependencies in R code ... WARNING
+  '::' or ':::' import not declared from: 'ggplot2'
+
+> checking R code for possible problems ... NOTE
+  plot_colours: no visible binding for global variable '.data'
+  Undefined global functions or variables:
+    .data
+
+1 error x | 1 warning x | 1 note x
+\end{verbatim}
+
+There is now one error, one warning and one note. That seems like we are going
+in the wrong direction but the error is from running the example and the
+warning gives us a clue to what the problem is. It says ``\,`::' or `:::' import
+not declared from: `ggplot2'\,''. The important word here is ``import''. Just like
+when we export a function in our package we need to make it clear when we are
+using functions in another package. To do this we can use
+\texttt{usethis::use\_package()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_package}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+✔ Setting active project to 'C:/Users/Luke/Desktop/mypkg'
+✔ Adding 'ggplot2' to Imports field in DESCRIPTION
+● Refer to functions with `ggplot2::fun()`
+\end{verbatim}
+
+The output tells us to refer to functions using ``::'' like we did above so we
+were on the right track. It also mentions that it has modified the \texttt{DESCRIPTION}
+file. Let's have a look at it now.
+
+\begin{verbatim}
+Package: mypkg
+Title: My Personal Package
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = "Package",
+           family = "Creator",
+           role = c("aut", "cre"),
+           email = "package.creator@mypkg.com"),
+    person(given = "Package",
+           family = "Contributor",
+           role = c("ctb"),
+           email = "package.contributor@mypkg.com")
+    )
+Description: This is my personal package. It contains some handy functions that
+    I find useful for my projects.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Suggests: 
+    testthat (>= 2.1.0)
+Imports: 
+    ggplot2
+\end{verbatim}
+
+The two lines at the bottom tell us that our package uses functions in
+\textbf{ggplot2}. There are three main types of dependencies\footnote{There is a fourth kind
+  (Enhances) but that is almost never used.}. Imports is the most common. This
+means that we use functions from these packages and they must be installed when
+our package is installed. The next most common is Suggests. These are packages
+that we use in developing our package (such as \textbf{testthat} which is already
+listed here) or packages that provide some additional, optional functionality.
+Suggested packages aren't usually installed so we need to do a check before we
+use them. The output of \texttt{usethis::use\_package()} will give you an example if
+you add a suggested package. The third type of dependency is Depends. If you
+depend on a package it will be loaded whenever your package is loaded. There are
+some cases where you might need to do this but you should avoid Depends unless
+it is absolutely necessary.
+
+\begin{quote}
+\textbf{Should you use a dependency?}
+
+Deciding which packages (and how many) to depend on is a difficult and
+philosophical choice. Using functions from other packages can save you time
+and effort in development but it might make it more difficult to maintain
+your package. Some things you might want to consider before depending on a
+package are:
+
+\begin{itemize}
+\tightlist
+\item
+  How much of the functionality of the package do you want to use?
+\item
+  Could you easily reproduce that functionality?
+\item
+  How well maintained is the package?
+\item
+  How often is it updated? Packages that change a lot are more likely to
+  break your code.
+\item
+  How many dependencies of it's own does that package have?
+\item
+  Are you users likely to have the package installed already?
+\end{itemize}
+
+Packages like \textbf{ggplot2} are good choices for dependencies because they are
+well maintained, don't change too often, are commonly used and perform a
+single task so you are likely to use many of the functions.
+\end{quote}
+
+Hopefully now that we have imported \textbf{ggplot2} we should pass the checks.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{check}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+-- R CMD check results ------------------------------------------ mypkg 0.0.0.9000 ----
+Duration: 16.4s
+
+> checking R code for possible problems ... NOTE
+  plot_colours: no visible binding for global variable '.data'
+  Undefined global functions or variables:
+    .data
+
+0 errors √ | 0 warnings √ | 1 note x
+\end{verbatim}
+
+Success! Now all that's left is that pesky note. Visualisation functions are
+probably some of the most common functions in packages but there are some
+tricks to programming with \textbf{ggplot2}. The details are outside the scope of
+this workshop but if you are interested see the ``Using ggplot2 in packages''
+vignette \url{https://ggplot2.tidyverse.org/dev/articles/ggplot2-in-packages.html}.
+
+To solve our problem we need to import the \textbf{rlang} package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_package}\NormalTok{(}\StringTok{"rlang"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+✔ Adding 'rlang' to Imports field in DESCRIPTION
+● Refer to functions with `rlang::fun()`
+\end{verbatim}
+
+Writing \texttt{rlang::.data} wouldn't be very attractive or readable\footnote{Also for
+  technical reasons it won't work in this case.}. When we want to use a function
+in another package with \texttt{::} we need to exlicitly import it. Just like when we
+exported our functions we do this using a Roxygen comment.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#' Plot colours}
+\CommentTok{#'}
+\CommentTok{#' Plot a vector of colours to see what they look like}
+\CommentTok{#' }
+\CommentTok{#' @param colours Vector of colour to plot}
+\CommentTok{#'}
+\CommentTok{#' @return A ggplot2 object}
+\CommentTok{#' @export}
+\CommentTok{#'}
+\CommentTok{#' @importFrom rlang .data}
+\CommentTok{#' }
+\CommentTok{#' @examples}
+\CommentTok{#' shades <- make_shades("goldenrod", 5)}
+\CommentTok{#' plot_colours(shades)}
+\NormalTok{plot_colours <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(colours) \{}
+\NormalTok{    plot_data <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{Colour =}\NormalTok{ colours)}
+    
+\NormalTok{    ggplot2}\OperatorTok{::}\KeywordTok{ggplot}\NormalTok{(plot_data,}
+\NormalTok{                    ggplot2}\OperatorTok{::}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ .data}\OperatorTok{$}\NormalTok{Colour, }\DataTypeTok{y =} \DecValTok{1}\NormalTok{, }\DataTypeTok{fill =}\NormalTok{ .data}\OperatorTok{$}\NormalTok{Colour,}
+                                 \DataTypeTok{label =}\NormalTok{ .data}\OperatorTok{$}\NormalTok{Colour)) }\OperatorTok{+}
+\StringTok{        }\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{geom_tile}\NormalTok{() }\OperatorTok{+}
+\StringTok{        }\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{geom_text}\NormalTok{(}\DataTypeTok{angle =} \StringTok{"90"}\NormalTok{) }\OperatorTok{+}
+\StringTok{        }\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{scale_fill_identity}\NormalTok{() }\OperatorTok{+}
+\StringTok{        }\NormalTok{ggplot2}\OperatorTok{::}\KeywordTok{theme_void}\NormalTok{()}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+When we use \texttt{devtools::document()} this comment will be read and a note placed
+in the \texttt{NAMESPACE} file, just like for \texttt{@export}.
+
+\begin{verbatim}
+# Generated by roxygen2: do not edit by hand
+
+export(make_shades)
+export(plot_colours)
+importFrom(rlang,.data)
+\end{verbatim}
+
+Those two steps should fix our note.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{check}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+-- R CMD check results ------------------------------------------ mypkg 0.0.0.9000 ----
+Duration: 16.8s
+
+0 errors √ | 0 warnings √ | 0 notes √
+\end{verbatim}
+
+If we used \texttt{rlang::.data} in multiple functions in our pacakge it might make
+sense to only import it once. It doesn't matter where we put the \texttt{@importFrom}
+line (or how many times) it will still be added to \texttt{NAMESPACE}. This means we
+can put all import in a central location. The advantage of this is that they
+only appear once and are all in one place but it makes it harder to know which
+of our functions have which imports and remove them if they are no longer
+needed. Which approach you take is up to you.
+
+We should write some tests for this function as well but we will leave that
+as an exercise for you to try later.
+
+\hypertarget{other-documentation}{%
+\chapter{Other documentation}\label{other-documentation}}
+
+In a previous section we documented our functions using Roxygen comments but
+there are a few other kinds of documentation we should have.
+
+\hypertarget{package-help-file}{%
+\section{Package help file}\label{package-help-file}}
+
+Users can find out about our functions using \texttt{?function-name} but what if they
+want to find out about the package itself? There is some information in the
+\texttt{DESCRIPTION} but that can be hard to access. Let's add a help file for the
+pacakge.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_package_doc}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+✔ Writing 'R/mypkg-package.R'
+\end{verbatim}
+
+This creates a special R file for us called \texttt{mypkg-package.R}. The contents of
+this file doesn't look like much it is understood by \textbf{devtools} and
+\textbf{roxygen2}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#' @keywords internal}
+\StringTok{"_PACKAGE"}
+
+\CommentTok{# The following block is used by usethis to automatically manage}
+\CommentTok{# roxygen namespace tags. Modify with care!}
+\CommentTok{## usethis namespace: start}
+\CommentTok{## usethis namespace: end}
+\OtherTok{NULL}
+\end{Highlighting}
+\end{Shaded}
+
+Run \texttt{devtools::document()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{document}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Updating mypkg documentation
+Writing NAMESPACE
+Loading mypkg
+Writing NAMESPACE
+Writing mypkg-package.Rd
+\end{verbatim}
+
+We can see that a new \texttt{.Rd} file has been created and we can view the contents
+using \texttt{?mypkg}. The information here has been automatically pulled from the
+\texttt{DESCRIPTION} file so we only need to update it in one place.
+
+\hypertarget{vignettes}{%
+\section{Vignettes}\label{vignettes}}
+
+The documentation we have written so far explains how individual functions
+work in detail but it doesn't show what the package does as a whole. Vignettes
+are short tutorials that explain what the package is designed for and how
+different functions can be used together. There are different ways to write
+vignettes but usually they are R Markdown files. We can create a vignette with
+\texttt{usethis::use\_vignette()}. There can be multiple vignettes but it is common
+practice to start with one that introduces the whole package.
+
+\begin{quote}
+\textbf{What is R Markdown?}
+
+Markdown is a simple markup language that makes it possible to write documents
+with minimal formatting. See \emph{Help} \textgreater{} \emph{Markdown Quick Reference} in RStudio
+for a quick guide to how this formatting works. R Markdown adds chunks of R
+code that are run and the output included in the final document.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_vignette}\NormalTok{(}\StringTok{"mypkg"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+✔ Adding 'knitr' to Suggests field in DESCRIPTION
+✔ Setting VignetteBuilder field in DESCRIPTION to 'knitr'
+✔ Adding 'inst/doc' to '.gitignore'
+✔ Creating 'vignettes/'
+✔ Adding '*.html', '*.R' to 'vignettes/.gitignore'
+✔ Adding 'rmarkdown' to Suggests field in DESCRIPTION
+✔ Writing 'vignettes/mypkg.Rmd'
+● Modify 'vignettes/mypkg.Rmd'
+\end{verbatim}
+
+Because this is our first vignette \textbf{usethis} has added some information to
+the \texttt{DESCRIPTION} file including adding the \textbf{knitr} package as a suggested
+dependency. It also creates a \texttt{vignettes/} directory and opens our new
+\texttt{mypkg.Rmd} file.
+
+\begin{verbatim}
+---
+title: "mypkg"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mypkg}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE} 
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup} 
+library(mypkg)
+```
+\end{verbatim}
+
+If you are familiar with R Markdown you might note some unusual content in the
+header. This is important for the vignette to build properly. There are also
+some \textbf{knitr} options set which are the convention for vignettes.
+
+Let's add a short example of how to use our package.
+
+\begin{verbatim}
+---
+title: "mypkg"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mypkg}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE} 
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup} 
+library(mypkg)
+```
+
+# Introduction
+
+This is my personal package. It contains some handy functions that I find useful
+for my projects.
+
+# Colours
+
+Sometimes you want to generate shades of a colour. The `make_shades()` function
+makes this easy!
+
+```{r} 
+shades <- make_shades("goldenrod", 5)
+```
+
+If you want to see what the shades look like you can plot them using
+`plot_colours()`.
+
+```{r} 
+plot_colours(shades)
+```
+
+This function is also useful for viewing any other palettes.
+
+```{r} 
+plot_colours(rainbow(5))
+```
+\end{verbatim}
+
+To see what the vignette looks like run \texttt{devtools::build\_vignettes()}. Asking
+\textbf{devtools} to build the vignette rather than rendering it in another way
+(such as the \emph{Knit} button in RStudio) makes sure that we are using the
+development version of the package rather than any version that is installed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{build_vignettes}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Building mypkg vignettes
+--- re-building 'mypkg.Rmd' using rmarkdown
+--- finished re-building 'mypkg.Rmd'
+
+Moving mypkg.html, mypkg.R to doc/
+Copying mypkg.Rmd to doc/
+Building vignette index
+\end{verbatim}
+
+This creates a new directory called \texttt{doc/} that contains the rendered vignette.
+Click on the \texttt{mypkg.html} file and open it in your browser.
+
+If you want to use any other packages in your vignette that the package doesn't
+already depend on you need to add them as a suggested dependency.
+
+\hypertarget{readme}{%
+\section{README}\label{readme}}
+
+If you plan on sharing the source code rather than the built package it is
+useful to have a README file to explain what the package is, how to install and
+use it, how to contribute etc. We can create a template with
+\texttt{usethis::use\_readme\_md()} (if we wanted to and R Markdown file with R code and
+output we might use \texttt{usethis::use\_readme\_md()} instead).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_readme_md}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+✔ Writing 'README.md'
+● Modify 'README.md'
+\end{verbatim}
+
+\begin{verbatim}
+# mypkg
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of mypkg is to ...
+
+## Installation
+
+You can install the released version of mypkg from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("mypkg")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+library(mypkg)
+## basic example code
+```
+\end{verbatim}
+
+There are the comments near the top that mention badges and you might have seen
+badges (or shields) on README files in code repositories before. There are
+several \textbf{usethis} functions for adding badges. For example we can mark this
+package as been at the experimental stage using
+\texttt{usethis::use\_lifecycle\_badge()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_lifecycle_badge}\NormalTok{(}\StringTok{"experimental"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# mypkg
+
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
+
+The goal of mypkg is to ...
+\end{verbatim}
+
+The rest of the template isn't very useful so replace it with something better.
+
+\hypertarget{package-website}{%
+\section{Package website}\label{package-website}}
+
+If you have a publicly available package it can be useful to have a website
+displaying the package documentation. It gives your users somewhere to go and
+helps your package appear in search results. Luckily this is easily achieved
+using the \textbf{pkgdown} package. If you have it installed you can set it up with
+\textbf{usethis}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_pkgdown}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{versioning}{%
+\chapter{Versioning}\label{versioning}}
+
+We now have at least something for all of the major parts of our package.
+Whenever you reach a milestone like this it is good to update the package
+version. Having a good versioning system is important when it comes to things
+like solving user issues. Version information is recorded in the \texttt{DESCRIPTION}
+file. This is what we have at the moment.
+
+\begin{verbatim}
+Version: 0.0.0.9000
+\end{verbatim}
+
+This version number follows the format \texttt{major.minor.patch.dev}. The different
+parts of the version represent different things:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{major} - A significant change to the package that would be expected to break
+  users code. This is updated very rarely when the package has been redesigned
+  in some way.
+\item
+  \texttt{minor} - A minor version update means that new functionality has been added
+  to the package. It might be new functions to improvements to existing
+  functions that are compatible with most existing code.
+\item
+  \texttt{patch} - Patch updates are bug fixes. They solve existing issues but don't
+  do anything new.
+\item
+  \texttt{dev} - Dev versions are used during development and this part is missing from
+  release versions. For example you might use a dev version when you give
+  someone a beta version to test. A package with a dev version can be expected
+  to change rapidly or have undiscovered issues.
+\end{itemize}
+
+Now that we know how this system works let's increase our package version.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_version}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Current version is 0.0.0.9000.
+Which part to increment? (0 to exit) 
+
+1: major --> 1.0.0
+2: minor --> 0.1.0
+3: patch --> 0.0.1
+4:   dev --> 0.0.0.9001
+
+Selection:
+\end{verbatim}
+
+The prompt asks us which part of the version we want to increment. We have added
+some new functions so let's make a new minor version.
+
+\begin{verbatim}
+Selection: 2
+✔ Setting Version field in DESCRIPTION to '0.1.0'
+\end{verbatim}
+
+Whenever we update the package version we should record what changes have been
+made. We do this is a \texttt{NEWS.md} file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_news_md}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+✔ Writing 'NEWS.md'
+● Modify 'NEWS.md'
+\end{verbatim}
+
+Modify the file to record what we have done during the workshop.
+
+\begin{verbatim}
+# mypkg 0.1.0
+
+* Created the package
+* Added the `make_shades()` function
+* Added the `plot_colours()` function
+* Added a vignette
+\end{verbatim}
+
+\hypertarget{building-installing-and-releasing}{%
+\chapter{Building, installing and releasing}\label{building-installing-and-releasing}}
+
+If you want to start using your package in other projects the simplest thing
+to do is run \texttt{devtools::install()}. This will install your package in the same
+way as any other package so that it can be loaded with \texttt{library()}. However this
+will only work on the computer you are developing the package on. If you want
+to share the package with other people (or other computers you work on) there
+are a few different options.
+
+\hypertarget{building}{%
+\section{Building}\label{building}}
+
+One way to share your package is to manually transfer it to somewhere else. But
+rather then copying the development directory what you should share is a
+prebuilt package archive. Running \texttt{devtools::build()} will bundle up your
+package into a \texttt{.tar.gz} file without any of the extra bits required during
+development. This archive can then be transferred to wherever you need it and
+installed using \texttt{install.packages("mypkg.tar.gz",\ repos\ =\ NULL)} or \texttt{R\ CMD\ INSTALL\ mypkg.tar.gz} on the command line. While this is fine if you just want
+to share the package with yourself or a few people you know, it doesn't work if
+you want it to be available to the general community.
+
+\hypertarget{official-repositories}{%
+\section{Official repositories}\label{official-repositories}}
+
+\hypertarget{cran}{%
+\subsection{CRAN}\label{cran}}
+
+The most common repository for public R packages is the Comprehensive R Archive
+Network (CRAN). This is where packages are usually downloaded from when you
+use \texttt{install.packages()}. Compared to similar repositories for other programming
+languages getting your package accepted to CRAN means meeting a series of
+requirements. While this makes the submission process more difficult it gives
+users confidence that your package is reliable and will work on multiple
+platforms. It also makes your package much easier to install for most users and
+makes it more discoverable. The details of the CRAN submission process are
+beyond the scope of this workshop but it is very well covered in the ``Release''
+section of Hadley Wickham's ``R packages'' book
+(\url{http://r-pkgs.had.co.nz/release.html}) and the CRAN section of Karl Broman's
+``R package primer'' (\url{https://kbroman.org/pkg_primer/pages/cran.html}). You should
+also read the offical CRAN submission checklist
+\url{https://cran.r-project.org/web/packages/submission_checklist.html}. The CRAN
+submission process has a reputation for being prickly and frustrating to go
+through but it is important to remember that the maintainers are volunteering
+their time to do this for thousands of packages. Because of their hard work
+CRAN is a large part of why R is so successful.
+
+\hypertarget{bioconductor}{%
+\subsection{Bioconductor}\label{bioconductor}}
+
+If your package is designed for analysing biological data you might want to
+submit it to Bioconductor rather than CRAN. While Bioconductor has a smaller
+audience it is more specialised and is often the first place researchers in the
+life sciences look. Building a Bioconductor package also means that you can
+take advantage of the extensive ecosystem of existing objects and packages for
+handling biological data types. While there are lots of advantages to having
+your package on Bioconductor the coding style is slightly different to what is
+often used for CRAN packages. If you think you might want to submit your
+package to Bioconductor in the future have a look at the Bioconductor package
+guideline (\url{https://www.bioconductor.org/developers/package-guidelines/}) and the
+how to guide to building a Bioconductor package
+(\url{https://www.bioconductor.org/developers/how-to/buildingPackagesForBioc/}). The
+Bioconductor submission process is conducted through GitHub
+(\url{https://bioconductor.org/developers/package-submission/}). The Bioconductor
+maintainers will guide you through the process and make suggestions about how
+to improve your package and integrate it with other Bioconductor packages.
+Unlike CRAN which uploads packages all year round Bioconductor has two annual
+releases, usually in April and October. This means that all the packages in a
+release are guaranteed to be compatible with each other but make sure you
+submit in time or you will have to wait another six months for your package to
+be available to most users.
+
+\hypertarget{ropensci}{%
+\subsection{rOpenSci}\label{ropensci}}
+
+rOpenSci is not a package repository as such but an organisation that reviews
+and improves R packages. Packages that have been accepted by rOpenSci should
+meet a certain set of standards. By submitting your package to rOpenSci you will
+get it reviewed by experienced programmers who can offer suggestions on how to
+improve it. If you are accepted you will receive assistance with maintaining
+your package and it will be promoted by the organisation. Have a look at their
+submission page for more details \url{https://github.com/ropensci/software-review}.
+
+\hypertarget{code-sharing-websites}{%
+\section{Code sharing websites}\label{code-sharing-websites}}
+
+Uploading your package to a code sharing website such as GitHub, Bitbucket or
+GitLab offers a good compromise between making your package available and
+going through an official submission process. This is a particularly good
+option for packages that are still in early development and are not ready to
+be submitted to one of the major repositories. Making your package available on
+one of these sites also gives it a central location for people to ask questions
+and submit issues. Code sharing websites are usually accessed through the git
+version control system. If you are unfamiliar with using git on the command line
+there are functions in \textbf{usethis} that can run the commands for you from R. The
+following steps will take you through uploading a package to GitHub but they are
+similar for other websites. If you don't already have a GitHub account create
+one here \url{https://github.com/join}.
+
+\hypertarget{set-up-git}{%
+\subsection{Set up git}\label{set-up-git}}
+
+First we need to configure our git details.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_git_config}\NormalTok{(}\DataTypeTok{user.name =} \StringTok{"Your Name"}\NormalTok{, }\DataTypeTok{user.email =} \StringTok{"your@email.com"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The email address should be the same one you used to sign up to GitHub. Now we
+can set up git in our package repository.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_git}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+✔ Initialising Git repo
+There are 13 uncommitted files:
+* '.gitignore'
+* '.Rbuildignore'
+* 'DESCRIPTION'
+* 'LICENSE'
+* 'LICENSE.md'
+* 'man/'
+* 'mypkg.Rproj'
+* 'NAMESPACE'
+* 'NEWS.md'
+* 'R/'
+* 'README.md'
+* 'tests/'
+* 'vignettes/'
+Is it ok to commit them?
+
+1: Not now
+2: Yup
+3: Negative
+
+Selection: 2
+✔ Adding files
+✔ Commit with message 'Initial commit'
+● A restart of RStudio is required to activate the Git pane
+Restart now?
+
+1: No
+2: No way
+3: Yes
+
+Selection: 1
+\end{verbatim}
+
+If you are already familiar with git this should make sense to you. If not, what
+this step does (in summary) is set up git and save the current state of the
+package. If you chose to restart RStudio you will see a new git pane that can
+be used to complete most of the following steps by pointing and clicking.
+
+\hypertarget{connect-to-github}{%
+\subsection{Connect to GitHub}\label{connect-to-github}}
+
+The next step is to link the directory on your computer with a repository on
+GitHub. First we need to create a special access token. The following command
+will open a GitHub website.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_github}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+✔ Opening URL 'https://github.com/settings/tokens/new?scopes=repo,gist&description=R:GITHUB_PAT'
+● Call `usethis::edit_r_environ()` to open '.Renviron'.
+● Store your PAT with a line like:
+  GITHUB_PAT=xxxyyyzzz
+  [Copied to clipboard]
+● Make sure '.Renviron' ends with a newline!
+\end{verbatim}
+
+Click the ``Generate token'' button on the webpage and then copy the code on the
+next page. As it says you can only view this once so be careful to copy it now
+and don't close the page until you are finished. When you have the code follow
+the rest of the instructions from \textbf{usethis}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{edit_r_environ}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+● Modify 'C:/Users/Luke/Documents/.Renviron'
+● Restart R for changes to take effect
+\end{verbatim}
+
+Edit the file to look something like this (with your code).
+
+\begin{verbatim}
+GITHUB_PAT=YOUR_CODE_GOES_HERE
+\end{verbatim}
+
+Save it then restart R by clicking the \emph{Session} menu and selecting \emph{Restart R}
+(or using \textbf{Ctrl+Shift+F10}).
+
+\begin{verbatim}
+Restarting R session...
+\end{verbatim}
+
+Copying that code and adding it to your \texttt{.Renviron} gives R on the computer you
+are using access to your GitHub repositories. If you move to a new computer you
+will need to do this again. Now that we have access to GitHub we can create a
+repository for our packages.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\OperatorTok{::}\KeywordTok{use_github}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+✔ Setting active project to 'C:/Users/Luke/Desktop/mypkg'
+✔ Checking that current branch is 'master'
+Which git protocol to use? (enter 0 to exit) 
+
+1: ssh   <-- presumes that you have set up ssh keys
+2: https <-- choose this if you don't have ssh keys (or don't know if you do)
+
+Selection: 2
+● Tip: To suppress this menu in future, put
+  `options(usethis.protocol = "https")`
+  in your script or in a user- or project-level startup file, '.Rprofile'.
+  Call `usethis::edit_r_profile()` to open it for editing.
+● Check title and description
+  Name:        mypkg
+  Description: My Personal Package
+Are title and description ok?
+
+1: For sure
+2: No way
+3: Negative
+
+Selection: 1
+✔ Creating GitHub repository
+✔ Setting remote 'origin' to 'https://github.com/lazappi/mypkg.git'
+✔ Adding GitHub links to DESCRIPTION
+✔ Setting URL field in DESCRIPTION to 'https://github.com/lazappi/mypkg'
+✔ Setting BugReports field in DESCRIPTION to 'https://github.com/lazappi/mypkg/issues'
+✔ Pushing 'master' branch to GitHub and setting remote tracking branch
+✔ Opening URL 'https://github.com/lazappi/mypkg'
+\end{verbatim}
+
+Respond to the prompts from \textbf{usethis} about the method for connecting to
+GitHub and the title and description for the repository. When everthing is done
+a website should open with your new package repository. Another thing this
+function does is add some extra information to the description that let's people
+know where to find your new website.
+
+\begin{verbatim}
+URL: https://github.com/user/mypkg
+BugReports: https://github.com/user/mypkg/issues
+\end{verbatim}
+
+\hypertarget{installing-from-github}{%
+\subsection{Installing from GitHub}\label{installing-from-github}}
+
+Now that your package is on the internet anyone can install it using the
+\texttt{install\_github()} function in the \textbf{remotes} package (which you should
+already have installed as a dependency of \textbf{devtools}). All you need to give
+it is the name of the user and repository.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{remotes}\OperatorTok{::}\KeywordTok{install_github}\NormalTok{(}\StringTok{"user/mypkg"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+If you are familiar with git you can install from a particular branch, tag or
+commit by adding that after \texttt{@}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{remotes}\OperatorTok{::}\KeywordTok{install_github}\NormalTok{(}\StringTok{"user/mypkg@branch_name"}\NormalTok{)}
+\NormalTok{remotes}\OperatorTok{::}\KeywordTok{install_github}\NormalTok{(}\StringTok{"user/mypkg@tag_id"}\NormalTok{)}
+\NormalTok{remotes}\OperatorTok{::}\KeywordTok{install_github}\NormalTok{(}\StringTok{"user/mypkg@commit_sha"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{updating-github}{%
+\subsection{Updating GitHub}\label{updating-github}}
+
+After you make improvements to your package you will probably want to update the
+version that is online. To do this you need to learn a bit more about git. Jenny
+Bryan's ``Happy Git with R'' tutorial (\url{https://happygitwithr.com}) is a great place
+to get started but the (very) quick steps in RStudio are:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Open the \emph{Git} pane (it will be with \emph{Environment}, \emph{History} etc.)
+\item
+  Click the check box next to each of the listed files
+\item
+  Click the \emph{Commit} button
+\item
+  Enter a message in the window that opens and click the \emph{Commit} button
+\item
+  Click the \emph{Push} button with the green up arrow
+\end{enumerate}
+
+Refresh the GitHub repository website and you should see the changes you have
+made.
+
+\hypertarget{advanced-topics}{%
+\chapter{Advanced topics}\label{advanced-topics}}
+
+In this workshop we have worked though the basic steps required to create an
+R package. In this section we introduce some of the advanced topics that may be
+useful for you as you develop more complex packages. These are included here to
+give you an idea of what is possible for you to consider when planning a
+package. Most of these topics are covered in Hadley Wickhams ``Advanced R'' book
+(\url{https://adv-r.hadley.nz}) but there are many other guides and tutorials
+available.
+
+\hypertarget{including-datasets}{%
+\section{Including datasets}\label{including-datasets}}
+
+It can be useful to include small datasets in your R package which can be used
+for testing and examples in your vignettes. You may also have reference data
+that is required for your package to function. If you already have the data as
+an object in R it is easy to add it to your package with \texttt{usethis::use\_data()}.
+The \texttt{usethis::use\_data\_raw()} function can be used to write a script that reads
+a raw data file, manipulates it in some way and adds it to the package with
+\texttt{usethis::use\_data()}. This is useful for keeping a record of what you have done
+to the data and updating the processing or dataset if necessary. See the
+``Data'' section of ``R packages'' (\url{http://r-pkgs.had.co.nz/data.html}) for more
+details about including data in your package.
+
+\hypertarget{designing-objects}{%
+\section{Designing objects}\label{designing-objects}}
+
+If you work with data types that don't easily fit into a table or matrix you may
+find it convenient to design specific objects to hold them. Objects can also
+be useful for holding the output of functions such as those that fit models or
+perform tests. R has several different object systems. The S3 system is the
+simplest and probably the most commonly used. Packages in the Bioconductor
+ecosystem make use of the more formal S4 system. If you want to learn more about
+desiging R objects a good place to get started is the ``Object-oriented
+programming'' chapter of Hadley Wickham's ``Advanced R'' book
+(\url{https://adv-r.hadley.nz/oo.html}). Other useful guides include
+Nicholas Tierney's ``A Simple Guide to S3 Methods''
+(\url{https://arxiv.org/abs/1608.07161}) and Stuart Lee's ``S4: a short guide for the
+perplexed'' (\url{https://stuartlee.org/post/content/post/2019-07-09-s4-a-short-guide-for-perplexed/}).
+
+\hypertarget{integrating-other-languages}{%
+\section{Integrating other languages}\label{integrating-other-languages}}
+
+If software for completing a task already exists but is in another language it
+might make sense to write an R package that provides an interface to the
+existing implementation rather than replementing it from scratch. Here are some
+of the R packages that help you integrate code from other languages:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Rcpp} (C++) \url{http://www.rcpp.org/}
+\item
+  \textbf{reticulate} (Python) \url{https://rstudio.github.io/reticulate/}
+\item
+  \textbf{RStan} (Stan) \url{https://mc-stan.org/users/interfaces/rstan}
+\item
+  \textbf{rJava} (Java) \url{http://www.rforge.net/rJava/}
+\end{itemize}
+
+Another common reason to include code from another language is to improve
+performance. While it is often possible to make code faster by reconsidering
+how things are done within R sometimes there is no alternative. The \textbf{Rcpp}
+package makes it very easy to write snippets of C++ code that is called from R.
+Depending on what you are doing moving even very small bits of code to C++ can
+have big impacts on performance. Using \textbf{Rcpp} can also provide access to
+existing C libraries for specialised tasks. The ``Rewriting R code in C++''
+section of ``Advanced R'' (\url{https://adv-r.hadley.nz/rcpp.html}) explains when and
+how to use \textbf{Rcpp}. You can find other resources including a gallery of
+examples on the official \textbf{Rcpp} website (\url{http://www.rcpp.org/}).
+
+\hypertarget{metaprogramming}{%
+\section{Metaprogramming}\label{metaprogramming}}
+
+Metaprogramming refers to code that reads and modifies other code. This may
+seem like an obscure topic but it is important in R because of it's
+relationship to non-standard evaluation (another fairly obscure topic). You
+may not have heard of non-standard evaluation before but it is likely you have
+used it. This is what happens whenever you provide a function with a bare name
+instead of a string or a variable. Metaprogramming particularly becomes
+relevant to package development if you want to have functions that make use of
+packages in the Tidyverse such as \textbf{dplyr}, \textbf{tidy} and \textbf{purrr}. The
+``Metaprogramming'' chapter of ``Advanced R''
+(\url{https://adv-r.hadley.nz/metaprogramming.html}) covers the topic in more detail
+and the ``Tidy evaluation'' book (\url{https://tidyeval.tidyverse.org/}) may be useful
+for learning how to write functions that use Tidyverse packages.
+
+\hypertarget{good-practices-and-advice}{%
+\chapter{Good practices and advice}\label{good-practices-and-advice}}
+
+This section contains some general advice about package development. It may be
+opinionated in places so decide which things work for you.
+
+\hypertarget{design-advice}{%
+\section{Design advice}\label{design-advice}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Compatibility} - Make your package compatible with how your users already
+  work. If there are data structure that are commonly used write your functions
+  to work with those rather than having to convert between formats.
+\item
+  \textbf{Ambition} - It's easy to get carried away with trying to make a package
+  that does everything but try to start with whatever is most important/novel.
+  This will give you a useful package as quickly and easily as possible and
+  make it easier to maintain in the long run. You can always add more
+  functionality later if you need to.
+\item
+  \textbf{Messages} - Try to make your errors and messages as clear as possible and
+  other advice about how to fix them. This can often mean writing a check
+  yourself rather than relying on a default message from somewhere else.
+\item
+  \textbf{Check input} - If there are restrictions on the values parameters can take
+  check them at the beginning of your functions. This prevents problems as
+  quickly as possible and means you can assume values are correct in the rest of
+  the function.
+\item
+  \textbf{Useability} - Spend time to make your package as easy to use as possible.
+  Users won't know that your code is faster or produces better results if they
+  can't understand how to use your functions. This includes good documentation
+  but also things like having good default values for parameters.
+\item
+  \textbf{Naming} - Be obvious and consistent in how you name functions and
+  parameters. This makes it easier for users to guess what they are without
+  looking at the documentation. One option is to have a consistent prefix to
+  function names (like \textbf{usethis} does) which makes it obvious which package
+  they come from and avoids clashes with names in other packages.
+\end{itemize}
+
+\hypertarget{coding-style}{%
+\section{Coding style}\label{coding-style}}
+
+Unlike some other languages R is very flexible in how your code can be
+formatted. Whatever coding style you prefer it is important to be consistent.
+This makes your code easier to read and makes it easier for other people to
+contribute to it. It is useful to document what coding style you are using. The
+easiest way to do this is to adopt a existing style guide such as those created
+for the Tidyverse (\url{https://style.tidyverse.org/}) or Google
+(\url{https://google.github.io/styleguide/Rguide.html}) or this one by Jean Fan
+(\url{https://jef.works/R-style-guide/}). If you are interested in which styles people
+actually use check out this analysis presented at useR! 2019
+\url{https://github.com/chainsawriot/rstyle}. When contibuting to other people's
+projects it is important (and polite) to conform to their coding style rather
+than trying to impose your own.
+
+If you want to make sure the style of your package is consistent there are some
+packages that can help you do that. The \textbf{lintr} package will flag any style
+issues (and a range of other programming issues) while the \textbf{styler} package
+can be used to reformat code files. The \textbf{goodpractice} package can also be
+used to analyse your package and offer advice. If you are more worried about
+problems with the text parts of your package (documentation and vignettes) then
+you can activate spell checking with \texttt{usethis::use\_spell\_check()}.
+
+\hypertarget{version-control}{%
+\section{Version control}\label{version-control}}
+
+There are three main ways to keep tracks of changes to your package:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Don't keep track
+\item
+  Save files with different versions
+\item
+  Use a version control system (VCS)
+\end{enumerate}
+
+While it can be challenging at first to get your head around git (or another
+VCS) it is highly recommended and worth the effort, both for packages and your
+other programming projects. Here are something of the big benefits of having
+your package in git:
+
+\begin{itemize}
+\tightlist
+\item
+  You have a complete record of every change that has been made to the package
+\item
+  It is easy to go back if anything breaks or you need an old version for
+  something
+\item
+  Because of this you don't have to worry about breaking things and it is
+  easier to experiment
+\item
+  Much easier to merge changes from collaborators who might want to contribute
+  to your package
+\item
+  Access to a variety of platforms and services built around this technology,
+  for example installing your package, hosting a package website and continuous
+  integration (see below)
+\end{itemize}
+
+As mentioned earlier a great way to get started with git for R projects is
+Jenny Bryan's ``Happy Git with R'' (\url{https://happygitwithr.com}) but there are
+many more tutorials and workshops available.
+
+\hypertarget{continuous-integration}{%
+\section{Continuous integration}\label{continuous-integration}}
+
+During the workshop we showed you how to run checks and tests on your package
+but this will only tell you if they pass on your particular computer and
+platform. Continuous integration services can be used to automatically check
+your package on multiple platforms whenever you make a significant change to
+your package. They can be linked to your repository on code sharing websites
+like GitHub and whenever you push a new version they will run the checks for
+you. This is similar to what CRAN and Bioconductor do for their packages but
+we doing it yourself you can be more confident that you won't run into issues
+when you submit your package to them. If your package isn't on one of the major
+repositories it helps give your users confidence that it will be reliable.
+Some continuous integration services are:
+
+\begin{itemize}
+\tightlist
+\item
+  Travis CI (\url{https://travis-ci.com/})
+\item
+  AppVeyor (\url{https://www.appveyor.com/})
+\item
+  CircleCI (\url{https://circleci.com/})
+\end{itemize}
+
+Each of these has a free service at it is easy to set them up for your package
+using the appropriate \texttt{usethis::use\_CI\_SERVICE()} function.
+
+\hypertarget{resources}{%
+\chapter*{Resources}\label{resources}}
+\addcontentsline{toc}{chapter}{Resources}
+
+This section has links to additional resources on package development, many of
+which were used in developing these materials.
+
+\hypertarget{official-guides}{%
+\section*{Official guides}\label{official-guides}}
+\addcontentsline{toc}{section}{Official guides}
+
+\hypertarget{cran-1}{%
+\subsection*{CRAN}\label{cran-1}}
+\addcontentsline{toc}{subsection}{CRAN}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Writing R extensions}
+  \url{https://cran.r-project.org/doc/manuals/R-exts.html}
+\end{itemize}
+
+\hypertarget{bioconductor-1}{%
+\subsection*{Bioconductor}\label{bioconductor-1}}
+\addcontentsline{toc}{subsection}{Bioconductor}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Bioconductor Package Guidelines}
+  \url{https://www.bioconductor.org/developers/package-guidelines/}
+\item
+  \textbf{Building Packages for Bioconductor}
+  \url{https://www.bioconductor.org/developers/how-to/buildingPackagesForBioc/}
+\item
+  \textbf{Bioconductor Package Submission}
+  \url{https://bioconductor.org/developers/package-submission/}
+\end{itemize}
+
+\hypertarget{ropensci-1}{%
+\subsection*{rOpenSci}\label{ropensci-1}}
+\addcontentsline{toc}{subsection}{rOpenSci}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{rOpenSci Packages: Development, Maintenance, and Peer Review}
+  \url{https://devguide.ropensci.org/}
+\end{itemize}
+
+\hypertarget{rstudio}{%
+\subsection*{RStudio}\label{rstudio}}
+\addcontentsline{toc}{subsection}{RStudio}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Developing Packages with RStudio}
+  \url{https://support.rstudio.com/hc/en-us/articles/200486488-Developing-Packages-with-RStudio}
+\item
+  \textbf{Building, Testing and Distributing Packages}
+  \url{https://support.rstudio.com/hc/en-us/articles/200486508-Building-Testing-and-Distributing-Packages}
+\item
+  \textbf{Writing Package Documentation}
+  \url{https://support.rstudio.com/hc/en-us/articles/200532317-Writing-Package-Documentation}
+\end{itemize}
+
+\hypertarget{books}{%
+\section*{Books}\label{books}}
+\addcontentsline{toc}{section}{Books}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{R Packages} (Hadley Wickham)
+  \url{http://r-pkgs.had.co.nz/}
+\item
+  \textbf{Advanced R} (Hadley Wickam)
+  \url{https://adv-r.hadley.nz/}
+\item
+  \textbf{Advanced R Course} (Florian Privé)
+  \url{https://privefl.github.io/advr38book/}
+\end{itemize}
+
+\hypertarget{tutorials}{%
+\section*{Tutorials}\label{tutorials}}
+\addcontentsline{toc}{section}{Tutorials}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Writing an R package from scratch} (Hilary Parker)
+  \url{https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/}
+\item
+  \textbf{Writing an R package from scratch (Updated)} (Thomas Westlake)
+  \url{https://r-mageddon.netlify.com/post/writing-an-r-package-from-scratch/}
+\item
+  \textbf{usethis workflow for package development} (Emil Hvitfeldt)
+  \url{https://www.hvitfeldt.me/blog/usethis-workflow-for-package-development/}
+\item
+  \textbf{R package primer} (Karl Broman)
+  \url{https://kbroman.org/pkg_primer/}
+\item
+  \textbf{R Package Development Pictorial} (Matthew J Denny)
+  \url{http://www.mjdenny.com/R_Package_Pictorial.html}
+\item
+  \textbf{Building R Packages with Devtools} (Jiddu Alexander)
+  \url{http://www.jiddualexander.com/blog/r-package-building/}
+\item
+  \textbf{Developing R packages} (Jeff Leek)
+  \url{https://github.com/jtleek/rpackages}
+\item
+  \textbf{R Package Tutorial} (Colautti Lab)
+  \url{https://colauttilab.github.io/RCrashCourse/Package_tutorial.html}
+\item
+  \textbf{Instructions for creating your own R package} (MIT)
+  \url{http://web.mit.edu/insong/www/pdf/rpackage_instructions.pdf}
+\end{itemize}
+
+\hypertarget{workshops-and-courses}{%
+\section*{Workshops and courses}\label{workshops-and-courses}}
+\addcontentsline{toc}{section}{Workshops and courses}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{R Forwards Package Workshop} (Chicago, February 23, 2019)
+  \url{https://github.com/forwards/workshops/tree/master/Chicago2019}
+\item
+  \textbf{Write your own R package} (UBC STAT 545)
+  \url{http://stat545.com/packages00_index.html}
+\end{itemize}
+
+\hypertarget{blogs}{%
+\section*{Blogs}\label{blogs}}
+\addcontentsline{toc}{section}{Blogs}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{How to develop good R packages (for open science)} (Malle Salmon)
+  \url{https://masalmon.eu/2017/12/11/goodrpackages/}
+\end{itemize}
+
+\hypertarget{style}{%
+\section*{Style}\label{style}}
+\addcontentsline{toc}{section}{Style}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Tidyverse}
+  \url{https://style.tidyverse.org/}
+\item
+  \textbf{Google}
+  \url{https://google.github.io/styleguide/Rguide.html}
+\item
+  \textbf{Jean Fan}
+  \url{https://jef.works/R-style-guide/}
+\item
+  \textbf{A Computational Analysis of the Dynamics of R Style Based on 94 Million Lines of Code from All CRAN Packages in the Past 20 Years.} (Yen, C.Y., Chang, M.H.W., Chan, C.H.)
+  \url{https://github.com/chainsawriot/rstyle}
+\end{itemize}
 
 
 \end{document}
