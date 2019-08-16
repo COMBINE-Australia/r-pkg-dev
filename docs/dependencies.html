@@ -413,9 +413,10 @@ listed here) or packages that provide some additional, optional functionality.
 Suggested packages aren’t usually installed so we need to do a check before we
 use them. The output of <code>usethis::use_package()</code> will give you an example if
 you add a suggested package. The third type of dependency is Depends. If you
-depend on a package it will be loaded whenever your package is loaded. There are
-some cases where you might need to do this but you should avoid Depends unless
-it is absolutely necessary.</p>
+depend on a package it will be loaded whenever your package is loaded. Depends
+shouldn’t usually be used unless your package closely complements another
+package. An example of when Depends is necessary is if you package mainly
+operates on an object defined by another package.</p>
 <blockquote>
 <p><strong>Should you use a dependency?</strong></p>
 <p>Deciding which packages (and how many) to depend on is a difficult and

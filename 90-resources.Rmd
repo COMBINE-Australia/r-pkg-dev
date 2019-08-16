@@ -62,6 +62,8 @@ which were used in developing these materials.
   https://colauttilab.github.io/RCrashCourse/Package_tutorial.html
 * **Instructions for creating your own R package** (MIT)
   http://web.mit.edu/insong/www/pdf/rpackage_instructions.pdf
+* **How to Create and Distribute an R Package** (Shian Su)
+  https://medium.com/@shiansu/how-to-create-and-distribute-an-r-package-a296217435dc
 
 ## Workshops and courses {-}
 
