@@ -66,7 +66,7 @@ Please make sure these packages are installed before starting the workshop. You
 can install them by running the following code.
 
 ```{r}
-pkgs <- c("devtools", "usethis", "roxygen2", "testhat", "knitr", "ggplot2",
+pkgs <- c("devtools", "usethis", "roxygen2", "testthat", "knitr", "ggplot2",
           "rlang")
 install.packages(pkgs)
 ```
