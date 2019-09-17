@@ -71,6 +71,19 @@ pkgs <- c("devtools", "usethis", "roxygen2", "testthat", "knitr", "ggplot2",
 install.packages(pkgs)
 ```
 
+### Build tools {-}
+
+Some stages of the package development process can require other programs to be
+installed on your computer. To check that you have everything you need run the
+following function in R (after installing the packages above).
+
+```{r}
+pkgbuild::check_build_tools()
+```
+
+This function will check if you have the build tools installed and prompt you
+to install them if you don't.
+
 ### GitHub {-}
 
 Version control using git is very useful and should be part of your package

@@ -10,7 +10,7 @@ COMBINE, an association for Australian students in bioinformatics,
 computational biology and related fields.</p>
 This workshop explains the basics of R package development and takes you
 through the steps to create a minimal R package." />
-  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7 Dependencies | R package workshop" />
   <meta property="og:type" content="book" />
@@ -41,8 +41,8 @@ through the steps to create a minimal R package." />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="testing.html">
-<link rel="next" href="other-documentation.html">
+<link rel="prev" href="testing.html"/>
+<link rel="next" href="other-documentation.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -76,7 +76,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -143,6 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#requirements"><i class="fa fa-check"></i>Requirements</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-and-rstudio"><i class="fa fa-check"></i>R and RStudio</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#build-tools"><i class="fa fa-check"></i>Build tools</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#github"><i class="fa fa-check"></i>GitHub</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
@@ -247,33 +248,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 to see what those look like. Below is a new function called <code>plot_colours()</code>
 that can visualise them for us using <strong>ggplot2</strong> (if you don’t have <strong>ggplot2</strong>
 installed do that now). Add this function to <code>colours.R</code>.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="co">#&#39; Plot colours</span></a>
-<a class="sourceLine" id="cb45-2" title="2"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb45-3" title="3"><span class="co">#&#39; Plot a vector of colours to see what they look like</span></a>
-<a class="sourceLine" id="cb45-4" title="4"><span class="co">#&#39; </span></a>
-<a class="sourceLine" id="cb45-5" title="5"><span class="co">#&#39; @param colours Vector of colour to plot</span></a>
-<a class="sourceLine" id="cb45-6" title="6"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb45-7" title="7"><span class="co">#&#39; @return A ggplot2 object</span></a>
-<a class="sourceLine" id="cb45-8" title="8"><span class="co">#&#39; @export</span></a>
-<a class="sourceLine" id="cb45-9" title="9"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb45-10" title="10"><span class="co">#&#39; @examples</span></a>
-<a class="sourceLine" id="cb45-11" title="11"><span class="co">#&#39; shades &lt;- make_shades(&quot;goldenrod&quot;, 5)</span></a>
-<a class="sourceLine" id="cb45-12" title="12"><span class="co">#&#39; plot_colours(shades)</span></a>
-<a class="sourceLine" id="cb45-13" title="13">plot_colours &lt;-<span class="st"> </span><span class="cf">function</span>(colours) {</a>
-<a class="sourceLine" id="cb45-14" title="14">    plot_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Colour =</span> colours)</a>
-<a class="sourceLine" id="cb45-15" title="15">    </a>
-<a class="sourceLine" id="cb45-16" title="16">    <span class="kw">ggplot</span>(plot_data,</a>
-<a class="sourceLine" id="cb45-17" title="17">           <span class="kw">aes</span>(<span class="dt">x =</span> .data<span class="op">$</span>Colour, <span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">fill =</span> .data<span class="op">$</span>Colour,</a>
-<a class="sourceLine" id="cb45-18" title="18">               <span class="dt">label =</span> .data<span class="op">$</span>Colour)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb45-19" title="19"><span class="st">        </span><span class="kw">geom_tile</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb45-20" title="20"><span class="st">        </span><span class="kw">geom_text</span>(<span class="dt">angle =</span> <span class="st">&quot;90&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb45-21" title="21"><span class="st">        </span><span class="kw">scale_fill_identity</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb45-22" title="22"><span class="st">        </span><span class="kw">theme_void</span>()</a>
-<a class="sourceLine" id="cb45-23" title="23">}</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="co">#&#39; Plot colours</span></a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="co">#&#39; Plot a vector of colours to see what they look like</span></a>
+<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="co">#&#39; </span></a>
+<a class="sourceLine" id="cb46-5" data-line-number="5"><span class="co">#&#39; @param colours Vector of colour to plot</span></a>
+<a class="sourceLine" id="cb46-6" data-line-number="6"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb46-7" data-line-number="7"><span class="co">#&#39; @return A ggplot2 object</span></a>
+<a class="sourceLine" id="cb46-8" data-line-number="8"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb46-9" data-line-number="9"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb46-10" data-line-number="10"><span class="co">#&#39; @examples</span></a>
+<a class="sourceLine" id="cb46-11" data-line-number="11"><span class="co">#&#39; shades &lt;- make_shades(&quot;goldenrod&quot;, 5)</span></a>
+<a class="sourceLine" id="cb46-12" data-line-number="12"><span class="co">#&#39; plot_colours(shades)</span></a>
+<a class="sourceLine" id="cb46-13" data-line-number="13">plot_colours &lt;-<span class="st"> </span><span class="cf">function</span>(colours) {</a>
+<a class="sourceLine" id="cb46-14" data-line-number="14">    plot_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Colour =</span> colours)</a>
+<a class="sourceLine" id="cb46-15" data-line-number="15">    </a>
+<a class="sourceLine" id="cb46-16" data-line-number="16">    <span class="kw">ggplot</span>(plot_data,</a>
+<a class="sourceLine" id="cb46-17" data-line-number="17">           <span class="kw">aes</span>(<span class="dt">x =</span> .data<span class="op">$</span>Colour, <span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">fill =</span> .data<span class="op">$</span>Colour,</a>
+<a class="sourceLine" id="cb46-18" data-line-number="18">               <span class="dt">label =</span> .data<span class="op">$</span>Colour)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb46-19" data-line-number="19"><span class="st">        </span><span class="kw">geom_tile</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb46-20" data-line-number="20"><span class="st">        </span><span class="kw">geom_text</span>(<span class="dt">angle =</span> <span class="st">&quot;90&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb46-21" data-line-number="21"><span class="st">        </span><span class="kw">scale_fill_identity</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb46-22" data-line-number="22"><span class="st">        </span><span class="kw">theme_void</span>()</a>
+<a class="sourceLine" id="cb46-23" data-line-number="23">}</a></code></pre></div>
 <p>Now that we have added something new we should run our checks again
 (<code>devtools::document()</code> is automatically run as part of <code>devtools::check()</code> so
 we can skip that step).</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">devtools<span class="op">::</span><span class="kw">check</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">check</span>()</a></code></pre></div>
 <pre><code>-- R CMD check results ------------------------------------------- mypkg 0.0.0.9000 ----
 Duration: 15.4s
 
@@ -309,35 +310,35 @@ Duration: 15.4s
     
 1 error x | 0 warnings √ | 1 note x</code></pre>
 <p>The checks have returned one error and one note. The error is more serious so
-let’s have a look at that first. It says <code>could not find function "ggplot"</code>.
+let’s have a look at that first. It says <code>could not find function &quot;ggplot&quot;</code>.
 Hmmmm…the <code>ggplot()</code> function is in the <strong>ggplot2</strong> package. When we used
 <code>col2rgb()</code> in the <code>make_shades()</code> function we had to prefix it with
 <code>grDevices::</code>, maybe we should do the same here.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="co">#&#39; Plot colours</span></a>
-<a class="sourceLine" id="cb48-2" title="2"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb48-3" title="3"><span class="co">#&#39; Plot a vector of colours to see what they look like</span></a>
-<a class="sourceLine" id="cb48-4" title="4"><span class="co">#&#39; </span></a>
-<a class="sourceLine" id="cb48-5" title="5"><span class="co">#&#39; @param colours Vector of colour to plot</span></a>
-<a class="sourceLine" id="cb48-6" title="6"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb48-7" title="7"><span class="co">#&#39; @return A ggplot2 object</span></a>
-<a class="sourceLine" id="cb48-8" title="8"><span class="co">#&#39; @export</span></a>
-<a class="sourceLine" id="cb48-9" title="9"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb48-10" title="10"><span class="co">#&#39; @examples</span></a>
-<a class="sourceLine" id="cb48-11" title="11"><span class="co">#&#39; shades &lt;- make_shades(&quot;goldenrod&quot;, 5)</span></a>
-<a class="sourceLine" id="cb48-12" title="12"><span class="co">#&#39; plot_colours(shades)</span></a>
-<a class="sourceLine" id="cb48-13" title="13">plot_colours &lt;-<span class="st"> </span><span class="cf">function</span>(colours) {</a>
-<a class="sourceLine" id="cb48-14" title="14">    plot_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Colour =</span> colours)</a>
-<a class="sourceLine" id="cb48-15" title="15">    </a>
-<a class="sourceLine" id="cb48-16" title="16">    ggplot2<span class="op">::</span><span class="kw">ggplot</span>(plot_data,</a>
-<a class="sourceLine" id="cb48-17" title="17">                    ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x =</span> .data<span class="op">$</span>Colour, <span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">fill =</span> .data<span class="op">$</span>Colour,</a>
-<a class="sourceLine" id="cb48-18" title="18">                                 <span class="dt">label =</span> .data<span class="op">$</span>Colour)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb48-19" title="19"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">geom_tile</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb48-20" title="20"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">geom_text</span>(<span class="dt">angle =</span> <span class="st">&quot;90&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb48-21" title="21"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">scale_fill_identity</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb48-22" title="22"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">theme_void</span>()</a>
-<a class="sourceLine" id="cb48-23" title="23">}</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="co">#&#39; Plot colours</span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb49-3" data-line-number="3"><span class="co">#&#39; Plot a vector of colours to see what they look like</span></a>
+<a class="sourceLine" id="cb49-4" data-line-number="4"><span class="co">#&#39; </span></a>
+<a class="sourceLine" id="cb49-5" data-line-number="5"><span class="co">#&#39; @param colours Vector of colour to plot</span></a>
+<a class="sourceLine" id="cb49-6" data-line-number="6"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb49-7" data-line-number="7"><span class="co">#&#39; @return A ggplot2 object</span></a>
+<a class="sourceLine" id="cb49-8" data-line-number="8"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb49-9" data-line-number="9"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb49-10" data-line-number="10"><span class="co">#&#39; @examples</span></a>
+<a class="sourceLine" id="cb49-11" data-line-number="11"><span class="co">#&#39; shades &lt;- make_shades(&quot;goldenrod&quot;, 5)</span></a>
+<a class="sourceLine" id="cb49-12" data-line-number="12"><span class="co">#&#39; plot_colours(shades)</span></a>
+<a class="sourceLine" id="cb49-13" data-line-number="13">plot_colours &lt;-<span class="st"> </span><span class="cf">function</span>(colours) {</a>
+<a class="sourceLine" id="cb49-14" data-line-number="14">    plot_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Colour =</span> colours)</a>
+<a class="sourceLine" id="cb49-15" data-line-number="15">    </a>
+<a class="sourceLine" id="cb49-16" data-line-number="16">    ggplot2<span class="op">::</span><span class="kw">ggplot</span>(plot_data,</a>
+<a class="sourceLine" id="cb49-17" data-line-number="17">                    ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x =</span> .data<span class="op">$</span>Colour, <span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">fill =</span> .data<span class="op">$</span>Colour,</a>
+<a class="sourceLine" id="cb49-18" data-line-number="18">                                 <span class="dt">label =</span> .data<span class="op">$</span>Colour)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-19" data-line-number="19"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">geom_tile</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-20" data-line-number="20"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">geom_text</span>(<span class="dt">angle =</span> <span class="st">&quot;90&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-21" data-line-number="21"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">scale_fill_identity</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-22" data-line-number="22"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">theme_void</span>()</a>
+<a class="sourceLine" id="cb49-23" data-line-number="23">}</a></code></pre></div>
 <p>Now what do our checks say?</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">devtools<span class="op">::</span><span class="kw">check</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">check</span>()</a></code></pre></div>
 <pre><code>-- R CMD check results ------------------------------------------ mypkg 0.0.0.9000 ----
 Duration: 15s
 
@@ -374,7 +375,7 @@ not declared from: ‘ggplot2’”. The important word here is “import”. Ju
 when we export a function in our package we need to make it clear when we are
 using functions in another package. To do this we can use
 <code>usethis::use_package()</code>.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1">usethis<span class="op">::</span><span class="kw">use_package</span>(<span class="st">&quot;ggplot2&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">use_package</span>(<span class="st">&quot;ggplot2&quot;</span>)</a></code></pre></div>
 <pre><code>✔ Setting active project to &#39;C:/Users/Luke/Desktop/mypkg&#39;
 ✔ Adding &#39;ggplot2&#39; to Imports field in DESCRIPTION
 ● Refer to functions with `ggplot2::fun()`</code></pre>
@@ -438,7 +439,7 @@ well maintained, don’t change too often, are commonly used and perform a
 single task so you are likely to use many of the functions.</p>
 </blockquote>
 <p>Hopefully now that we have imported <strong>ggplot2</strong> we should pass the checks.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1">devtools<span class="op">::</span><span class="kw">check</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">check</span>()</a></code></pre></div>
 <pre><code>-- R CMD check results ------------------------------------------ mypkg 0.0.0.9000 ----
 Duration: 16.4s
 
@@ -454,37 +455,37 @@ tricks to programming with <strong>ggplot2</strong>. The details are outside the
 this workshop but if you are interested see the “Using ggplot2 in packages”
 vignette <a href="https://ggplot2.tidyverse.org/dev/articles/ggplot2-in-packages.html" class="uri">https://ggplot2.tidyverse.org/dev/articles/ggplot2-in-packages.html</a>.</p>
 <p>To solve our problem we need to import the <strong>rlang</strong> package.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1">usethis<span class="op">::</span><span class="kw">use_package</span>(<span class="st">&quot;rlang&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">use_package</span>(<span class="st">&quot;rlang&quot;</span>)</a></code></pre></div>
 <pre><code>✔ Adding &#39;rlang&#39; to Imports field in DESCRIPTION
 ● Refer to functions with `rlang::fun()`</code></pre>
 <p>Writing <code>rlang::.data</code> wouldn’t be very attractive or readable<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. When we want to use a function
 in another package with <code>::</code> we need to exlicitly import it. Just like when we
 exported our functions we do this using a Roxygen comment.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1"><span class="co">#&#39; Plot colours</span></a>
-<a class="sourceLine" id="cb58-2" title="2"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb58-3" title="3"><span class="co">#&#39; Plot a vector of colours to see what they look like</span></a>
-<a class="sourceLine" id="cb58-4" title="4"><span class="co">#&#39; </span></a>
-<a class="sourceLine" id="cb58-5" title="5"><span class="co">#&#39; @param colours Vector of colour to plot</span></a>
-<a class="sourceLine" id="cb58-6" title="6"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb58-7" title="7"><span class="co">#&#39; @return A ggplot2 object</span></a>
-<a class="sourceLine" id="cb58-8" title="8"><span class="co">#&#39; @export</span></a>
-<a class="sourceLine" id="cb58-9" title="9"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb58-10" title="10"><span class="co">#&#39; @importFrom rlang .data</span></a>
-<a class="sourceLine" id="cb58-11" title="11"><span class="co">#&#39; </span></a>
-<a class="sourceLine" id="cb58-12" title="12"><span class="co">#&#39; @examples</span></a>
-<a class="sourceLine" id="cb58-13" title="13"><span class="co">#&#39; shades &lt;- make_shades(&quot;goldenrod&quot;, 5)</span></a>
-<a class="sourceLine" id="cb58-14" title="14"><span class="co">#&#39; plot_colours(shades)</span></a>
-<a class="sourceLine" id="cb58-15" title="15">plot_colours &lt;-<span class="st"> </span><span class="cf">function</span>(colours) {</a>
-<a class="sourceLine" id="cb58-16" title="16">    plot_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Colour =</span> colours)</a>
-<a class="sourceLine" id="cb58-17" title="17">    </a>
-<a class="sourceLine" id="cb58-18" title="18">    ggplot2<span class="op">::</span><span class="kw">ggplot</span>(plot_data,</a>
-<a class="sourceLine" id="cb58-19" title="19">                    ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x =</span> .data<span class="op">$</span>Colour, <span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">fill =</span> .data<span class="op">$</span>Colour,</a>
-<a class="sourceLine" id="cb58-20" title="20">                                 <span class="dt">label =</span> .data<span class="op">$</span>Colour)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb58-21" title="21"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">geom_tile</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb58-22" title="22"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">geom_text</span>(<span class="dt">angle =</span> <span class="st">&quot;90&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb58-23" title="23"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">scale_fill_identity</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb58-24" title="24"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">theme_void</span>()</a>
-<a class="sourceLine" id="cb58-25" title="25">}</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="co">#&#39; Plot colours</span></a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb59-3" data-line-number="3"><span class="co">#&#39; Plot a vector of colours to see what they look like</span></a>
+<a class="sourceLine" id="cb59-4" data-line-number="4"><span class="co">#&#39; </span></a>
+<a class="sourceLine" id="cb59-5" data-line-number="5"><span class="co">#&#39; @param colours Vector of colour to plot</span></a>
+<a class="sourceLine" id="cb59-6" data-line-number="6"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb59-7" data-line-number="7"><span class="co">#&#39; @return A ggplot2 object</span></a>
+<a class="sourceLine" id="cb59-8" data-line-number="8"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb59-9" data-line-number="9"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb59-10" data-line-number="10"><span class="co">#&#39; @importFrom rlang .data</span></a>
+<a class="sourceLine" id="cb59-11" data-line-number="11"><span class="co">#&#39; </span></a>
+<a class="sourceLine" id="cb59-12" data-line-number="12"><span class="co">#&#39; @examples</span></a>
+<a class="sourceLine" id="cb59-13" data-line-number="13"><span class="co">#&#39; shades &lt;- make_shades(&quot;goldenrod&quot;, 5)</span></a>
+<a class="sourceLine" id="cb59-14" data-line-number="14"><span class="co">#&#39; plot_colours(shades)</span></a>
+<a class="sourceLine" id="cb59-15" data-line-number="15">plot_colours &lt;-<span class="st"> </span><span class="cf">function</span>(colours) {</a>
+<a class="sourceLine" id="cb59-16" data-line-number="16">    plot_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Colour =</span> colours)</a>
+<a class="sourceLine" id="cb59-17" data-line-number="17">    </a>
+<a class="sourceLine" id="cb59-18" data-line-number="18">    ggplot2<span class="op">::</span><span class="kw">ggplot</span>(plot_data,</a>
+<a class="sourceLine" id="cb59-19" data-line-number="19">                    ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x =</span> .data<span class="op">$</span>Colour, <span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">fill =</span> .data<span class="op">$</span>Colour,</a>
+<a class="sourceLine" id="cb59-20" data-line-number="20">                                 <span class="dt">label =</span> .data<span class="op">$</span>Colour)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb59-21" data-line-number="21"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">geom_tile</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb59-22" data-line-number="22"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">geom_text</span>(<span class="dt">angle =</span> <span class="st">&quot;90&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb59-23" data-line-number="23"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">scale_fill_identity</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb59-24" data-line-number="24"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw">theme_void</span>()</a>
+<a class="sourceLine" id="cb59-25" data-line-number="25">}</a></code></pre></div>
 <p>When we use <code>devtools::document()</code> this comment will be read and a note placed
 in the <code>NAMESPACE</code> file, just like for <code>@export</code>.</p>
 <pre><code># Generated by roxygen2: do not edit by hand
@@ -493,7 +494,7 @@ export(make_shades)
 export(plot_colours)
 importFrom(rlang,.data)</code></pre>
 <p>Those two steps should fix our note.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1">devtools<span class="op">::</span><span class="kw">check</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">check</span>()</a></code></pre></div>
 <pre><code>-- R CMD check results ------------------------------------------ mypkg 0.0.0.9000 ----
 Duration: 16.8s
 

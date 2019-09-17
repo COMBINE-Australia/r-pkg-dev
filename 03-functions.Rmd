@@ -27,7 +27,7 @@ following code into your R file and save it (you can ignore the comments if you
 want to, they are just there to explain how the function works).
 
 ```{r}
-make_shades <- function(red, green, blue, n, lighter = TRUE) {
+make_shades <- function(colour, n, lighter = TRUE) {
     # Convert the colour to RGB
     colour_rgb <- grDevices::col2rgb(colour)[, 1]
     

@@ -10,7 +10,7 @@ COMBINE, an association for Australian students in bioinformatics,
 computational biology and related fields.</p>
 This workshop explains the basics of R package development and takes you
 through the steps to create a minimal R package." />
-  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Documenting functions | R package workshop" />
   <meta property="og:type" content="book" />
@@ -41,8 +41,8 @@ through the steps to create a minimal R package." />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="checking-you-package.html">
-<link rel="next" href="testing.html">
+<link rel="prev" href="checking-you-package.html"/>
+<link rel="next" href="testing.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -76,7 +76,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -143,6 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#requirements"><i class="fa fa-check"></i>Requirements</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-and-rstudio"><i class="fa fa-check"></i>R and RStudio</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#build-tools"><i class="fa fa-check"></i>Build tools</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#github"><i class="fa fa-check"></i>GitHub</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
@@ -256,62 +257,62 @@ code which make it easier to keep it up to date.</p>
 <p>To insert a documentation skeleton in RStudio click inside the <code>make_shades</code>
 function then open the <em>Code</em> menu and select <em>Insert Roxygen skeleton</em> or use
 <strong>Ctrl + Alt + Shift + R</strong>. The inserted code looks like this:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="co">#&#39; Title</span></a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb16-3" title="3"><span class="co">#&#39; @param colour </span></a>
-<a class="sourceLine" id="cb16-4" title="4"><span class="co">#&#39; @param n </span></a>
-<a class="sourceLine" id="cb16-5" title="5"><span class="co">#&#39; @param lighter </span></a>
-<a class="sourceLine" id="cb16-6" title="6"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb16-7" title="7"><span class="co">#&#39; @return</span></a>
-<a class="sourceLine" id="cb16-8" title="8"><span class="co">#&#39; @export</span></a>
-<a class="sourceLine" id="cb16-9" title="9"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb16-10" title="10"><span class="co">#&#39; @examples</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co">#&#39; Title</span></a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="co">#&#39; @param colour </span></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="co">#&#39; @param n </span></a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="co">#&#39; @param lighter </span></a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="co">#&#39; @return</span></a>
+<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb17-9" data-line-number="9"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="co">#&#39; @examples</span></a></code></pre></div>
 <p>Roxygen comments all start with <code>#'</code>. The first line is the title of the
 function then there is a blank line. Following that there can be a paragraph
 giving a more detailed description of the function. Let’s fill those in to
 start with.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co">#&#39; Make shades</span></a>
-<a class="sourceLine" id="cb17-2" title="2"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb17-3" title="3"><span class="co">#&#39; Given a colour make n lighter or darker shades</span></a>
-<a class="sourceLine" id="cb17-4" title="4"><span class="co">#&#39; </span></a>
-<a class="sourceLine" id="cb17-5" title="5"><span class="co">#&#39; @param colour </span></a>
-<a class="sourceLine" id="cb17-6" title="6"><span class="co">#&#39; @param n </span></a>
-<a class="sourceLine" id="cb17-7" title="7"><span class="co">#&#39; @param lighter </span></a>
-<a class="sourceLine" id="cb17-8" title="8"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb17-9" title="9"><span class="co">#&#39; @return</span></a>
-<a class="sourceLine" id="cb17-10" title="10"><span class="co">#&#39; @export</span></a>
-<a class="sourceLine" id="cb17-11" title="11"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb17-12" title="12"><span class="co">#&#39; @examples</span></a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co">#&#39; Make shades</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#&#39; Given a colour make n lighter or darker shades</span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co">#&#39; </span></a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co">#&#39; @param colour </span></a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co">#&#39; @param n </span></a>
+<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="co">#&#39; @param lighter </span></a>
+<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb18-9" data-line-number="9"><span class="co">#&#39; @return</span></a>
+<a class="sourceLine" id="cb18-10" data-line-number="10"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb18-11" data-line-number="11"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb18-12" data-line-number="12"><span class="co">#&#39; @examples</span></a></code></pre></div>
 <p>The next section describes the parameters (or arguments) for the function marked
 by the <code>@param</code> field. RStudio has helpfully filled in names of these for us
 but we need to provide a description.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="co">#&#39; Make shades</span></a>
-<a class="sourceLine" id="cb18-2" title="2"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb18-3" title="3"><span class="co">#&#39; Given a colour make n lighter or darker shades</span></a>
-<a class="sourceLine" id="cb18-4" title="4"><span class="co">#&#39; </span></a>
-<a class="sourceLine" id="cb18-5" title="5"><span class="co">#&#39; @param colour The colour to make shades of</span></a>
-<a class="sourceLine" id="cb18-6" title="6"><span class="co">#&#39; @param n The number of shades to make</span></a>
-<a class="sourceLine" id="cb18-7" title="7"><span class="co">#&#39; @param lighter Whether to make lighter (TRUE) or darker (FALSE) shades</span></a>
-<a class="sourceLine" id="cb18-8" title="8"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb18-9" title="9"><span class="co">#&#39; @return</span></a>
-<a class="sourceLine" id="cb18-10" title="10"><span class="co">#&#39; @export</span></a>
-<a class="sourceLine" id="cb18-11" title="11"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb18-12" title="12"><span class="co">#&#39; @examples</span></a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co">#&#39; Make shades</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&#39; Given a colour make n lighter or darker shades</span></a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#&#39; </span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&#39; @param colour The colour to make shades of</span></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="co">#&#39; @param n The number of shades to make</span></a>
+<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="co">#&#39; @param lighter Whether to make lighter (TRUE) or darker (FALSE) shades</span></a>
+<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="co">#&#39; @return</span></a>
+<a class="sourceLine" id="cb19-10" data-line-number="10"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb19-11" data-line-number="11"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co">#&#39; @examples</span></a></code></pre></div>
 <p>The next field is <code>@return</code>. This is where we describe what the function
 returns. This is usually fairly short but you should provide enough detail to
 make sure that the user knows what they are getting back.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="co">#&#39; Make shades</span></a>
-<a class="sourceLine" id="cb19-2" title="2"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb19-3" title="3"><span class="co">#&#39; Given a colour make n lighter or darker shades</span></a>
-<a class="sourceLine" id="cb19-4" title="4"><span class="co">#&#39; </span></a>
-<a class="sourceLine" id="cb19-5" title="5"><span class="co">#&#39; @param colour The colour to make shades of</span></a>
-<a class="sourceLine" id="cb19-6" title="6"><span class="co">#&#39; @param n The number of shades to make</span></a>
-<a class="sourceLine" id="cb19-7" title="7"><span class="co">#&#39; @param lighter Whether to make lighter (TRUE) or darker (FALSE) shades</span></a>
-<a class="sourceLine" id="cb19-8" title="8"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb19-9" title="9"><span class="co">#&#39; @return A vector of n colour hex codes</span></a>
-<a class="sourceLine" id="cb19-10" title="10"><span class="co">#&#39; @export</span></a>
-<a class="sourceLine" id="cb19-11" title="11"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb19-12" title="12"><span class="co">#&#39; @examples</span></a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co">#&#39; Make shades</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="co">#&#39; Given a colour make n lighter or darker shades</span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="co">#&#39; </span></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="co">#&#39; @param colour The colour to make shades of</span></a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="co">#&#39; @param n The number of shades to make</span></a>
+<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="co">#&#39; @param lighter Whether to make lighter (TRUE) or darker (FALSE) shades</span></a>
+<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb20-9" data-line-number="9"><span class="co">#&#39; @return A vector of n colour hex codes</span></a>
+<a class="sourceLine" id="cb20-10" data-line-number="10"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb20-11" data-line-number="11"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb20-12" data-line-number="12"><span class="co">#&#39; @examples</span></a></code></pre></div>
 <p>After <code>@return</code> we have <code>@export</code>. This field is a bit different because
 it doesn’t add documentation to the help file, instead it modifies the
 <code>NAMESPACE</code> file. Adding <code>@export</code> tells Roxygen that this is a function that
@@ -321,25 +322,25 @@ internal function that wasn’t meant to be used by the user we would leave out
 <code>@export</code>.</p>
 <p>The last field in the skeleton is <code>@examples</code>. This is where we put some
 short examples showing how the function can be used. These will be placed in
-the help file and can be run using <code>example("function")</code>. Let’s add a couple
+the help file and can be run using <code>example(&quot;function&quot;)</code>. Let’s add a couple
 of examples. If you want to add a comment to an example you need to add
 another <code>#</code>.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="co">#&#39; Make shades</span></a>
-<a class="sourceLine" id="cb20-2" title="2"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb20-3" title="3"><span class="co">#&#39; Given a colour make n lighter or darker shades</span></a>
-<a class="sourceLine" id="cb20-4" title="4"><span class="co">#&#39; </span></a>
-<a class="sourceLine" id="cb20-5" title="5"><span class="co">#&#39; @param colour The colour to make shades of</span></a>
-<a class="sourceLine" id="cb20-6" title="6"><span class="co">#&#39; @param n The number of shades to make</span></a>
-<a class="sourceLine" id="cb20-7" title="7"><span class="co">#&#39; @param lighter Whether to make lighter (TRUE) or darker (FALSE) shades</span></a>
-<a class="sourceLine" id="cb20-8" title="8"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb20-9" title="9"><span class="co">#&#39; @return A vector of n colour hex codes</span></a>
-<a class="sourceLine" id="cb20-10" title="10"><span class="co">#&#39; @export</span></a>
-<a class="sourceLine" id="cb20-11" title="11"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb20-12" title="12"><span class="co">#&#39; @examples</span></a>
-<a class="sourceLine" id="cb20-13" title="13"><span class="co">#&#39; # Five lighter shades</span></a>
-<a class="sourceLine" id="cb20-14" title="14"><span class="co">#&#39; make_shades(&quot;goldenrod&quot;, 5)</span></a>
-<a class="sourceLine" id="cb20-15" title="15"><span class="co">#&#39; # Five darker shades</span></a>
-<a class="sourceLine" id="cb20-16" title="16"><span class="co">#&#39; make_shades(&quot;goldenrod&quot;, 5, lighter = FALSE)</span></a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co">#&#39; Make shades</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&#39; Given a colour make n lighter or darker shades</span></a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&#39; </span></a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#&#39; @param colour The colour to make shades of</span></a>
+<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="co">#&#39; @param n The number of shades to make</span></a>
+<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="co">#&#39; @param lighter Whether to make lighter (TRUE) or darker (FALSE) shades</span></a>
+<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb21-9" data-line-number="9"><span class="co">#&#39; @return A vector of n colour hex codes</span></a>
+<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb21-11" data-line-number="11"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb21-12" data-line-number="12"><span class="co">#&#39; @examples</span></a>
+<a class="sourceLine" id="cb21-13" data-line-number="13"><span class="co">#&#39; # Five lighter shades</span></a>
+<a class="sourceLine" id="cb21-14" data-line-number="14"><span class="co">#&#39; make_shades(&quot;goldenrod&quot;, 5)</span></a>
+<a class="sourceLine" id="cb21-15" data-line-number="15"><span class="co">#&#39; # Five darker shades</span></a>
+<a class="sourceLine" id="cb21-16" data-line-number="16"><span class="co">#&#39; make_shades(&quot;goldenrod&quot;, 5, lighter = FALSE)</span></a></code></pre></div>
 <blockquote>
 <p><strong>Other fields</strong></p>
 <p>In this example we only fill in the fields in the skeleton but there are many
@@ -351,7 +352,7 @@ functions).</p>
 <div id="building-documentation" class="section level2">
 <h2><span class="header-section-number">5.2</span> Building documentation</h2>
 <p>Now we can build our documentation using <strong>devtools</strong>.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">devtools<span class="op">::</span><span class="kw">document</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">document</span>()</a></code></pre></div>
 <pre><code>Updating mypkg documentation
 Updating roxygen version in C:\Users\USER\Desktop\mypkg/DESCRIPTION
 Writing NAMESPACE
@@ -363,9 +364,9 @@ set the version of <strong>roxygen2</strong> we are using in the <code>DESCRIPTI
 adding this line:</p>
 <pre><code>RoxygenNote: 6.1.1</code></pre>
 <p>Next it has updated the <code>NAMESPACE</code> file. If you open it you will see:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="co"># Generated by roxygen2: do not edit by hand</span></a>
-<a class="sourceLine" id="cb24-2" title="2"></a>
-<a class="sourceLine" id="cb24-3" title="3"><span class="kw">export</span>(make_shades)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># Generated by roxygen2: do not edit by hand</span></a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="kw">export</span>(make_shades)</a></code></pre></div>
 <p>Which tells us that the <code>make_shades</code> function is exported.</p>
 <p>The last thing it has done is create a new file called <code>make_shades.Rd</code> in the
 <code>man/</code> directory (which will be created if it doesn’t exist). The <code>.Rd</code>
@@ -409,23 +410,23 @@ braces. To see what the rendered documentation looks like just run
 extra formatting to it to make it a bit clearer. As we have seen above there
 is a special syntax for different kinds of formatting. For example we can mark
 code in the documentation using <code>\code{}</code>.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="co">#&#39; Make shades</span></a>
-<a class="sourceLine" id="cb26-2" title="2"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb26-3" title="3"><span class="co">#&#39; Given a colour make \code{n} lighter or darker shades</span></a>
-<a class="sourceLine" id="cb26-4" title="4"><span class="co">#&#39; </span></a>
-<a class="sourceLine" id="cb26-5" title="5"><span class="co">#&#39; @param colour The colour to make shades of</span></a>
-<a class="sourceLine" id="cb26-6" title="6"><span class="co">#&#39; @param n The number of shades to make</span></a>
-<a class="sourceLine" id="cb26-7" title="7"><span class="co">#&#39; @param lighter Whether to make lighter (\code{TRUE}) or darker (\code{FALSE})</span></a>
-<a class="sourceLine" id="cb26-8" title="8"><span class="co">#&#39; shades</span></a>
-<a class="sourceLine" id="cb26-9" title="9"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb26-10" title="10"><span class="co">#&#39; @return A vector of \code{n} colour hex codes</span></a>
-<a class="sourceLine" id="cb26-11" title="11"><span class="co">#&#39; @export</span></a>
-<a class="sourceLine" id="cb26-12" title="12"><span class="co">#&#39;</span></a>
-<a class="sourceLine" id="cb26-13" title="13"><span class="co">#&#39; @examples</span></a>
-<a class="sourceLine" id="cb26-14" title="14"><span class="co">#&#39; # Five lighter shades</span></a>
-<a class="sourceLine" id="cb26-15" title="15"><span class="co">#&#39; make_shades(&quot;goldenrod&quot;, 5)</span></a>
-<a class="sourceLine" id="cb26-16" title="16"><span class="co">#&#39; # Five darker shades</span></a>
-<a class="sourceLine" id="cb26-17" title="17"><span class="co">#&#39; make_shades(&quot;goldenrod&quot;, 5, lighter = FALSE)</span></a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co">#&#39; Make shades</span></a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="co">#&#39; Given a colour make \code{n} lighter or darker shades</span></a>
+<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="co">#&#39; </span></a>
+<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="co">#&#39; @param colour The colour to make shades of</span></a>
+<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="co">#&#39; @param n The number of shades to make</span></a>
+<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="co">#&#39; @param lighter Whether to make lighter (\code{TRUE}) or darker (\code{FALSE})</span></a>
+<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="co">#&#39; shades</span></a>
+<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb27-10" data-line-number="10"><span class="co">#&#39; @return A vector of \code{n} colour hex codes</span></a>
+<a class="sourceLine" id="cb27-11" data-line-number="11"><span class="co">#&#39; @export</span></a>
+<a class="sourceLine" id="cb27-12" data-line-number="12"><span class="co">#&#39;</span></a>
+<a class="sourceLine" id="cb27-13" data-line-number="13"><span class="co">#&#39; @examples</span></a>
+<a class="sourceLine" id="cb27-14" data-line-number="14"><span class="co">#&#39; # Five lighter shades</span></a>
+<a class="sourceLine" id="cb27-15" data-line-number="15"><span class="co">#&#39; make_shades(&quot;goldenrod&quot;, 5)</span></a>
+<a class="sourceLine" id="cb27-16" data-line-number="16"><span class="co">#&#39; # Five darker shades</span></a>
+<a class="sourceLine" id="cb27-17" data-line-number="17"><span class="co">#&#39; make_shades(&quot;goldenrod&quot;, 5, lighter = FALSE)</span></a></code></pre></div>
 <p>Run <code>devtools::document()</code> again and see what has changed in the rendered file.
 There are many other kinds of formatting we could use, for example: <code>\code{}</code>,
 <code>\eqn{}</code>, <code>\emph{}</code>, <code>\strong{}</code>, <code>\itemize{}</code>, <code>\enumerate{}</code>, <code>\link{}</code>,

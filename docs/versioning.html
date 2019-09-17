@@ -10,7 +10,7 @@ COMBINE, an association for Australian students in bioinformatics,
 computational biology and related fields.</p>
 This workshop explains the basics of R package development and takes you
 through the steps to create a minimal R package." />
-  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9 Versioning | R package workshop" />
   <meta property="og:type" content="book" />
@@ -41,8 +41,8 @@ through the steps to create a minimal R package." />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="other-documentation.html">
-<link rel="next" href="building-installing-and-releasing.html">
+<link rel="prev" href="other-documentation.html"/>
+<link rel="next" href="building-installing-and-releasing.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -76,7 +76,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -143,6 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#requirements"><i class="fa fa-check"></i>Requirements</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-and-rstudio"><i class="fa fa-check"></i>R and RStudio</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#build-tools"><i class="fa fa-check"></i>Build tools</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#github"><i class="fa fa-check"></i>GitHub</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
@@ -266,7 +267,7 @@ someone a beta version to test. A package with a dev version can be expected
 to change rapidly or have undiscovered issues.</li>
 </ul>
 <p>Now that we know how this system works let’s increase our package version.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" title="1">usethis<span class="op">::</span><span class="kw">use_version</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">use_version</span>()</a></code></pre></div>
 <pre><code>Current version is 0.0.0.9000.
 Which part to increment? (0 to exit) 
 
@@ -282,7 +283,7 @@ some new functions so let’s make a new minor version.</p>
 ✔ Setting Version field in DESCRIPTION to &#39;0.1.0&#39;</code></pre>
 <p>Whenever we update the package version we should record what changes have been
 made. We do this is a <code>NEWS.md</code> file.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" title="1">usethis<span class="op">::</span><span class="kw">use_news_md</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">use_news_md</span>()</a></code></pre></div>
 <pre><code>✔ Writing &#39;NEWS.md&#39;
 ● Modify &#39;NEWS.md&#39;</code></pre>
 <p>Modify the file to record what we have done during the workshop.</p>

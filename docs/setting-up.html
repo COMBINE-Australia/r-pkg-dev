@@ -10,7 +10,7 @@ COMBINE, an association for Australian students in bioinformatics,
 computational biology and related fields.</p>
 This workshop explains the basics of R package development and takes you
 through the steps to create a minimal R package." />
-  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Setting up | R package workshop" />
   <meta property="og:type" content="book" />
@@ -41,8 +41,8 @@ through the steps to create a minimal R package." />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="introduction.html">
-<link rel="next" href="functions.html">
+<link rel="prev" href="introduction.html"/>
+<link rel="next" href="functions.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -76,7 +76,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -143,6 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#requirements"><i class="fa fa-check"></i>Requirements</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-and-rstudio"><i class="fa fa-check"></i>R and RStudio</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#build-tools"><i class="fa fa-check"></i>Build tools</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#github"><i class="fa fa-check"></i>GitHub</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
@@ -282,7 +283,7 @@ for the workshop if you want to.</p>
 function. All it needs is a path to the directory where we want to create the
 package. For the example we put it on the desktop but you should put it
 somewhere more sensible.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">usethis<span class="op">::</span><span class="kw">create_package</span>(<span class="st">&quot;~/Desktop/mypkg&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">create_package</span>(<span class="st">&quot;~/Desktop/mypkg&quot;</span>)</a></code></pre></div>
 <p>You will see some information printed to the console, something like (where USER
 is your username):</p>
 <pre><code>✔ Creating &#39;C:/Users/USER/Desktop/mypkg/&#39;
@@ -429,7 +430,7 @@ sure your code is as useful to the community as possible. For this example we
 will use the MIT license which basically says the code can be used for any
 purpose and doesn’t come with any warranties. There are templates for some of
 the most common licenses included in <strong>usethis</strong>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">usethis<span class="op">::</span><span class="kw">use_mit_license</span>(<span class="st">&quot;Your Name&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">use_mit_license</span>(<span class="st">&quot;Your Name&quot;</span>)</a></code></pre></div>
 <p>This will update the license field.</p>
 <pre><code>Package: mypkg
 Title: My Personal Package

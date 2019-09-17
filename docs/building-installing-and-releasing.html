@@ -10,7 +10,7 @@ COMBINE, an association for Australian students in bioinformatics,
 computational biology and related fields.</p>
 This workshop explains the basics of R package development and takes you
 through the steps to create a minimal R package." />
-  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
   <meta property="og:title" content="10 Building, installing and releasing | R package workshop" />
   <meta property="og:type" content="book" />
@@ -41,8 +41,8 @@ through the steps to create a minimal R package." />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="versioning.html">
-<link rel="next" href="advanced-topics.html">
+<link rel="prev" href="versioning.html"/>
+<link rel="next" href="advanced-topics.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -76,7 +76,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -143,6 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#requirements"><i class="fa fa-check"></i>Requirements</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-and-rstudio"><i class="fa fa-check"></i>R and RStudio</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#build-tools"><i class="fa fa-check"></i>Build tools</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#github"><i class="fa fa-check"></i>GitHub</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
@@ -256,7 +257,7 @@ rather then copying the development directory what you should share is a
 prebuilt package archive. Running <code>devtools::build()</code> will bundle up your
 package into a <code>.tar.gz</code> file without any of the extra bits required during
 development. This archive can then be transferred to wherever you need it and
-installed using <code>install.packages("mypkg.tar.gz", repos = NULL)</code> or <code>R CMD INSTALL mypkg.tar.gz</code> on the command line. While this is fine if you just want
+installed using <code>install.packages(&quot;mypkg.tar.gz&quot;, repos = NULL)</code> or <code>R CMD INSTALL mypkg.tar.gz</code> on the command line. While this is fine if you just want
 to share the package with yourself or a few people you know, it doesn’t work if
 you want it to be available to the general community.</p>
 </div>
@@ -335,10 +336,10 @@ one here <a href="https://github.com/join" class="uri">https://github.com/join</
 <div id="set-up-git" class="section level3">
 <h3><span class="header-section-number">10.3.1</span> Set up git</h3>
 <p>First we need to configure our git details.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" title="1">usethis<span class="op">::</span><span class="kw">use_git_config</span>(<span class="dt">user.name =</span> <span class="st">&quot;Your Name&quot;</span>, <span class="dt">user.email =</span> <span class="st">&quot;your@email.com&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">use_git_config</span>(<span class="dt">user.name =</span> <span class="st">&quot;Your Name&quot;</span>, <span class="dt">user.email =</span> <span class="st">&quot;your@email.com&quot;</span>)</a></code></pre></div>
 <p>The email address should be the same one you used to sign up to GitHub. Now we
 can set up git in our package repository.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" title="1">usethis<span class="op">::</span><span class="kw">use_git</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">use_git</span>()</a></code></pre></div>
 <pre><code>✔ Initialising Git repo
 There are 13 uncommitted files:
 * &#39;.gitignore&#39;
@@ -381,7 +382,7 @@ be used to complete most of the following steps by pointing and clicking.</p>
 <p>The next step is to link the directory on your computer with a repository on
 GitHub. First we need to create a special access token. The following command
 will open a GitHub website.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" title="1">usethis<span class="op">::</span><span class="kw">use_github</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">use_github</span>()</a></code></pre></div>
 <pre><code>✔ Opening URL &#39;https://github.com/settings/tokens/new?scopes=repo,gist&amp;description=R:GITHUB_PAT&#39;
 ● Call `usethis::edit_r_environ()` to open &#39;.Renviron&#39;.
 ● Store your PAT with a line like:
@@ -392,7 +393,7 @@ will open a GitHub website.</p>
 next page. As it says you can only view this once so be careful to copy it now
 and don’t close the page until you are finished. When you have the code follow
 the rest of the instructions from <strong>usethis</strong>.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1">usethis<span class="op">::</span><span class="kw">edit_r_environ</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">edit_r_environ</span>()</a></code></pre></div>
 <pre><code>● Modify &#39;C:/Users/Luke/Documents/.Renviron&#39;
 ● Restart R for changes to take effect</code></pre>
 <p>Edit the file to look something like this (with your code).</p>
@@ -404,7 +405,7 @@ the rest of the instructions from <strong>usethis</strong>.</p>
 are using access to your GitHub repositories. If you move to a new computer you
 will need to do this again. Now that we have access to GitHub we can create a
 repository for our packages.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" title="1">usethis<span class="op">::</span><span class="kw">use_github</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">use_github</span>()</a></code></pre></div>
 <pre><code>✔ Setting active project to &#39;C:/Users/Luke/Desktop/mypkg&#39;
 ✔ Checking that current branch is &#39;master&#39;
 Which git protocol to use? (enter 0 to exit) 
@@ -448,12 +449,12 @@ BugReports: https://github.com/user/mypkg/issues</code></pre>
 <code>install_github()</code> function in the <strong>remotes</strong> package (which you should
 already have installed as a dependency of <strong>devtools</strong>). All you need to give
 it is the name of the user and repository.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" title="1">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;user/mypkg&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;user/mypkg&quot;</span>)</a></code></pre></div>
 <p>If you are familiar with git you can install from a particular branch, tag or
 commit by adding that after <code>@</code>.</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;user/mypkg@branch_name&quot;</span>)</a>
-<a class="sourceLine" id="cb99-2" title="2">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;user/mypkg@tag_id&quot;</span>)</a>
-<a class="sourceLine" id="cb99-3" title="3">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;user/mypkg@commit_sha&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;user/mypkg@branch_name&quot;</span>)</a>
+<a class="sourceLine" id="cb100-2" data-line-number="2">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;user/mypkg@tag_id&quot;</span>)</a>
+<a class="sourceLine" id="cb100-3" data-line-number="3">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;user/mypkg@commit_sha&quot;</span>)</a></code></pre></div>
 </div>
 <div id="updating-github" class="section level3">
 <h3><span class="header-section-number">10.3.4</span> Updating GitHub</h3>

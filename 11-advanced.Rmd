@@ -68,7 +68,7 @@ may not have heard of non-standard evaluation before but it is likely you have
 used it. This is what happens whenever you provide a function with a bare name
 instead of a string or a variable. Metaprogramming particularly becomes
 relevant to package development if you want to have functions that make use of
-packages in the Tidyverse such as **dplyr**, **tidy** and **purrr**. The
+packages in the Tidyverse such as **dplyr**, **tidyr** and **purrr**. The
 "Metaprogramming" chapter of "Advanced R"
 (https://adv-r.hadley.nz/metaprogramming.html) covers the topic in more detail
 and the "Tidy evaluation" book (https://tidyeval.tidyverse.org/) may be useful

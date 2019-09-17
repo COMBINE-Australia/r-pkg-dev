@@ -10,7 +10,7 @@ COMBINE, an association for Australian students in bioinformatics,
 computational biology and related fields.</p>
 This workshop explains the basics of R package development and takes you
 through the steps to create a minimal R package." />
-  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
   <meta property="og:title" content="R package workshop" />
   <meta property="og:type" content="book" />
@@ -42,7 +42,7 @@ through the steps to create a minimal R package." />
   
   
 
-<link rel="next" href="introduction.html">
+<link rel="next" href="introduction.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -76,7 +76,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -143,6 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#requirements"><i class="fa fa-check"></i>Requirements</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#r-and-rstudio"><i class="fa fa-check"></i>R and RStudio</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i>Packages</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#build-tools"><i class="fa fa-check"></i>Build tools</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#github"><i class="fa fa-check"></i>GitHub</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
@@ -276,19 +277,28 @@ using R version 3.6.0 (2019-04-26) and RStudio version
 <p>The main packages used in the workshop are below with the versions used in these
 materials:</p>
 <ul>
-<li><strong>devtools</strong> (v2.0.2)</li>
+<li><strong>devtools</strong> (v2.1.0)</li>
 <li><strong>usethis</strong> (v1.5.1)</li>
 <li><strong>roxygen2</strong> (v6.1.1)</li>
-<li><strong>testthat</strong> (v2.1.1)</li>
-<li><strong>knitr</strong> (v1.23)</li>
-<li><strong>ggplot2</strong> (v3.2.0)</li>
+<li><strong>testthat</strong> (v2.2.1)</li>
+<li><strong>knitr</strong> (v1.24)</li>
+<li><strong>ggplot2</strong> (v3.2.1)</li>
 <li><strong>rlang</strong> (v0.4.0)</li>
 </ul>
 <p>Please make sure these packages are installed before starting the workshop. You
 can install them by running the following code.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">pkgs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;devtools&quot;</span>, <span class="st">&quot;usethis&quot;</span>, <span class="st">&quot;roxygen2&quot;</span>, <span class="st">&quot;testthat&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>,</a>
-<a class="sourceLine" id="cb1-2" title="2">          <span class="st">&quot;rlang&quot;</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">install.packages</span>(pkgs)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">pkgs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;devtools&quot;</span>, <span class="st">&quot;usethis&quot;</span>, <span class="st">&quot;roxygen2&quot;</span>, <span class="st">&quot;testthat&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>,</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">          <span class="st">&quot;rlang&quot;</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">install.packages</span>(pkgs)</a></code></pre></div>
+</div>
+<div id="build-tools" class="section level3 unnumbered">
+<h3>Build tools</h3>
+<p>Some stages of the package development process can require other programs to be
+installed on your computer. To check that you have everything you need run the
+following function in R (after installing the packages above).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">pkgbuild<span class="op">::</span><span class="kw">check_build_tools</span>()</a></code></pre></div>
+<p>This function will check if you have the build tools installed and prompt you
+to install them if you don’t.</p>
 </div>
 <div id="github" class="section level3 unnumbered">
 <h3>GitHub</h3>
